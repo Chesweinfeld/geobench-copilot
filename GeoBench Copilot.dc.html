@@ -14,11 +14,13 @@
 <style>
 /* RaptorText (Klim, paid) intentionally not loaded — display type falls through to Schibsted Grotesk (loaded above). */
 :root{
+color-scheme:light;
 --bg:#f4f4f2;--surface:#fff;--ink:#1a1a1a;--ink-soft:#46463f;--muted:#6f6f68;--faint:#9a9a92;--line:rgba(26,26,26,.12);--chip:#eceae4;--chip-line:rgba(26,26,26,.1);--bar-muted:#c7c5bd;
 --rail:#1c1c1a;--rail2:#26261f;--rail-ink:#ecebe3;--rail-muted:#a2a097;--rail-faint:#7f7d73;--rail-line:rgba(236,235,227,.12);--rail-chip:rgba(236,235,227,.07);--knob-track:rgba(236,235,227,.14);
 --warn-bg:#ecebe4;--warn-line:rgba(26,26,26,.13);--warn-ink:#3a3a34;
 }
 [data-theme="dark"]{
+color-scheme:dark;
 --bg:#131312;--surface:#1e1e1c;--ink:#ecebe3;--ink-soft:#c9c7bf;--muted:#9a988f;--faint:#75746b;--line:rgba(236,235,227,.13);--chip:#2a2a26;--chip-line:rgba(236,235,227,.1);--bar-muted:#4b4b45;
 --rail:#0d0d0c;--rail2:#1a1a17;--rail-ink:#ecebe3;--rail-muted:#8f8d84;--rail-faint:#696860;--rail-line:rgba(236,235,227,.1);--rail-chip:rgba(236,235,227,.06);--knob-track:rgba(236,235,227,.12);
 --warn-bg:#232320;--warn-line:rgba(236,235,227,.12);--warn-ink:#c9c7bf;
@@ -508,7 +510,7 @@ a:hover{opacity:.7}
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:720},&quot;showCharts&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Results&quot;},&quot;reasoningStyle&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Step-by-step&quot;,&quot;Concise&quot;],&quot;default&quot;:&quot;Step-by-step&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Agent&quot;}}">
 class Component extends DCLogic {
-  state = { phase: "upload", task: "Detecting wind farms in Sentinel-2 imagery", attached: false, active: 0, copied: false, wcopied: false, pop: null, theme: "light", selected: { m0: true, m1: true, m2: false, m3: true, m4: false }, hw: "1×A100", dashOn: true, inspection: null, steps: null, result: null, error: null, demo: false, connNote: null, backendUp: null, health: null };
+  state = { phase: "upload", task: "Detecting wind farms in Sentinel-2 imagery", attached: false, active: 0, copied: false, wcopied: false, pop: null, theme: (typeof window !== "undefined" && window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) ? "dark" : "light", selected: { m0: true, m1: true, m2: false, m3: true, m4: false }, hw: "1×A100", dashOn: true, inspection: null, steps: null, result: null, error: null, demo: false, connNote: null, backendUp: null, health: null };
 
   // Probe the backend once at mount so the UI can say up-front whether runs
   // will be live (real agent) or sample-only, instead of failing on submit.

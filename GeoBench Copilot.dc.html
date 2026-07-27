@@ -809,7 +809,7 @@ class WindfarmS2(BenchDataset):
       .catch(err => this.setState({ phase: "upload", connNote: null, error: "lost the connection to the backend: " + ((err && err.message) || err) }));
   };
 
-  reset = () => { clearTimeout(this._t); clearTimeout(this._p); if (this._es) { this._es.close(); this._es = null; } this.setState({ phase: "upload", active: 0, copied: false, wcopied: false, pop: null, result: null, steps: null, error: null, demo: false, connNote: null }); };
+  reset = () => { clearTimeout(this._t); clearTimeout(this._p); if (this._es) { this._es.close(); this._es = null; } this._file = null; this.setState({ phase: "upload", active: 0, copied: false, wcopied: false, pop: null, result: null, steps: null, error: null, demo: false, connNote: null, attached: false, inspection: null }); };
   onTaskInput = (e) => this.setState({ task: e.target.value });
   toggleTheme = () => this.setState(s => ({ theme: s.theme === "dark" ? "light" : "dark" }));
   copyCmd = () => { try { navigator.clipboard.writeText(this.buildCmd()); } catch (e) {} clearTimeout(this._c); this.setState({ copied: true }); this._c = setTimeout(() => this.setState({ copied: false }), 1600); };

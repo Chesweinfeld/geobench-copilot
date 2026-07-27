@@ -11,3 +11,4 @@ screenshots/
 node_modules/
 # large local zips / test archives
 *.zip
+.DS_Store

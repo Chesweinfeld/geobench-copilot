@@ -1,0 +1,17 @@
+# Render Blueprint — native Python web service (no Docker).
+# In Render: New → Blueprint → connect the repo → it reads this file.
+# Set the two secret env vars (ANTHROPIC_API_KEY, APP_PASSWORD) in the dashboard.
+services:
+  - type: web
+    name: geobench-copilot
+    runtime: python
+    plan: free               # 512 MB; spins down when idle (~30-60s cold start)
+    buildCommand: pip install -r requirements.txt
+    startCommand: cd backend && uvicorn app:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11.9"
+      - key: ANTHROPIC_API_KEY
+        sync: false          # set as a secret in the Render dashboard
+      - key: APP_PASSWORD
+        sync: false          # the shared password gating the app

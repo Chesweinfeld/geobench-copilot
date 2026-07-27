@@ -1,0 +1,14 @@
+# Keep the image lean — exclude dev cruft and large local artifacts.
+backend/.venv
+backend/.runs
+backend/**/__pycache__
+**/__pycache__
+*.pyc
+uploads/
+screenshots/
+.git
+.claude
+node_modules
+*.zip
+*.thumbnail
+HANDOFF.md

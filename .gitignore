@@ -1,0 +1,13 @@
+# Don't push local cruft to the HF Space (or any git remote)
+backend/.venv/
+backend/.runs/
+backend/**/__pycache__/
+**/__pycache__/
+*.pyc
+backend/.env
+uploads/
+screenshots/
+*.thumbnail
+node_modules/
+# large local zips / test archives
+*.zip

@@ -1,0 +1,3582 @@
+{
+  "generated_at": "2026-07-14T12:01:09-0400",
+  "repo": "/Users/chesapeake/torchgeo-bench/.claude/worktrees/cranky-chaum-ec1924",
+  "datasets": {
+    "m-eurosat": {
+      "name": "m-eurosat",
+      "task": "classification",
+      "num_classes": 10,
+      "multilabel": false,
+      "rgb_bands": [
+        "red",
+        "green",
+        "blue"
+      ],
+      "split_sizes": {
+        "train": 2000,
+        "val": 1000,
+        "test": 1000
+      },
+      "num_channels": 13,
+      "sensors": [
+        "s2"
+      ],
+      "bands": [
+        {
+          "sensor": "s2",
+          "name": "coastal_aerosol",
+          "source_name": "01 - Coastal aerosol",
+          "mean": 1359.95,
+          "std": 251.332,
+          "min": 858,
+          "max": 6805,
+          "wavelength_um": 0.443
+        },
+        {
+          "sensor": "s2",
+          "name": "blue",
+          "source_name": "02 - Blue",
+          "mean": 1125.53,
+          "std": 339.685,
+          "min": 0,
+          "max": 28000,
+          "wavelength_um": 0.49
+        },
+        {
+          "sensor": "s2",
+          "name": "green",
+          "source_name": "03 - Green",
+          "mean": 1055,
+          "std": 396.733,
+          "min": 0,
+          "max": 28000,
+          "wavelength_um": 0.56
+        },
+        {
+          "sensor": "s2",
+          "name": "red",
+          "source_name": "04 - Red",
+          "mean": 957.344,
+          "std": 592.838,
+          "min": 0,
+          "max": 28000,
+          "wavelength_um": 0.665
+        },
+        {
+          "sensor": "s2",
+          "name": "red_edge_1",
+          "source_name": "05 - Vegetation Red Edge",
+          "mean": 1219.67,
+          "std": 555.015,
+          "min": 182,
+          "max": 23381,
+          "wavelength_um": 0.705
+        },
+        {
+          "sensor": "s2",
+          "name": "red_edge_2",
+          "source_name": "06 - Vegetation Red Edge",
+          "mean": 2051.62,
+          "std": 852.505,
+          "min": 157,
+          "max": 24975,
+          "wavelength_um": 0.74
+        },
+        {
+          "sensor": "s2",
+          "name": "red_edge_3",
+          "source_name": "07 - Vegetation Red Edge",
+          "mean": 2433.6,
+          "std": 1081.57,
+          "min": 131,
+          "max": 25412,
+          "wavelength_um": 0.783
+        },
+        {
+          "sensor": "s2",
+          "name": "nir",
+          "source_name": "08 - NIR",
+          "mean": 2360.1,
+          "std": 1115.12,
+          "min": 0,
+          "max": 28002,
+          "wavelength_um": 0.842
+        },
+        {
+          "sensor": "s2",
+          "name": "red_edge_4",
+          "source_name": "08A - Vegetation Red Edge",
+          "mean": 751.164,
+          "std": 404.572,
+          "min": 41,
+          "max": 3761,
+          "wavelength_um": 0.865
+        },
+        {
+          "sensor": "s2",
+          "name": "water_vapour",
+          "source_name": "09 - Water vapour",
+          "mean": 12.2881,
+          "std": 4.7966,
+          "min": 1,
+          "max": 90,
+          "wavelength_um": 0.945
+        },
+        {
+          "sensor": "s2",
+          "name": "swir_cirrus",
+          "source_name": "10 - SWIR - Cirrus",
+          "mean": 1848.9,
+          "std": 978.83,
+          "min": 7,
+          "max": 24704,
+          "wavelength_um": 1.375
+        },
+        {
+          "sensor": "s2",
+          "name": "swir_1",
+          "source_name": "11 - SWIR",
+          "mean": 1131.27,
+          "std": 745.284,
+          "min": 1,
+          "max": 22210,
+          "wavelength_um": 1.61
+        },
+        {
+          "sensor": "s2",
+          "name": "swir_2",
+          "source_name": "12 - SWIR",
+          "mean": 2665.44,
+          "std": 1223.88,
+          "min": 95,
+          "max": 25752,
+          "wavelength_um": 2.19
+        }
+      ]
+    },
+    "m-forestnet": {
+      "name": "m-forestnet",
+      "task": "classification",
+      "num_classes": 12,
+      "multilabel": false,
+      "rgb_bands": [
+        "red",
+        "green",
+        "blue"
+      ],
+      "split_sizes": {
+        "train": 6464,
+        "val": 989,
+        "test": 993
+      },
+      "num_channels": 6,
+      "sensors": [
+        "landsat"
+      ],
+      "bands": [
+        {
+          "sensor": "landsat",
+          "name": "blue",
+          "source_name": "02 - Blue",
+          "mean": 72.376,
+          "std": 16.2839,
+          "min": 0,
+          "max": 255,
+          "wavelength_um": 0.49
+        },
+        {
+          "sensor": "landsat",
+          "name": "green",
+          "source_name": "03 - Green",
+          "mean": 83.1816,
+          "std": 15.3587,
+          "min": 0,
+          "max": 255,
+          "wavelength_um": 0.56
+        },
+        {
+          "sensor": "landsat",
+          "name": "red",
+          "source_name": "04 - Red",
+          "mean": 77.0862,
+          "std": 16.6665,
+          "min": 0,
+          "max": 255,
+          "wavelength_um": 0.665
+        },
+        {
+          "sensor": "landsat",
+          "name": "nir",
+          "source_name": "05 - NIR",
+          "mean": 123.543,
+          "std": 16.9485,
+          "min": 0,
+          "max": 250,
+          "wavelength_um": null
+        },
+        {
+          "sensor": "landsat",
+          "name": "swir_1",
+          "source_name": "06 - SWIR1",
+          "mean": 91.0484,
+          "std": 14.2801,
+          "min": 0,
+          "max": 255,
+          "wavelength_um": null
+        },
+        {
+          "sensor": "landsat",
+          "name": "swir_2",
+          "source_name": "07 - SWIR2",
+          "mean": 74.3097,
+          "std": 13.2854,
+          "min": 0,
+          "max": 255,
+          "wavelength_um": null
+        }
+      ]
+    },
+    "m-so2sat": {
+      "name": "m-so2sat",
+      "task": "classification",
+      "num_classes": 17,
+      "multilabel": false,
+      "rgb_bands": [
+        "red",
+        "green",
+        "blue"
+      ],
+      "split_sizes": {
+        "train": 19992,
+        "val": 986,
+        "test": 986
+      },
+      "num_channels": 18,
+      "sensors": [
+        "s2",
+        "sar"
+      ],
+      "bands": [
+        {
+          "sensor": "sar",
+          "name": "vh_real",
+          "source_name": "01 - VH.Real",
+          "mean": 0,
+          "std": 0.2156,
+          "min": -107.636,
+          "max": 45.3088,
+          "wavelength_um": null
+        },
+        {
+          "sensor": "s2",
+          "name": "blue",
+          "source_name": "02 - Blue",
+          "mean": 0.1295,
+          "std": 0.0414,
+          "min": 0.0001,
+          "max": 2.8,
+          "wavelength_um": 0.49
+        },
+        {
+          "sensor": "sar",
+          "name": "vh_imag",
+          "source_name": "02 - VH.Imaginary",
+          "mean": 0.0001,
+          "std": 0.2142,
+          "min": -107.636,
+          "max": 107.633,
+          "wavelength_um": null
+        },
+        {
+          "sensor": "s2",
+          "name": "green",
+          "source_name": "03 - Green",
+          "mean": 0.1172,
+          "std": 0.052,
+          "min": 0.0001,
+          "max": 2.8,
+          "wavelength_um": 0.56
+        },
+        {
+          "sensor": "sar",
+          "name": "vv_real",
+          "source_name": "03 - VV.Real",
+          "mean": 0,
+          "std": 0.5442,
+          "min": -107.636,
+          "max": 108.199,
+          "wavelength_um": null
+        },
+        {
+          "sensor": "s2",
+          "name": "red",
+          "source_name": "04 - Red",
+          "mean": 0.1138,
+          "std": 0.0733,
+          "min": 0.0001,
+          "max": 2.8,
+          "wavelength_um": 0.665
+        },
+        {
+          "sensor": "sar",
+          "name": "vv_imag",
+          "source_name": "04 - VV.Imaginary",
+          "mean": -0.0001,
+          "std": 0.5328,
+          "min": -101.503,
+          "max": 107.633,
+          "wavelength_um": null
+        },
+        {
+          "sensor": "sar",
+          "name": "vh_lee",
+          "source_name": "05 - VH.LEE Filtered",
+          "mean": 0.0615,
+          "std": 5.4568,
+          "min": 0,
+          "max": 10867.4,
+          "wavelength_um": null
+        },
+        {
+          "sensor": "s2",
+          "name": "red_edge_1",
+          "source_name": "05 - Vegetation Red Edge",
+          "mean": 0.1272,
+          "std": 0.0693,
+          "min": 0.0001,
+          "max": 2.8001,
+          "wavelength_um": 0.705
+        },
+        {
+          "sensor": "sar",
+          "name": "vv_lee",
+          "source_name": "06 - VV.LEE Filtered",
+          "mean": 0.3435,
+          "std": 11.8128,
+          "min": 0.0005,
+          "max": 9950.03,
+          "wavelength_um": null
+        },
+        {
+          "sensor": "s2",
+          "name": "red_edge_2",
+          "source_name": "06 - Vegetation Red Edge",
+          "mean": 0.1707,
+          "std": 0.075,
+          "min": 0.0001,
+          "max": 2.8002,
+          "wavelength_um": 0.74
+        },
+        {
+          "sensor": "sar",
+          "name": "vh_lee_real",
+          "source_name": "07 - VH.LEE Filtered.Real",
+          "mean": 0.0006,
+          "std": 3.7719,
+          "min": -2167.66,
+          "max": 7875.37,
+          "wavelength_um": null
+        },
+        {
+          "sensor": "s2",
+          "name": "red_edge_3",
+          "source_name": "07 - Vegetation Red Edge",
+          "mean": 0.1928,
+          "std": 0.0856,
+          "min": 0.0001,
+          "max": 2.8002,
+          "wavelength_um": 0.783
+        },
+        {
+          "sensor": "s2",
+          "name": "nir",
+          "source_name": "08 - NIR",
+          "mean": 0.1855,
+          "std": 0.0865,
+          "min": 0.0001,
+          "max": 2.8001,
+          "wavelength_um": 0.842
+        },
+        {
+          "sensor": "sar",
+          "name": "vv_lee_imag",
+          "source_name": "08 - VV.LEE Filtered.Imaginary",
+          "mean": 0.0032,
+          "std": 2.4939,
+          "min": -1453.07,
+          "max": 5448.86,
+          "wavelength_um": null
+        },
+        {
+          "sensor": "s2",
+          "name": "red_edge_4",
+          "source_name": "08A - Vegetation Red Edge",
+          "mean": 0.2073,
+          "std": 0.094,
+          "min": 0.0001,
+          "max": 2.8001,
+          "wavelength_um": 0.865
+        },
+        {
+          "sensor": "s2",
+          "name": "swir_1",
+          "source_name": "11 - SWIR",
+          "mean": 0.1768,
+          "std": 0.1024,
+          "min": 0.0001,
+          "max": 2.8,
+          "wavelength_um": 1.61
+        },
+        {
+          "sensor": "s2",
+          "name": "swir_2",
+          "source_name": "12 - SWIR",
+          "mean": 0.1285,
+          "std": 0.0923,
+          "min": 0.0001,
+          "max": 2.8,
+          "wavelength_um": 2.19
+        }
+      ]
+    },
+    "m-pv4ger": {
+      "name": "m-pv4ger",
+      "task": "classification",
+      "num_classes": 2,
+      "multilabel": false,
+      "rgb_bands": [
+        "red",
+        "green",
+        "blue"
+      ],
+      "split_sizes": {
+        "train": 11814,
+        "val": 999,
+        "test": 999
+      },
+      "num_channels": 3,
+      "sensors": [
+        "aerial"
+      ],
+      "bands": [
+        {
+          "sensor": "aerial",
+          "name": "blue",
+          "source_name": "Blue",
+          "mean": 116.316,
+          "std": 44.5176,
+          "min": 2,
+          "max": 254,
+          "wavelength_um": 0.45
+        },
+        {
+          "sensor": "aerial",
+          "name": "green",
+          "source_name": "Green",
+          "mean": 119.375,
+          "std": 48.1189,
+          "min": 7,
+          "max": 254,
+          "wavelength_um": 0.55
+        },
+        {
+          "sensor": "aerial",
+          "name": "red",
+          "source_name": "Red",
+          "mean": 113.102,
+          "std": 54.0881,
+          "min": 1,
+          "max": 254,
+          "wavelength_um": 0.65
+        }
+      ]
+    },
+    "m-brick-kiln": {
+      "name": "m-brick-kiln",
+      "task": "classification",
+      "num_classes": 2,
+      "multilabel": false,
+      "rgb_bands": [
+        "red",
+        "green",
+        "blue"
+      ],
+      "split_sizes": {
+        "train": 15063,
+        "val": 999,
+        "test": 999
+      },
+      "num_channels": 13,
+      "sensors": [
+        "s2"
+      ],
+      "bands": [
+        {
+          "sensor": "s2",
+          "name": "coastal_aerosol",
+          "source_name": "01 - Coastal aerosol",
+          "mean": 572.205,
+          "std": 190.09,
+          "min": 9.6923,
+          "max": 2823.22,
+          "wavelength_um": 0.443
+        },
+        {
+          "sensor": "s2",
+          "name": "blue",
+          "source_name": "02 - Blue",
+          "mean": 669,
+          "std": 234.367,
+          "min": 48.6667,
+          "max": 3959.5,
+          "wavelength_um": 0.49
+        },
+        {
+          "sensor": "s2",
+          "name": "green",
+          "source_name": "03 - Green",
+          "mean": 879.878,
+          "std": 272.815,
+          "min": 98,
+          "max": 5260.67,
+          "wavelength_um": 0.56
+        },
+        {
+          "sensor": "s2",
+          "name": "red",
+          "source_name": "04 - Red",
+          "mean": 807.583,
+          "std": 358.861,
+          "min": 58.3333,
+          "max": 5365.33,
+          "wavelength_um": 0.665
+        },
+        {
+          "sensor": "s2",
+          "name": "red_edge_1",
+          "source_name": "05 - Vegetation Red Edge",
+          "mean": 1127.9,
+          "std": 361.903,
+          "min": 108.286,
+          "max": 5057.48,
+          "wavelength_um": 0.705
+        },
+        {
+          "sensor": "s2",
+          "name": "red_edge_2",
+          "source_name": "06 - Vegetation Red Edge",
+          "mean": 1960.74,
+          "std": 721.657,
+          "min": 83.7143,
+          "max": 11046.8,
+          "wavelength_um": 0.74
+        },
+        {
+          "sensor": "s2",
+          "name": "red_edge_3",
+          "source_name": "07 - Vegetation Red Edge",
+          "mean": 2075.83,
+          "std": 813.801,
+          "min": 73.4615,
+          "max": 11896.5,
+          "wavelength_um": 0.783
+        },
+        {
+          "sensor": "s2",
+          "name": "nir",
+          "source_name": "08 - NIR",
+          "mean": 2039.48,
+          "std": 789.61,
+          "min": 86,
+          "max": 12515,
+          "wavelength_um": 0.842
+        },
+        {
+          "sensor": "s2",
+          "name": "red_edge_4",
+          "source_name": "08A - Vegetation Red Edge",
+          "mean": 1625.46,
+          "std": 788.954,
+          "min": 51.5,
+          "max": 5887.48,
+          "wavelength_um": 0.865
+        },
+        {
+          "sensor": "s2",
+          "name": "water_vapour",
+          "source_name": "09 - Water vapour",
+          "mean": 1135.59,
+          "std": 692.586,
+          "min": 33.1111,
+          "max": 7890,
+          "wavelength_um": 0.945
+        },
+        {
+          "sensor": "s2",
+          "name": "swir_cirrus",
+          "source_name": "10 - SWIR - Cirrus",
+          "mean": 82.471,
+          "std": 36.0834,
+          "min": 7.5,
+          "max": 255,
+          "wavelength_um": 1.375
+        },
+        {
+          "sensor": "s2",
+          "name": "swir_1",
+          "source_name": "11 - SWIR",
+          "mean": 89.8659,
+          "std": 27.5559,
+          "min": 10.3333,
+          "max": 255,
+          "wavelength_um": 1.61
+        },
+        {
+          "sensor": "s2",
+          "name": "swir_2",
+          "source_name": "12 - SWIR",
+          "mean": 68.4528,
+          "std": 23.7711,
+          "min": 6,
+          "max": 255,
+          "wavelength_um": 2.19
+        }
+      ]
+    },
+    "m-bigearthnet": {
+      "name": "m-bigearthnet",
+      "task": "classification",
+      "num_classes": 43,
+      "multilabel": true,
+      "rgb_bands": [
+        "red",
+        "green",
+        "blue"
+      ],
+      "split_sizes": {
+        "train": 20000,
+        "val": 1000,
+        "test": 1000
+      },
+      "num_channels": 12,
+      "sensors": [
+        "s2"
+      ],
+      "bands": [
+        {
+          "sensor": "s2",
+          "name": "coastal_aerosol",
+          "source_name": "01 - Coastal aerosol",
+          "mean": 378.402,
+          "std": 462.463,
+          "min": 1,
+          "max": 18268,
+          "wavelength_um": 0.443
+        },
+        {
+          "sensor": "s2",
+          "name": "blue",
+          "source_name": "02 - Blue",
+          "mean": 482.274,
+          "std": 519.331,
+          "min": 0,
+          "max": 20545,
+          "wavelength_um": 0.49
+        },
+        {
+          "sensor": "s2",
+          "name": "green",
+          "source_name": "03 - Green",
+          "mean": 706.537,
+          "std": 552.357,
+          "min": 0,
+          "max": 18989,
+          "wavelength_um": 0.56
+        },
+        {
+          "sensor": "s2",
+          "name": "red",
+          "source_name": "04 - Red",
+          "mean": 720.926,
+          "std": 680.972,
+          "min": 0,
+          "max": 17881,
+          "wavelength_um": 0.665
+        },
+        {
+          "sensor": "s2",
+          "name": "red_edge_1",
+          "source_name": "05 - Vegetation Red Edge",
+          "mean": 1100.67,
+          "std": 690.282,
+          "min": 0,
+          "max": 16186,
+          "wavelength_um": 0.705
+        },
+        {
+          "sensor": "s2",
+          "name": "red_edge_2",
+          "source_name": "06 - Vegetation Red Edge",
+          "mean": 1909.29,
+          "std": 982.218,
+          "min": 0,
+          "max": 16039,
+          "wavelength_um": 0.74
+        },
+        {
+          "sensor": "s2",
+          "name": "red_edge_3",
+          "source_name": "07 - Vegetation Red Edge",
+          "mean": 2191.7,
+          "std": 1143.42,
+          "min": 0,
+          "max": 15956,
+          "wavelength_um": 0.783
+        },
+        {
+          "sensor": "s2",
+          "name": "nir",
+          "source_name": "08 - NIR",
+          "mean": 2336.86,
+          "std": 1248.04,
+          "min": 0,
+          "max": 16708,
+          "wavelength_um": 0.842
+        },
+        {
+          "sensor": "s2",
+          "name": "red_edge_4",
+          "source_name": "08A - Vegetation Red Edge",
+          "mean": 2394.74,
+          "std": 1223.65,
+          "min": 0,
+          "max": 15825,
+          "wavelength_um": 0.865
+        },
+        {
+          "sensor": "s2",
+          "name": "water_vapour",
+          "source_name": "09 - Water vapour",
+          "mean": 2368.32,
+          "std": 1166.83,
+          "min": 1,
+          "max": 15593,
+          "wavelength_um": 0.945
+        },
+        {
+          "sensor": "s2",
+          "name": "swir_1",
+          "source_name": "11 - SWIR",
+          "mean": 1875.26,
+          "std": 1092.42,
+          "min": 0,
+          "max": 15422,
+          "wavelength_um": 1.61
+        },
+        {
+          "sensor": "s2",
+          "name": "swir_2",
+          "source_name": "12 - SWIR",
+          "mean": 1229.38,
+          "std": 862.716,
+          "min": 0,
+          "max": 15258,
+          "wavelength_um": 2.19
+        }
+      ]
+    },
+    "benv2": {
+      "name": "benv2",
+      "task": "classification",
+      "num_classes": 19,
+      "multilabel": true,
+      "rgb_bands": [
+        "b04",
+        "b03",
+        "b02"
+      ],
+      "split_sizes": {
+        "train": 20000,
+        "val": 4000,
+        "test": 4000
+      },
+      "num_channels": 14,
+      "sensors": [
+        "s1",
+        "s2"
+      ],
+      "bands": [
+        {
+          "sensor": "s2",
+          "name": "b01",
+          "source_name": "B01",
+          "mean": 356.468,
+          "std": 551.961,
+          "min": 1,
+          "max": 11450,
+          "wavelength_um": 0.443
+        },
+        {
+          "sensor": "s2",
+          "name": "b02",
+          "source_name": "B02",
+          "mean": 434.675,
+          "std": 594.998,
+          "min": 1,
+          "max": 20592,
+          "wavelength_um": 0.49
+        },
+        {
+          "sensor": "s2",
+          "name": "b03",
+          "source_name": "B03",
+          "mean": 612.172,
+          "std": 595.693,
+          "min": 1,
+          "max": 18640,
+          "wavelength_um": 0.56
+        },
+        {
+          "sensor": "s2",
+          "name": "b04",
+          "source_name": "B04",
+          "mean": 587.062,
+          "std": 677.559,
+          "min": 1,
+          "max": 17280,
+          "wavelength_um": 0.665
+        },
+        {
+          "sensor": "s2",
+          "name": "b05",
+          "source_name": "B05",
+          "mean": 942.387,
+          "std": 720.559,
+          "min": 1,
+          "max": 16706,
+          "wavelength_um": 0.705
+        },
+        {
+          "sensor": "s2",
+          "name": "b06",
+          "source_name": "B06",
+          "mean": 1769.64,
+          "std": 1083.08,
+          "min": 1,
+          "max": 16408,
+          "wavelength_um": 0.74
+        },
+        {
+          "sensor": "s2",
+          "name": "b07",
+          "source_name": "B07",
+          "mean": 2049.96,
+          "std": 1258.08,
+          "min": 1,
+          "max": 16285,
+          "wavelength_um": 0.783
+        },
+        {
+          "sensor": "s2",
+          "name": "b08",
+          "source_name": "B08",
+          "mean": 2192.89,
+          "std": 1365.99,
+          "min": 1,
+          "max": 16280,
+          "wavelength_um": 0.842
+        },
+        {
+          "sensor": "s2",
+          "name": "b8a",
+          "source_name": "B8A",
+          "mean": 2236.25,
+          "std": 1338.89,
+          "min": 1,
+          "max": 16071,
+          "wavelength_um": 0.865
+        },
+        {
+          "sensor": "s2",
+          "name": "b09",
+          "source_name": "B09",
+          "mean": 2242.3,
+          "std": 1294.24,
+          "min": 1,
+          "max": 13792,
+          "wavelength_um": 0.945
+        },
+        {
+          "sensor": "s2",
+          "name": "b11",
+          "source_name": "B11",
+          "mean": 1576.53,
+          "std": 1064.65,
+          "min": 1,
+          "max": 15351,
+          "wavelength_um": 1.61
+        },
+        {
+          "sensor": "s2",
+          "name": "b12",
+          "source_name": "B12",
+          "mean": 1004.48,
+          "std": 809.08,
+          "min": 1,
+          "max": 15213,
+          "wavelength_um": 2.19
+        },
+        {
+          "sensor": "s1",
+          "name": "vv",
+          "source_name": "VV",
+          "mean": -19.361,
+          "std": 5.6033,
+          "min": -66.5271,
+          "max": 24.3281,
+          "wavelength_um": null
+        },
+        {
+          "sensor": "s1",
+          "name": "vh",
+          "source_name": "VH",
+          "mean": -12.6317,
+          "std": 5.094,
+          "min": -65.3005,
+          "max": 33.5545,
+          "wavelength_um": null
+        }
+      ]
+    },
+    "treesatai": {
+      "name": "treesatai",
+      "task": "classification",
+      "num_classes": 15,
+      "multilabel": true,
+      "rgb_bands": [
+        "red",
+        "green",
+        "blue"
+      ],
+      "split_sizes": {
+        "train": 4000,
+        "val": 1000,
+        "test": 2000
+      },
+      "num_channels": 19,
+      "sensors": [
+        "aerial",
+        "s1",
+        "s2"
+      ],
+      "bands": [
+        {
+          "sensor": "aerial",
+          "name": "red",
+          "source_name": "red",
+          "mean": 154.416,
+          "std": 48.5986,
+          "min": 0,
+          "max": 255,
+          "wavelength_um": 0.66
+        },
+        {
+          "sensor": "aerial",
+          "name": "green",
+          "source_name": "green",
+          "mean": 92.4992,
+          "std": 33.6488,
+          "min": 0,
+          "max": 255,
+          "wavelength_um": 0.55
+        },
+        {
+          "sensor": "aerial",
+          "name": "blue",
+          "source_name": "blue",
+          "mean": 85.5702,
+          "std": 28.041,
+          "min": 0,
+          "max": 255,
+          "wavelength_um": 0.48
+        },
+        {
+          "sensor": "aerial",
+          "name": "nir",
+          "source_name": "nir",
+          "mean": 79.8672,
+          "std": 33.6009,
+          "min": 0,
+          "max": 255,
+          "wavelength_um": 0.83
+        },
+        {
+          "sensor": "s2",
+          "name": "b02",
+          "source_name": "B02",
+          "mean": 241.428,
+          "std": 129.435,
+          "min": 0,
+          "max": 3059,
+          "wavelength_um": 0.49
+        },
+        {
+          "sensor": "s2",
+          "name": "b03",
+          "source_name": "B03",
+          "mean": 384.216,
+          "std": 142.58,
+          "min": 0,
+          "max": 3253,
+          "wavelength_um": 0.56
+        },
+        {
+          "sensor": "s2",
+          "name": "b04",
+          "source_name": "B04",
+          "mean": 247.127,
+          "std": 148.153,
+          "min": 0,
+          "max": 3195,
+          "wavelength_um": 0.665
+        },
+        {
+          "sensor": "s2",
+          "name": "b08",
+          "source_name": "B08",
+          "mean": 2828.33,
+          "std": 762.904,
+          "min": 0,
+          "max": 6124,
+          "wavelength_um": 0.842
+        },
+        {
+          "sensor": "s2",
+          "name": "b05",
+          "source_name": "B05",
+          "mean": 623.686,
+          "std": 202.742,
+          "min": 0,
+          "max": 3062,
+          "wavelength_um": 0.705
+        },
+        {
+          "sensor": "s2",
+          "name": "b06",
+          "source_name": "B06",
+          "mean": 2116.06,
+          "std": 510.903,
+          "min": 0,
+          "max": 4433,
+          "wavelength_um": 0.74
+        },
+        {
+          "sensor": "s2",
+          "name": "b07",
+          "source_name": "B07",
+          "mean": 2710.51,
+          "std": 688.66,
+          "min": 0,
+          "max": 5808,
+          "wavelength_um": 0.783
+        },
+        {
+          "sensor": "s2",
+          "name": "b8a",
+          "source_name": "B8A",
+          "mean": 2985.2,
+          "std": 752.79,
+          "min": 0,
+          "max": 6175,
+          "wavelength_um": 0.865
+        },
+        {
+          "sensor": "s2",
+          "name": "b11",
+          "source_name": "B11",
+          "mean": 1318.65,
+          "std": 417.57,
+          "min": 0,
+          "max": 4093,
+          "wavelength_um": 1.61
+        },
+        {
+          "sensor": "s2",
+          "name": "b12",
+          "source_name": "B12",
+          "mean": 594.947,
+          "std": 250.849,
+          "min": 0,
+          "max": 3471,
+          "wavelength_um": 2.19
+        },
+        {
+          "sensor": "s2",
+          "name": "b01",
+          "source_name": "B01",
+          "mean": 255.617,
+          "std": 127.578,
+          "min": 0,
+          "max": 2050,
+          "wavelength_um": 0.443
+        },
+        {
+          "sensor": "s2",
+          "name": "b09",
+          "source_name": "B09",
+          "mean": 2972.19,
+          "std": 682.024,
+          "min": 0,
+          "max": 5569,
+          "wavelength_um": 0.945
+        },
+        {
+          "sensor": "s1",
+          "name": "vv",
+          "source_name": "vv",
+          "mean": 60197.8,
+          "std": 17913.3,
+          "min": 0,
+          "max": 65535,
+          "wavelength_um": null
+        },
+        {
+          "sensor": "s1",
+          "name": "vh",
+          "source_name": "vh",
+          "mean": 65496.9,
+          "std": 1326.41,
+          "min": 0,
+          "max": 65535,
+          "wavelength_um": null
+        },
+        {
+          "sensor": "s1",
+          "name": "vv_vh",
+          "source_name": "vv/vh",
+          "mean": 88.73,
+          "std": 2409.44,
+          "min": 0,
+          "max": 65535,
+          "wavelength_um": null
+        }
+      ]
+    },
+    "so2sat": {
+      "name": "so2sat",
+      "task": "classification",
+      "num_classes": 17,
+      "multilabel": false,
+      "rgb_bands": [
+        "b04",
+        "b03",
+        "b02"
+      ],
+      "split_sizes": {
+        "train": 19992,
+        "val": 986,
+        "test": 986
+      },
+      "num_channels": 12,
+      "sensors": [
+        "s1",
+        "s2"
+      ],
+      "bands": [
+        {
+          "sensor": "s2",
+          "name": "b02",
+          "source_name": "B02",
+          "mean": 0.1295,
+          "std": 0.0414,
+          "min": 0.0001,
+          "max": 2.8,
+          "wavelength_um": 0.49
+        },
+        {
+          "sensor": "s2",
+          "name": "b03",
+          "source_name": "B03",
+          "mean": 0.1172,
+          "std": 0.052,
+          "min": 0.0001,
+          "max": 2.8,
+          "wavelength_um": 0.56
+        },
+        {
+          "sensor": "s2",
+          "name": "b04",
+          "source_name": "B04",
+          "mean": 0.1138,
+          "std": 0.0733,
+          "min": 0.0001,
+          "max": 2.8,
+          "wavelength_um": 0.665
+        },
+        {
+          "sensor": "s2",
+          "name": "b05",
+          "source_name": "B05",
+          "mean": 0.1272,
+          "std": 0.0693,
+          "min": 0.0001,
+          "max": 2.8001,
+          "wavelength_um": 0.705
+        },
+        {
+          "sensor": "s2",
+          "name": "b06",
+          "source_name": "B06",
+          "mean": 0.1707,
+          "std": 0.075,
+          "min": 0.0001,
+          "max": 2.8002,
+          "wavelength_um": 0.74
+        },
+        {
+          "sensor": "s2",
+          "name": "b07",
+          "source_name": "B07",
+          "mean": 0.1928,
+          "std": 0.0856,
+          "min": 0.0001,
+          "max": 2.8002,
+          "wavelength_um": 0.783
+        },
+        {
+          "sensor": "s2",
+          "name": "b08",
+          "source_name": "B08",
+          "mean": 0.1855,
+          "std": 0.0865,
+          "min": 0.0001,
+          "max": 2.8001,
+          "wavelength_um": 0.842
+        },
+        {
+          "sensor": "s2",
+          "name": "b8a",
+          "source_name": "B8A",
+          "mean": 0.2073,
+          "std": 0.094,
+          "min": 0.0001,
+          "max": 2.8001,
+          "wavelength_um": 0.865
+        },
+        {
+          "sensor": "s2",
+          "name": "b11",
+          "source_name": "B11",
+          "mean": 0.1768,
+          "std": 0.1024,
+          "min": 0.0001,
+          "max": 2.8,
+          "wavelength_um": 1.61
+        },
+        {
+          "sensor": "s2",
+          "name": "b12",
+          "source_name": "B12",
+          "mean": 0.1285,
+          "std": 0.0923,
+          "min": 0.0001,
+          "max": 2.8,
+          "wavelength_um": 2.19
+        },
+        {
+          "sensor": "s1",
+          "name": "vv",
+          "source_name": "VV",
+          "mean": 0,
+          "std": 0.2156,
+          "min": -107.636,
+          "max": 45.3088,
+          "wavelength_um": null
+        },
+        {
+          "sensor": "s1",
+          "name": "vh",
+          "source_name": "VH",
+          "mean": 0,
+          "std": 0.5442,
+          "min": -107.636,
+          "max": 108.199,
+          "wavelength_um": null
+        }
+      ]
+    },
+    "forestnet": {
+      "name": "forestnet",
+      "task": "classification",
+      "num_classes": 12,
+      "multilabel": false,
+      "rgb_bands": [
+        "b04",
+        "b03",
+        "b02"
+      ],
+      "split_sizes": {
+        "train": 6464,
+        "val": 989,
+        "test": 993
+      },
+      "num_channels": 6,
+      "sensors": [
+        "s2"
+      ],
+      "bands": [
+        {
+          "sensor": "s2",
+          "name": "b02",
+          "source_name": "B02",
+          "mean": 72.3759,
+          "std": 16.2839,
+          "min": 0,
+          "max": 255,
+          "wavelength_um": 0.49
+        },
+        {
+          "sensor": "s2",
+          "name": "b03",
+          "source_name": "B03",
+          "mean": 83.1816,
+          "std": 15.3587,
+          "min": 0,
+          "max": 255,
+          "wavelength_um": 0.56
+        },
+        {
+          "sensor": "s2",
+          "name": "b04",
+          "source_name": "B04",
+          "mean": 77.0861,
+          "std": 16.6665,
+          "min": 0,
+          "max": 255,
+          "wavelength_um": 0.665
+        },
+        {
+          "sensor": "s2",
+          "name": "b8a",
+          "source_name": "B8A",
+          "mean": 123.543,
+          "std": 16.9485,
+          "min": 0,
+          "max": 250,
+          "wavelength_um": 0.865
+        },
+        {
+          "sensor": "s2",
+          "name": "b11",
+          "source_name": "B11",
+          "mean": 91.0484,
+          "std": 14.2801,
+          "min": 0,
+          "max": 255,
+          "wavelength_um": 1.61
+        },
+        {
+          "sensor": "s2",
+          "name": "b12",
+          "source_name": "B12",
+          "mean": 74.3097,
+          "std": 13.2854,
+          "min": 0,
+          "max": 255,
+          "wavelength_um": 2.19
+        }
+      ]
+    },
+    "caffe": {
+      "name": "caffe",
+      "task": "segmentation",
+      "num_classes": 4,
+      "multilabel": false,
+      "rgb_bands": [
+        "gray"
+      ],
+      "split_sizes": {
+        "train": 4000,
+        "val": 1000,
+        "test": 2000
+      },
+      "num_channels": 1,
+      "sensors": [
+        "aerial"
+      ],
+      "bands": [
+        {
+          "sensor": "aerial",
+          "name": "gray",
+          "source_name": "gray",
+          "mean": 68.4868,
+          "std": 82.7774,
+          "min": 0,
+          "max": 255,
+          "wavelength_um": null
+        }
+      ]
+    },
+    "burn_scars": {
+      "name": "burn_scars",
+      "task": "segmentation",
+      "num_classes": 3,
+      "multilabel": false,
+      "rgb_bands": [
+        "b04",
+        "b03",
+        "b02"
+      ],
+      "split_sizes": {
+        "train": 524,
+        "val": 160,
+        "test": 120
+      },
+      "num_channels": 6,
+      "sensors": [
+        "s2"
+      ],
+      "bands": [
+        {
+          "sensor": "s2",
+          "name": "b02",
+          "source_name": "B02",
+          "mean": 0.0526,
+          "std": 0.0308,
+          "min": 0,
+          "max": 1,
+          "wavelength_um": 0.49
+        },
+        {
+          "sensor": "s2",
+          "name": "b03",
+          "source_name": "B03",
+          "mean": 0.078,
+          "std": 0.0376,
+          "min": 0,
+          "max": 1,
+          "wavelength_um": 0.56
+        },
+        {
+          "sensor": "s2",
+          "name": "b04",
+          "source_name": "B04",
+          "mean": 0.0947,
+          "std": 0.0549,
+          "min": 0,
+          "max": 1,
+          "wavelength_um": 0.665
+        },
+        {
+          "sensor": "s2",
+          "name": "b8a",
+          "source_name": "B8A",
+          "mean": 0.2139,
+          "std": 0.0701,
+          "min": 0,
+          "max": 1,
+          "wavelength_um": 0.865
+        },
+        {
+          "sensor": "s2",
+          "name": "b11",
+          "source_name": "B11",
+          "mean": 0.2356,
+          "std": 0.0911,
+          "min": 0,
+          "max": 1,
+          "wavelength_um": 1.61
+        },
+        {
+          "sensor": "s2",
+          "name": "b12",
+          "source_name": "B12",
+          "mean": 0.171,
+          "std": 0.0836,
+          "min": 0,
+          "max": 1,
+          "wavelength_um": 2.19
+        }
+      ]
+    },
+    "cloudsen12": {
+      "name": "cloudsen12",
+      "task": "segmentation",
+      "num_classes": 4,
+      "multilabel": false,
+      "rgb_bands": [
+        "b04",
+        "b03",
+        "b02"
+      ],
+      "split_sizes": {
+        "train": 4000,
+        "val": 535,
+        "test": 975
+      },
+      "num_channels": 12,
+      "sensors": [
+        "s2"
+      ],
+      "bands": [
+        {
+          "sensor": "s2",
+          "name": "b01",
+          "source_name": "B01",
+          "mean": 1973.24,
+          "std": 2704.21,
+          "min": 0,
+          "max": 26044,
+          "wavelength_um": 0.443
+        },
+        {
+          "sensor": "s2",
+          "name": "b02",
+          "source_name": "B02",
+          "mean": 2011.85,
+          "std": 2650.55,
+          "min": 0,
+          "max": 25520,
+          "wavelength_um": 0.49
+        },
+        {
+          "sensor": "s2",
+          "name": "b03",
+          "source_name": "B03",
+          "mean": 2148.43,
+          "std": 2500.88,
+          "min": 0,
+          "max": 22800,
+          "wavelength_um": 0.56
+        },
+        {
+          "sensor": "s2",
+          "name": "b04",
+          "source_name": "B04",
+          "mean": 2182.13,
+          "std": 2500.84,
+          "min": 0,
+          "max": 20816,
+          "wavelength_um": 0.665
+        },
+        {
+          "sensor": "s2",
+          "name": "b05",
+          "source_name": "B05",
+          "mean": 2526.47,
+          "std": 2472.63,
+          "min": 0,
+          "max": 19952,
+          "wavelength_um": 0.705
+        },
+        {
+          "sensor": "s2",
+          "name": "b06",
+          "source_name": "B06",
+          "mean": 3055.09,
+          "std": 2212.44,
+          "min": 0,
+          "max": 19140,
+          "wavelength_um": 0.74
+        },
+        {
+          "sensor": "s2",
+          "name": "b07",
+          "source_name": "B07",
+          "mean": 3239.42,
+          "std": 2124.23,
+          "min": 0,
+          "max": 18724,
+          "wavelength_um": 0.783
+        },
+        {
+          "sensor": "s2",
+          "name": "b08",
+          "source_name": "B08",
+          "mean": 3293.5,
+          "std": 2151.72,
+          "min": 0,
+          "max": 18416,
+          "wavelength_um": 0.842
+        },
+        {
+          "sensor": "s2",
+          "name": "b8a",
+          "source_name": "B8A",
+          "mean": 3347.9,
+          "std": 2049.76,
+          "min": 0,
+          "max": 18096,
+          "wavelength_um": 0.865
+        },
+        {
+          "sensor": "s2",
+          "name": "b09",
+          "source_name": "B09",
+          "mean": 4046.78,
+          "std": 3147.31,
+          "min": 0,
+          "max": 17844,
+          "wavelength_um": 0.945
+        },
+        {
+          "sensor": "s2",
+          "name": "b11",
+          "source_name": "B11",
+          "mean": 2443.39,
+          "std": 1583.54,
+          "min": 0,
+          "max": 15948,
+          "wavelength_um": 1.61
+        },
+        {
+          "sensor": "s2",
+          "name": "b12",
+          "source_name": "B12",
+          "mean": 1894.92,
+          "std": 1464.28,
+          "min": 0,
+          "max": 16124,
+          "wavelength_um": 2.19
+        }
+      ]
+    },
+    "dynamic_earthnet": {
+      "name": "dynamic_earthnet",
+      "task": "segmentation",
+      "num_classes": 7,
+      "multilabel": false,
+      "rgb_bands": [
+        "r",
+        "g",
+        "b"
+      ],
+      "split_sizes": {
+        "train": 700,
+        "val": 100,
+        "test": 200
+      },
+      "num_channels": 16,
+      "sensors": [
+        "planet",
+        "s2"
+      ],
+      "bands": [
+        {
+          "sensor": "planet",
+          "name": "b",
+          "source_name": "b",
+          "mean": 664.423,
+          "std": 639.946,
+          "min": 10,
+          "max": 10051,
+          "wavelength_um": null
+        },
+        {
+          "sensor": "planet",
+          "name": "g",
+          "source_name": "g",
+          "mean": 929.265,
+          "std": 805.98,
+          "min": 17,
+          "max": 10039,
+          "wavelength_um": null
+        },
+        {
+          "sensor": "planet",
+          "name": "r",
+          "source_name": "r",
+          "mean": 1031.28,
+          "std": 1072.23,
+          "min": 9,
+          "max": 10057,
+          "wavelength_um": null
+        },
+        {
+          "sensor": "planet",
+          "name": "nir",
+          "source_name": "nir",
+          "mean": 2605.98,
+          "std": 1182.39,
+          "min": 14,
+          "max": 9998,
+          "wavelength_um": null
+        },
+        {
+          "sensor": "s2",
+          "name": "b01",
+          "source_name": "B01",
+          "mean": 1142.08,
+          "std": 1588.17,
+          "min": 0,
+          "max": 15535,
+          "wavelength_um": 0.443
+        },
+        {
+          "sensor": "s2",
+          "name": "b02",
+          "source_name": "B02",
+          "mean": 1399.03,
+          "std": 1516.62,
+          "min": 1,
+          "max": 15621,
+          "wavelength_um": 0.49
+        },
+        {
+          "sensor": "s2",
+          "name": "b03",
+          "source_name": "B03",
+          "mean": 1429.55,
+          "std": 1606.99,
+          "min": 1,
+          "max": 15541,
+          "wavelength_um": 0.56
+        },
+        {
+          "sensor": "s2",
+          "name": "b04",
+          "source_name": "B04",
+          "mean": 2782.08,
+          "std": 1497.91,
+          "min": 0,
+          "max": 15434,
+          "wavelength_um": 0.665
+        },
+        {
+          "sensor": "s2",
+          "name": "b05",
+          "source_name": "B05",
+          "mean": 1799.14,
+          "std": 1601.56,
+          "min": 1,
+          "max": 16588,
+          "wavelength_um": 0.705
+        },
+        {
+          "sensor": "s2",
+          "name": "b06",
+          "source_name": "B06",
+          "mean": 2486.87,
+          "std": 1470.5,
+          "min": 1,
+          "max": 16479,
+          "wavelength_um": 0.74
+        },
+        {
+          "sensor": "s2",
+          "name": "b07",
+          "source_name": "B07",
+          "mean": 2749.07,
+          "std": 1499.74,
+          "min": 1,
+          "max": 16621,
+          "wavelength_um": 0.783
+        },
+        {
+          "sensor": "s2",
+          "name": "b08",
+          "source_name": "B08",
+          "mean": 2899.32,
+          "std": 1506.38,
+          "min": 1,
+          "max": 16560,
+          "wavelength_um": 0.842
+        },
+        {
+          "sensor": "s2",
+          "name": "b8a",
+          "source_name": "B8A",
+          "mean": 2369.53,
+          "std": 1487.68,
+          "min": 1,
+          "max": 11401,
+          "wavelength_um": 0.865
+        },
+        {
+          "sensor": "s2",
+          "name": "b10",
+          "source_name": "B10",
+          "mean": 1732.49,
+          "std": 1393.75,
+          "min": 1,
+          "max": 15547,
+          "wavelength_um": 1.375
+        },
+        {
+          "sensor": "s2",
+          "name": "b11",
+          "source_name": "B11",
+          "mean": 1049.82,
+          "std": 1654.71,
+          "min": 0,
+          "max": 15633,
+          "wavelength_um": 1.61
+        },
+        {
+          "sensor": "s2",
+          "name": "b12",
+          "source_name": "B12",
+          "mean": 3192,
+          "std": 2299.15,
+          "min": 0,
+          "max": 16726,
+          "wavelength_um": 2.19
+        }
+      ]
+    },
+    "flair2": {
+      "name": "flair2",
+      "task": "segmentation",
+      "num_classes": 13,
+      "multilabel": false,
+      "rgb_bands": [
+        "red",
+        "green",
+        "blue"
+      ],
+      "split_sizes": {
+        "train": 4049,
+        "val": 1022,
+        "test": 3022
+      },
+      "num_channels": 5,
+      "sensors": [
+        "aerial",
+        "elevation"
+      ],
+      "bands": [
+        {
+          "sensor": "aerial",
+          "name": "red",
+          "source_name": "red",
+          "mean": 111.395,
+          "std": 51.2846,
+          "min": 0,
+          "max": 255,
+          "wavelength_um": 0.66
+        },
+        {
+          "sensor": "aerial",
+          "name": "green",
+          "source_name": "green",
+          "mean": 115.788,
+          "std": 45.1,
+          "min": 0,
+          "max": 255,
+          "wavelength_um": 0.55
+        },
+        {
+          "sensor": "aerial",
+          "name": "blue",
+          "source_name": "blue",
+          "mean": 106.896,
+          "std": 44.4006,
+          "min": 0,
+          "max": 255,
+          "wavelength_um": 0.48
+        },
+        {
+          "sensor": "aerial",
+          "name": "nir",
+          "source_name": "nir",
+          "mean": 104.085,
+          "std": 39.566,
+          "min": 0,
+          "max": 255,
+          "wavelength_um": 0.83
+        },
+        {
+          "sensor": "elevation",
+          "name": "elevation",
+          "source_name": "elevation",
+          "mean": 17.7749,
+          "std": 30.34,
+          "min": 0,
+          "max": 255,
+          "wavelength_um": null
+        }
+      ]
+    },
+    "fotw": {
+      "name": "fotw",
+      "task": "segmentation",
+      "num_classes": 4,
+      "multilabel": false,
+      "rgb_bands": [
+        "red",
+        "green",
+        "blue"
+      ],
+      "split_sizes": {
+        "train": 4000,
+        "val": 1000,
+        "test": 2000
+      },
+      "num_channels": 4,
+      "sensors": [
+        "s2"
+      ],
+      "bands": [
+        {
+          "sensor": "s2",
+          "name": "red",
+          "source_name": "red",
+          "mean": 937.509,
+          "std": 807.662,
+          "min": 0,
+          "max": 17499,
+          "wavelength_um": 0.665
+        },
+        {
+          "sensor": "s2",
+          "name": "green",
+          "source_name": "green",
+          "mean": 923.717,
+          "std": 677.861,
+          "min": 0,
+          "max": 17653,
+          "wavelength_um": 0.56
+        },
+        {
+          "sensor": "s2",
+          "name": "blue",
+          "source_name": "blue",
+          "mean": 678.358,
+          "std": 645.035,
+          "min": 0,
+          "max": 20214,
+          "wavelength_um": 0.49
+        },
+        {
+          "sensor": "s2",
+          "name": "nir",
+          "source_name": "nir",
+          "mean": 3028.48,
+          "std": 1037.38,
+          "min": 0,
+          "max": 17200,
+          "wavelength_um": 0.842
+        }
+      ]
+    },
+    "kuro_siwo": {
+      "name": "kuro_siwo",
+      "task": "segmentation",
+      "num_classes": 4,
+      "multilabel": false,
+      "rgb_bands": [
+        "vv",
+        "vh"
+      ],
+      "split_sizes": {
+        "train": 4000,
+        "val": 1000,
+        "test": 2000
+      },
+      "num_channels": 3,
+      "sensors": [
+        "dem",
+        "sar"
+      ],
+      "bands": [
+        {
+          "sensor": "sar",
+          "name": "vv",
+          "source_name": "vv",
+          "mean": 0.1347,
+          "std": 1.0677,
+          "min": 0,
+          "max": 2550.89,
+          "wavelength_um": null
+        },
+        {
+          "sensor": "sar",
+          "name": "vh",
+          "source_name": "vh",
+          "mean": 0.0273,
+          "std": 0.1723,
+          "min": 0,
+          "max": 530.453,
+          "wavelength_um": null
+        },
+        {
+          "sensor": "dem",
+          "name": "dem",
+          "source_name": "dem",
+          "mean": 146.235,
+          "std": 465.777,
+          "min": -32768,
+          "max": 1690.83,
+          "wavelength_um": null
+        }
+      ]
+    },
+    "pastis": {
+      "name": "pastis",
+      "task": "segmentation",
+      "num_classes": 20,
+      "multilabel": false,
+      "rgb_bands": [
+        "b04",
+        "b03",
+        "b02"
+      ],
+      "split_sizes": {
+        "train": 1455,
+        "val": 482,
+        "test": 496
+      },
+      "num_channels": 16,
+      "sensors": [
+        "s1_asc",
+        "s1_desc",
+        "s2"
+      ],
+      "bands": [
+        {
+          "sensor": "s2",
+          "name": "b02",
+          "source_name": "B02",
+          "mean": 982.691,
+          "std": 1778.79,
+          "min": -951,
+          "max": 15720,
+          "wavelength_um": 0.49
+        },
+        {
+          "sensor": "s2",
+          "name": "b03",
+          "source_name": "B03",
+          "mean": 1200.18,
+          "std": 1748.09,
+          "min": 0,
+          "max": 15300,
+          "wavelength_um": 0.56
+        },
+        {
+          "sensor": "s2",
+          "name": "b04",
+          "source_name": "B04",
+          "mean": 1279.17,
+          "std": 1815.64,
+          "min": -847,
+          "max": 14267,
+          "wavelength_um": 0.665
+        },
+        {
+          "sensor": "s2",
+          "name": "b05",
+          "source_name": "B05",
+          "mean": 1579.55,
+          "std": 1736.58,
+          "min": 0,
+          "max": 15177,
+          "wavelength_um": 0.705
+        },
+        {
+          "sensor": "s2",
+          "name": "b06",
+          "source_name": "B06",
+          "mean": 2426.65,
+          "std": 1648.56,
+          "min": -182,
+          "max": 14927,
+          "wavelength_um": 0.74
+        },
+        {
+          "sensor": "s2",
+          "name": "b07",
+          "source_name": "B07",
+          "mean": 2722.16,
+          "std": 1643.11,
+          "min": 0,
+          "max": 14755,
+          "wavelength_um": 0.783
+        },
+        {
+          "sensor": "s2",
+          "name": "b08",
+          "source_name": "B08",
+          "mean": 2865.78,
+          "std": 1656.39,
+          "min": -78,
+          "max": 14618,
+          "wavelength_um": 0.842
+        },
+        {
+          "sensor": "s2",
+          "name": "b8a",
+          "source_name": "B8A",
+          "mean": 3008.59,
+          "std": 1644.42,
+          "min": -33,
+          "max": 14614,
+          "wavelength_um": 0.865
+        },
+        {
+          "sensor": "s2",
+          "name": "b11",
+          "source_name": "B11",
+          "mean": 2571.95,
+          "std": 1417.26,
+          "min": -80,
+          "max": 13079,
+          "wavelength_um": 1.61
+        },
+        {
+          "sensor": "s2",
+          "name": "b12",
+          "source_name": "B12",
+          "mean": 1728.94,
+          "std": 1244.08,
+          "min": 0,
+          "max": 12155,
+          "wavelength_um": 2.19
+        },
+        {
+          "sensor": "s1_asc",
+          "name": "vv_asc",
+          "source_name": "VV_asc",
+          "mean": -12.0529,
+          "std": 3.3212,
+          "min": -35.6562,
+          "max": 33.25,
+          "wavelength_um": null
+        },
+        {
+          "sensor": "s1_asc",
+          "name": "vh_asc",
+          "source_name": "VH_asc",
+          "mean": -18.5074,
+          "std": 3.5206,
+          "min": -41.5312,
+          "max": 27.9844,
+          "wavelength_um": null
+        },
+        {
+          "sensor": "s1_asc",
+          "name": "vv_vh_asc",
+          "source_name": "VV/VH_asc",
+          "mean": 6.4544,
+          "std": 3.3158,
+          "min": -15.4922,
+          "max": 42.4688,
+          "wavelength_um": null
+        },
+        {
+          "sensor": "s1_desc",
+          "name": "vv_desc",
+          "source_name": "VV_desc",
+          "mean": -12.1929,
+          "std": 3.3645,
+          "min": -36.0312,
+          "max": 29.0781,
+          "wavelength_um": null
+        },
+        {
+          "sensor": "s1_desc",
+          "name": "vh_desc",
+          "source_name": "VH_desc",
+          "mean": -18.382,
+          "std": 3.3468,
+          "min": -39.5312,
+          "max": 18.6562,
+          "wavelength_um": null
+        },
+        {
+          "sensor": "s1_desc",
+          "name": "vv_vh_desc",
+          "source_name": "VV/VH_desc",
+          "mean": 6.189,
+          "std": 3.2708,
+          "min": -21.0469,
+          "max": 44.75,
+          "wavelength_um": null
+        }
+      ]
+    },
+    "spacenet2": {
+      "name": "spacenet2",
+      "task": "segmentation",
+      "num_classes": 3,
+      "multilabel": false,
+      "rgb_bands": [
+        "red",
+        "green",
+        "blue"
+      ],
+      "split_sizes": {
+        "train": 5186,
+        "val": 1461,
+        "test": 2961
+      },
+      "num_channels": 9,
+      "sensors": [
+        "pan",
+        "worldview"
+      ],
+      "bands": [
+        {
+          "sensor": "worldview",
+          "name": "coastal",
+          "source_name": "coastal",
+          "mean": 296.081,
+          "std": 107.482,
+          "min": 0,
+          "max": 1227,
+          "wavelength_um": null
+        },
+        {
+          "sensor": "worldview",
+          "name": "blue",
+          "source_name": "blue",
+          "mean": 357.957,
+          "std": 151.518,
+          "min": 0,
+          "max": 1570,
+          "wavelength_um": null
+        },
+        {
+          "sensor": "worldview",
+          "name": "green",
+          "source_name": "green",
+          "mean": 465.239,
+          "std": 229.433,
+          "min": 0,
+          "max": 2047,
+          "wavelength_um": null
+        },
+        {
+          "sensor": "worldview",
+          "name": "yellow",
+          "source_name": "yellow",
+          "mean": 417.796,
+          "std": 230.014,
+          "min": 0,
+          "max": 2047,
+          "wavelength_um": null
+        },
+        {
+          "sensor": "worldview",
+          "name": "red",
+          "source_name": "red",
+          "mean": 334.455,
+          "std": 198.499,
+          "min": 0,
+          "max": 1933,
+          "wavelength_um": null
+        },
+        {
+          "sensor": "worldview",
+          "name": "red_edge",
+          "source_name": "red_edge",
+          "mean": 409.533,
+          "std": 212.211,
+          "min": 0,
+          "max": 2047,
+          "wavelength_um": null
+        },
+        {
+          "sensor": "worldview",
+          "name": "nir1",
+          "source_name": "nir1",
+          "mean": 481.216,
+          "std": 240.981,
+          "min": 0,
+          "max": 2047,
+          "wavelength_um": null
+        },
+        {
+          "sensor": "worldview",
+          "name": "nir2",
+          "source_name": "nir2",
+          "mean": 364.308,
+          "std": 196.878,
+          "min": 0,
+          "max": 2047,
+          "wavelength_um": null
+        },
+        {
+          "sensor": "pan",
+          "name": "pan",
+          "source_name": "pan",
+          "mean": 469.092,
+          "std": 266.975,
+          "min": 0,
+          "max": 2047,
+          "wavelength_um": null
+        }
+      ]
+    },
+    "spacenet7": {
+      "name": "spacenet7",
+      "task": "segmentation",
+      "num_classes": 3,
+      "multilabel": false,
+      "rgb_bands": [
+        "red",
+        "green",
+        "blue"
+      ],
+      "split_sizes": {
+        "train": 3500,
+        "val": 652,
+        "test": 1152
+      },
+      "num_channels": 3,
+      "sensors": [
+        "planet"
+      ],
+      "bands": [
+        {
+          "sensor": "planet",
+          "name": "red",
+          "source_name": "red",
+          "mean": 117.85,
+          "std": 61.9829,
+          "min": 0,
+          "max": 255,
+          "wavelength_um": null
+        },
+        {
+          "sensor": "planet",
+          "name": "green",
+          "source_name": "green",
+          "mean": 104.531,
+          "std": 49.7879,
+          "min": 0,
+          "max": 255,
+          "wavelength_um": null
+        },
+        {
+          "sensor": "planet",
+          "name": "blue",
+          "source_name": "blue",
+          "mean": 77.561,
+          "std": 46.01,
+          "min": 0,
+          "max": 255,
+          "wavelength_um": null
+        }
+      ]
+    },
+    "eurosat": {
+      "name": "eurosat",
+      "task": "classification",
+      "num_classes": 10,
+      "multilabel": false,
+      "rgb_bands": [
+        "red",
+        "green",
+        "blue"
+      ],
+      "split_sizes": {
+        "train": 16200,
+        "val": 5400,
+        "test": 5400
+      },
+      "num_channels": 13,
+      "sensors": [
+        "s2"
+      ],
+      "bands": [
+        {
+          "sensor": "s2",
+          "name": "coastal_aerosol",
+          "source_name": "B01",
+          "mean": 1354.41,
+          "std": 245.718,
+          "min": 816,
+          "max": 17720,
+          "wavelength_um": 0.443
+        },
+        {
+          "sensor": "s2",
+          "name": "blue",
+          "source_name": "B02",
+          "mean": 1118.24,
+          "std": 333.009,
+          "min": 0,
+          "max": 28000,
+          "wavelength_um": 0.49
+        },
+        {
+          "sensor": "s2",
+          "name": "green",
+          "source_name": "B03",
+          "mean": 1042.93,
+          "std": 395.094,
+          "min": 0,
+          "max": 28000,
+          "wavelength_um": 0.56
+        },
+        {
+          "sensor": "s2",
+          "name": "red",
+          "source_name": "B04",
+          "mean": 947.627,
+          "std": 593.752,
+          "min": 0,
+          "max": 28000,
+          "wavelength_um": 0.665
+        },
+        {
+          "sensor": "s2",
+          "name": "red_edge_1",
+          "source_name": "B05",
+          "mean": 1199.47,
+          "std": 566.418,
+          "min": 174,
+          "max": 23381,
+          "wavelength_um": 0.705
+        },
+        {
+          "sensor": "s2",
+          "name": "red_edge_2",
+          "source_name": "B06",
+          "mean": 1999.79,
+          "std": 861.185,
+          "min": 153,
+          "max": 27791,
+          "wavelength_um": 0.74
+        },
+        {
+          "sensor": "s2",
+          "name": "red_edge_3",
+          "source_name": "B07",
+          "mean": 2369.22,
+          "std": 1086.63,
+          "min": 128,
+          "max": 28001,
+          "wavelength_um": 0.783
+        },
+        {
+          "sensor": "s2",
+          "name": "nir",
+          "source_name": "B08",
+          "mean": 2296.83,
+          "std": 1117.98,
+          "min": 0,
+          "max": 28002,
+          "wavelength_um": 0.842
+        },
+        {
+          "sensor": "s2",
+          "name": "water_vapour",
+          "source_name": "B09",
+          "mean": 732.084,
+          "std": 404.921,
+          "min": 40,
+          "max": 15384,
+          "wavelength_um": 0.945
+        },
+        {
+          "sensor": "s2",
+          "name": "swir_cirrus",
+          "source_name": "B10",
+          "mean": 12.1133,
+          "std": 4.7759,
+          "min": 1,
+          "max": 183,
+          "wavelength_um": 1.375
+        },
+        {
+          "sensor": "s2",
+          "name": "swir_1",
+          "source_name": "B11",
+          "mean": 1819.01,
+          "std": 1002.59,
+          "min": 5,
+          "max": 24704,
+          "wavelength_um": 1.61
+        },
+        {
+          "sensor": "s2",
+          "name": "swir_2",
+          "source_name": "B12",
+          "mean": 1118.92,
+          "std": 761.305,
+          "min": 1,
+          "max": 22210,
+          "wavelength_um": 2.19
+        },
+        {
+          "sensor": "s2",
+          "name": "red_edge_4",
+          "source_name": "B8A",
+          "mean": 2594.14,
+          "std": 1231.59,
+          "min": 91,
+          "max": 28000,
+          "wavelength_um": 0.865
+        }
+      ]
+    },
+    "eurosat-spatial": {
+      "name": "eurosat-spatial",
+      "task": "classification",
+      "num_classes": 10,
+      "multilabel": false,
+      "rgb_bands": [
+        "red",
+        "green",
+        "blue"
+      ],
+      "split_sizes": {
+        "train": 16200,
+        "val": 5400,
+        "test": 5400
+      },
+      "num_channels": 13,
+      "sensors": [
+        "s2"
+      ],
+      "bands": [
+        {
+          "sensor": "s2",
+          "name": "coastal_aerosol",
+          "source_name": "B01",
+          "mean": 1354.41,
+          "std": 245.718,
+          "min": 816,
+          "max": 17720,
+          "wavelength_um": 0.443
+        },
+        {
+          "sensor": "s2",
+          "name": "blue",
+          "source_name": "B02",
+          "mean": 1118.24,
+          "std": 333.009,
+          "min": 0,
+          "max": 28000,
+          "wavelength_um": 0.49
+        },
+        {
+          "sensor": "s2",
+          "name": "green",
+          "source_name": "B03",
+          "mean": 1042.93,
+          "std": 395.094,
+          "min": 0,
+          "max": 28000,
+          "wavelength_um": 0.56
+        },
+        {
+          "sensor": "s2",
+          "name": "red",
+          "source_name": "B04",
+          "mean": 947.627,
+          "std": 593.752,
+          "min": 0,
+          "max": 28000,
+          "wavelength_um": 0.665
+        },
+        {
+          "sensor": "s2",
+          "name": "red_edge_1",
+          "source_name": "B05",
+          "mean": 1199.47,
+          "std": 566.418,
+          "min": 174,
+          "max": 23381,
+          "wavelength_um": 0.705
+        },
+        {
+          "sensor": "s2",
+          "name": "red_edge_2",
+          "source_name": "B06",
+          "mean": 1999.79,
+          "std": 861.185,
+          "min": 153,
+          "max": 27791,
+          "wavelength_um": 0.74
+        },
+        {
+          "sensor": "s2",
+          "name": "red_edge_3",
+          "source_name": "B07",
+          "mean": 2369.22,
+          "std": 1086.63,
+          "min": 128,
+          "max": 28001,
+          "wavelength_um": 0.783
+        },
+        {
+          "sensor": "s2",
+          "name": "nir",
+          "source_name": "B08",
+          "mean": 2296.83,
+          "std": 1117.98,
+          "min": 0,
+          "max": 28002,
+          "wavelength_um": 0.842
+        },
+        {
+          "sensor": "s2",
+          "name": "water_vapour",
+          "source_name": "B09",
+          "mean": 732.084,
+          "std": 404.921,
+          "min": 40,
+          "max": 15384,
+          "wavelength_um": 0.945
+        },
+        {
+          "sensor": "s2",
+          "name": "swir_cirrus",
+          "source_name": "B10",
+          "mean": 12.1133,
+          "std": 4.7759,
+          "min": 1,
+          "max": 183,
+          "wavelength_um": 1.375
+        },
+        {
+          "sensor": "s2",
+          "name": "swir_1",
+          "source_name": "B11",
+          "mean": 1819.01,
+          "std": 1002.59,
+          "min": 5,
+          "max": 24704,
+          "wavelength_um": 1.61
+        },
+        {
+          "sensor": "s2",
+          "name": "swir_2",
+          "source_name": "B12",
+          "mean": 1118.92,
+          "std": 761.305,
+          "min": 1,
+          "max": 22210,
+          "wavelength_um": 2.19
+        },
+        {
+          "sensor": "s2",
+          "name": "red_edge_4",
+          "source_name": "B8A",
+          "mean": 2594.14,
+          "std": 1231.59,
+          "min": 91,
+          "max": 28000,
+          "wavelength_um": 0.865
+        }
+      ]
+    },
+    "cashew": {
+      "name": "cashew",
+      "task": "segmentation",
+      "num_classes": 7,
+      "multilabel": false,
+      "rgb_bands": [
+        "red",
+        "green",
+        "blue"
+      ],
+      "split_sizes": {},
+      "num_channels": 13,
+      "sensors": [
+        "s2"
+      ],
+      "bands": [
+        {
+          "sensor": "s2",
+          "name": "coastal_aerosol",
+          "source_name": "coastal_aerosol",
+          "wavelength_um": 0.443
+        },
+        {
+          "sensor": "s2",
+          "name": "blue",
+          "source_name": "blue",
+          "wavelength_um": 0.49
+        },
+        {
+          "sensor": "s2",
+          "name": "green",
+          "source_name": "green",
+          "wavelength_um": 0.56
+        },
+        {
+          "sensor": "s2",
+          "name": "red",
+          "source_name": "red",
+          "wavelength_um": 0.665
+        },
+        {
+          "sensor": "s2",
+          "name": "red_edge_1",
+          "source_name": "red_edge_1",
+          "wavelength_um": 0.705
+        },
+        {
+          "sensor": "s2",
+          "name": "red_edge_2",
+          "source_name": "red_edge_2",
+          "wavelength_um": 0.74
+        },
+        {
+          "sensor": "s2",
+          "name": "red_edge_3",
+          "source_name": "red_edge_3",
+          "wavelength_um": 0.783
+        },
+        {
+          "sensor": "s2",
+          "name": "nir",
+          "source_name": "nir",
+          "wavelength_um": 0.842
+        },
+        {
+          "sensor": "s2",
+          "name": "red_edge_4",
+          "source_name": "red_edge_4",
+          "wavelength_um": 0.865
+        },
+        {
+          "sensor": "s2",
+          "name": "water_vapor",
+          "source_name": "water_vapor",
+          "wavelength_um": 0.945
+        },
+        {
+          "sensor": "s2",
+          "name": "cirrus",
+          "source_name": "cirrus",
+          "wavelength_um": 1.375
+        },
+        {
+          "sensor": "s2",
+          "name": "swir_1",
+          "source_name": "swir_1",
+          "wavelength_um": 1.61
+        },
+        {
+          "sensor": "s2",
+          "name": "swir_2",
+          "source_name": "swir_2",
+          "wavelength_um": 2.19
+        }
+      ],
+      "_source": "manual-geobench2"
+    },
+    "sa_crop_type": {
+      "name": "sa_crop_type",
+      "task": "segmentation",
+      "num_classes": 10,
+      "multilabel": false,
+      "rgb_bands": [
+        "red",
+        "green",
+        "blue"
+      ],
+      "split_sizes": {},
+      "num_channels": 13,
+      "sensors": [
+        "s2"
+      ],
+      "bands": [
+        {
+          "sensor": "s2",
+          "name": "coastal_aerosol",
+          "source_name": "coastal_aerosol",
+          "wavelength_um": 0.443
+        },
+        {
+          "sensor": "s2",
+          "name": "blue",
+          "source_name": "blue",
+          "wavelength_um": 0.49
+        },
+        {
+          "sensor": "s2",
+          "name": "green",
+          "source_name": "green",
+          "wavelength_um": 0.56
+        },
+        {
+          "sensor": "s2",
+          "name": "red",
+          "source_name": "red",
+          "wavelength_um": 0.665
+        },
+        {
+          "sensor": "s2",
+          "name": "red_edge_1",
+          "source_name": "red_edge_1",
+          "wavelength_um": 0.705
+        },
+        {
+          "sensor": "s2",
+          "name": "red_edge_2",
+          "source_name": "red_edge_2",
+          "wavelength_um": 0.74
+        },
+        {
+          "sensor": "s2",
+          "name": "red_edge_3",
+          "source_name": "red_edge_3",
+          "wavelength_um": 0.783
+        },
+        {
+          "sensor": "s2",
+          "name": "nir",
+          "source_name": "nir",
+          "wavelength_um": 0.842
+        },
+        {
+          "sensor": "s2",
+          "name": "red_edge_4",
+          "source_name": "red_edge_4",
+          "wavelength_um": 0.865
+        },
+        {
+          "sensor": "s2",
+          "name": "water_vapor",
+          "source_name": "water_vapor",
+          "wavelength_um": 0.945
+        },
+        {
+          "sensor": "s2",
+          "name": "cirrus",
+          "source_name": "cirrus",
+          "wavelength_um": 1.375
+        },
+        {
+          "sensor": "s2",
+          "name": "swir_1",
+          "source_name": "swir_1",
+          "wavelength_um": 1.61
+        },
+        {
+          "sensor": "s2",
+          "name": "swir_2",
+          "source_name": "swir_2",
+          "wavelength_um": 2.19
+        }
+      ],
+      "_source": "manual-geobench2"
+    },
+    "nz_cattle": {
+      "name": "nz_cattle",
+      "task": "segmentation",
+      "num_classes": 2,
+      "multilabel": false,
+      "rgb_bands": [
+        "red",
+        "green",
+        "blue"
+      ],
+      "split_sizes": {},
+      "num_channels": 3,
+      "sensors": [
+        "aerial"
+      ],
+      "bands": [
+        {
+          "sensor": "aerial",
+          "name": "blue",
+          "source_name": "blue",
+          "wavelength_um": 0.45
+        },
+        {
+          "sensor": "aerial",
+          "name": "green",
+          "source_name": "green",
+          "wavelength_um": 0.55
+        },
+        {
+          "sensor": "aerial",
+          "name": "red",
+          "source_name": "red",
+          "wavelength_um": 0.65
+        }
+      ],
+      "_source": "manual-geobench2"
+    },
+    "neontree": {
+      "name": "neontree",
+      "task": "segmentation",
+      "num_classes": 2,
+      "multilabel": false,
+      "rgb_bands": [
+        "red",
+        "green",
+        "blue"
+      ],
+      "split_sizes": {},
+      "num_channels": 5,
+      "sensors": [
+        "aerial"
+      ],
+      "bands": [
+        {
+          "sensor": "aerial",
+          "name": "blue",
+          "source_name": "blue",
+          "wavelength_um": 0.45
+        },
+        {
+          "sensor": "aerial",
+          "name": "green",
+          "source_name": "green",
+          "wavelength_um": 0.55
+        },
+        {
+          "sensor": "aerial",
+          "name": "red",
+          "source_name": "red",
+          "wavelength_um": 0.65
+        },
+        {
+          "sensor": "aerial",
+          "name": "nir",
+          "source_name": "nir",
+          "wavelength_um": 0.83
+        },
+        {
+          "sensor": "aerial",
+          "name": "elevation",
+          "source_name": "elevation",
+          "wavelength_um": null
+        }
+      ],
+      "_source": "manual-geobench2"
+    },
+    "chesapeake": {
+      "name": "chesapeake",
+      "task": "segmentation",
+      "num_classes": 7,
+      "multilabel": false,
+      "rgb_bands": [
+        "red",
+        "green",
+        "blue"
+      ],
+      "split_sizes": {},
+      "num_channels": 4,
+      "sensors": [
+        "aerial"
+      ],
+      "bands": [
+        {
+          "sensor": "aerial",
+          "name": "blue",
+          "source_name": "blue",
+          "wavelength_um": 0.45
+        },
+        {
+          "sensor": "aerial",
+          "name": "green",
+          "source_name": "green",
+          "wavelength_um": 0.55
+        },
+        {
+          "sensor": "aerial",
+          "name": "red",
+          "source_name": "red",
+          "wavelength_um": 0.65
+        },
+        {
+          "sensor": "aerial",
+          "name": "nir",
+          "source_name": "nir",
+          "wavelength_um": 0.83
+        }
+      ],
+      "_source": "manual-geobench2"
+    },
+    "pv4ger_seg": {
+      "name": "pv4ger_seg",
+      "task": "segmentation",
+      "num_classes": 2,
+      "multilabel": false,
+      "rgb_bands": [
+        "red",
+        "green",
+        "blue"
+      ],
+      "split_sizes": {},
+      "num_channels": 3,
+      "sensors": [
+        "aerial"
+      ],
+      "bands": [
+        {
+          "sensor": "aerial",
+          "name": "blue",
+          "source_name": "blue",
+          "wavelength_um": 0.45
+        },
+        {
+          "sensor": "aerial",
+          "name": "green",
+          "source_name": "green",
+          "wavelength_um": 0.55
+        },
+        {
+          "sensor": "aerial",
+          "name": "red",
+          "source_name": "red",
+          "wavelength_um": 0.65
+        }
+      ],
+      "_source": "manual-geobench2"
+    },
+    "substations": {
+      "name": "substations",
+      "task": "segmentation",
+      "num_classes": 2,
+      "multilabel": false,
+      "rgb_bands": [
+        "red",
+        "green",
+        "blue"
+      ],
+      "split_sizes": {},
+      "num_channels": 13,
+      "sensors": [
+        "s2"
+      ],
+      "bands": [
+        {
+          "sensor": "s2",
+          "name": "coastal_aerosol",
+          "source_name": "coastal_aerosol",
+          "wavelength_um": 0.443
+        },
+        {
+          "sensor": "s2",
+          "name": "blue",
+          "source_name": "blue",
+          "wavelength_um": 0.49
+        },
+        {
+          "sensor": "s2",
+          "name": "green",
+          "source_name": "green",
+          "wavelength_um": 0.56
+        },
+        {
+          "sensor": "s2",
+          "name": "red",
+          "source_name": "red",
+          "wavelength_um": 0.665
+        },
+        {
+          "sensor": "s2",
+          "name": "red_edge_1",
+          "source_name": "red_edge_1",
+          "wavelength_um": 0.705
+        },
+        {
+          "sensor": "s2",
+          "name": "red_edge_2",
+          "source_name": "red_edge_2",
+          "wavelength_um": 0.74
+        },
+        {
+          "sensor": "s2",
+          "name": "red_edge_3",
+          "source_name": "red_edge_3",
+          "wavelength_um": 0.783
+        },
+        {
+          "sensor": "s2",
+          "name": "nir",
+          "source_name": "nir",
+          "wavelength_um": 0.842
+        },
+        {
+          "sensor": "s2",
+          "name": "red_edge_4",
+          "source_name": "red_edge_4",
+          "wavelength_um": 0.865
+        },
+        {
+          "sensor": "s2",
+          "name": "water_vapor",
+          "source_name": "water_vapor",
+          "wavelength_um": 0.945
+        },
+        {
+          "sensor": "s2",
+          "name": "cirrus",
+          "source_name": "cirrus",
+          "wavelength_um": 1.375
+        },
+        {
+          "sensor": "s2",
+          "name": "swir_1",
+          "source_name": "swir_1",
+          "wavelength_um": 1.61
+        },
+        {
+          "sensor": "s2",
+          "name": "swir_2",
+          "source_name": "swir_2",
+          "wavelength_um": 2.19
+        }
+      ],
+      "_source": "manual-geobench2"
+    },
+    "everwatch": {
+      "name": "everwatch",
+      "task": "segmentation",
+      "num_classes": 9,
+      "multilabel": false,
+      "rgb_bands": [
+        "red",
+        "green",
+        "blue"
+      ],
+      "split_sizes": {},
+      "num_channels": 3,
+      "sensors": [
+        "aerial"
+      ],
+      "bands": [
+        {
+          "sensor": "aerial",
+          "name": "blue",
+          "source_name": "blue",
+          "wavelength_um": 0.45
+        },
+        {
+          "sensor": "aerial",
+          "name": "green",
+          "source_name": "green",
+          "wavelength_um": 0.55
+        },
+        {
+          "sensor": "aerial",
+          "name": "red",
+          "source_name": "red",
+          "wavelength_um": 0.65
+        }
+      ],
+      "_source": "manual-geobench2"
+    },
+    "biomassters": {
+      "name": "biomassters",
+      "task": "regression",
+      "multilabel": false,
+      "num_classes": 1,
+      "num_channels": 12,
+      "sensors": [
+        "s1",
+        "s2"
+      ],
+      "rgb_bands": [
+        "b04",
+        "b03",
+        "b02"
+      ],
+      "bands": [
+        {
+          "name": "b02",
+          "sensor": "s2",
+          "wavelength_um": 0.49
+        },
+        {
+          "name": "b03",
+          "sensor": "s2",
+          "wavelength_um": 0.56
+        },
+        {
+          "name": "b04",
+          "sensor": "s2",
+          "wavelength_um": 0.665
+        },
+        {
+          "name": "b05",
+          "sensor": "s2",
+          "wavelength_um": 0.705
+        },
+        {
+          "name": "b06",
+          "sensor": "s2",
+          "wavelength_um": 0.74
+        },
+        {
+          "name": "b07",
+          "sensor": "s2",
+          "wavelength_um": 0.783
+        },
+        {
+          "name": "b08",
+          "sensor": "s2",
+          "wavelength_um": 0.842
+        },
+        {
+          "name": "b8a",
+          "sensor": "s2",
+          "wavelength_um": 0.865
+        },
+        {
+          "name": "b11",
+          "sensor": "s2",
+          "wavelength_um": 1.61
+        },
+        {
+          "name": "b12",
+          "sensor": "s2",
+          "wavelength_um": 2.19
+        },
+        {
+          "name": "vv",
+          "sensor": "s1",
+          "wavelength_um": null
+        },
+        {
+          "name": "vh",
+          "sensor": "s1",
+          "wavelength_um": null
+        }
+      ],
+      "source": "external_handauthored"
+    },
+    "mados": {
+      "name": "mados",
+      "task": "segmentation",
+      "multilabel": false,
+      "num_classes": 15,
+      "num_channels": 11,
+      "sensors": [
+        "s2"
+      ],
+      "rgb_bands": [
+        "b04",
+        "b03",
+        "b02"
+      ],
+      "bands": [
+        {
+          "name": "b01",
+          "sensor": "s2",
+          "wavelength_um": 0.443
+        },
+        {
+          "name": "b02",
+          "sensor": "s2",
+          "wavelength_um": 0.49
+        },
+        {
+          "name": "b03",
+          "sensor": "s2",
+          "wavelength_um": 0.56
+        },
+        {
+          "name": "b04",
+          "sensor": "s2",
+          "wavelength_um": 0.665
+        },
+        {
+          "name": "b05",
+          "sensor": "s2",
+          "wavelength_um": 0.705
+        },
+        {
+          "name": "b06",
+          "sensor": "s2",
+          "wavelength_um": 0.74
+        },
+        {
+          "name": "b07",
+          "sensor": "s2",
+          "wavelength_um": 0.783
+        },
+        {
+          "name": "b08",
+          "sensor": "s2",
+          "wavelength_um": 0.842
+        },
+        {
+          "name": "b8a",
+          "sensor": "s2",
+          "wavelength_um": 0.865
+        },
+        {
+          "name": "b11",
+          "sensor": "s2",
+          "wavelength_um": 1.61
+        },
+        {
+          "name": "b12",
+          "sensor": "s2",
+          "wavelength_um": 2.19
+        }
+      ],
+      "source": "external_handauthored"
+    },
+    "sen1floods11": {
+      "name": "sen1floods11",
+      "task": "segmentation",
+      "multilabel": false,
+      "num_classes": 3,
+      "num_channels": 12,
+      "sensors": [
+        "s1",
+        "s2"
+      ],
+      "rgb_bands": [
+        "b04",
+        "b03",
+        "b02"
+      ],
+      "bands": [
+        {
+          "name": "b02",
+          "sensor": "s2",
+          "wavelength_um": 0.49
+        },
+        {
+          "name": "b03",
+          "sensor": "s2",
+          "wavelength_um": 0.56
+        },
+        {
+          "name": "b04",
+          "sensor": "s2",
+          "wavelength_um": 0.665
+        },
+        {
+          "name": "b05",
+          "sensor": "s2",
+          "wavelength_um": 0.705
+        },
+        {
+          "name": "b06",
+          "sensor": "s2",
+          "wavelength_um": 0.74
+        },
+        {
+          "name": "b07",
+          "sensor": "s2",
+          "wavelength_um": 0.783
+        },
+        {
+          "name": "b08",
+          "sensor": "s2",
+          "wavelength_um": 0.842
+        },
+        {
+          "name": "b8a",
+          "sensor": "s2",
+          "wavelength_um": 0.865
+        },
+        {
+          "name": "b11",
+          "sensor": "s2",
+          "wavelength_um": 1.61
+        },
+        {
+          "name": "b12",
+          "sensor": "s2",
+          "wavelength_um": 2.19
+        },
+        {
+          "name": "vv",
+          "sensor": "s1",
+          "wavelength_um": null
+        },
+        {
+          "name": "vh",
+          "sensor": "s1",
+          "wavelength_um": null
+        }
+      ],
+      "source": "external_handauthored"
+    },
+    "xview2": {
+      "name": "xview2",
+      "task": "segmentation",
+      "multilabel": false,
+      "num_classes": 5,
+      "num_channels": 3,
+      "sensors": [
+        "maxar"
+      ],
+      "rgb_bands": [
+        "red",
+        "green",
+        "blue"
+      ],
+      "bands": [
+        {
+          "name": "red",
+          "sensor": "maxar",
+          "wavelength_um": 0.66
+        },
+        {
+          "name": "green",
+          "sensor": "maxar",
+          "wavelength_um": 0.56
+        },
+        {
+          "name": "blue",
+          "sensor": "maxar",
+          "wavelength_um": 0.48
+        }
+      ],
+      "source": "external_handauthored"
+    },
+    "fbp": {
+      "name": "fbp",
+      "task": "segmentation",
+      "multilabel": false,
+      "num_classes": 24,
+      "num_channels": 4,
+      "sensors": [
+        "gaofen2"
+      ],
+      "rgb_bands": [
+        "red",
+        "green",
+        "blue"
+      ],
+      "bands": [
+        {
+          "name": "red",
+          "sensor": "gaofen2",
+          "wavelength_um": 0.66
+        },
+        {
+          "name": "green",
+          "sensor": "gaofen2",
+          "wavelength_um": 0.56
+        },
+        {
+          "name": "blue",
+          "sensor": "gaofen2",
+          "wavelength_um": 0.48
+        },
+        {
+          "name": "nir",
+          "sensor": "gaofen2",
+          "wavelength_um": 0.83
+        }
+      ],
+      "source": "external_handauthored"
+    },
+    "cropmap": {
+      "name": "cropmap",
+      "task": "segmentation",
+      "multilabel": false,
+      "num_classes": 5,
+      "num_channels": 12,
+      "sensors": [
+        "s1",
+        "s2",
+        "planet"
+      ],
+      "rgb_bands": [
+        "b04",
+        "b03",
+        "b02"
+      ],
+      "bands": [
+        {
+          "name": "b02",
+          "sensor": "s2",
+          "wavelength_um": 0.49
+        },
+        {
+          "name": "b03",
+          "sensor": "s2",
+          "wavelength_um": 0.56
+        },
+        {
+          "name": "b04",
+          "sensor": "s2",
+          "wavelength_um": 0.665
+        },
+        {
+          "name": "b05",
+          "sensor": "s2",
+          "wavelength_um": 0.705
+        },
+        {
+          "name": "b06",
+          "sensor": "s2",
+          "wavelength_um": 0.74
+        },
+        {
+          "name": "b07",
+          "sensor": "s2",
+          "wavelength_um": 0.783
+        },
+        {
+          "name": "b08",
+          "sensor": "s2",
+          "wavelength_um": 0.842
+        },
+        {
+          "name": "b8a",
+          "sensor": "s2",
+          "wavelength_um": 0.865
+        },
+        {
+          "name": "b11",
+          "sensor": "s2",
+          "wavelength_um": 1.61
+        },
+        {
+          "name": "b12",
+          "sensor": "s2",
+          "wavelength_um": 2.19
+        },
+        {
+          "name": "vv",
+          "sensor": "s1",
+          "wavelength_um": null
+        },
+        {
+          "name": "vh",
+          "sensor": "s1",
+          "wavelength_um": null
+        }
+      ],
+      "source": "external_handauthored"
+    },
+    "ai4smallfarms": {
+      "name": "ai4smallfarms",
+      "task": "segmentation",
+      "multilabel": false,
+      "num_classes": 2,
+      "num_channels": 4,
+      "sensors": [
+        "s2"
+      ],
+      "rgb_bands": [
+        "b04",
+        "b03",
+        "b02"
+      ],
+      "bands": [
+        {
+          "name": "b02",
+          "sensor": "s2",
+          "wavelength_um": 0.49
+        },
+        {
+          "name": "b03",
+          "sensor": "s2",
+          "wavelength_um": 0.56
+        },
+        {
+          "name": "b04",
+          "sensor": "s2",
+          "wavelength_um": 0.665
+        },
+        {
+          "name": "b08",
+          "sensor": "s2",
+          "wavelength_um": 0.842
+        }
+      ],
+      "source": "external_handauthored"
+    }
+  }
+}

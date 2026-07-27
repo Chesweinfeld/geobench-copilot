@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* RaptorText (Klim, paid) intentionally not loaded — display type falls through to Schibsted Grotesk (loaded above). */
+:root{
+--bg:#f4f4f2;--surface:#fff;--ink:#1a1a1a;--ink-soft:#46463f;--muted:#6f6f68;--faint:#9a9a92;--line:rgba(26,26,26,.12);--chip:#eceae4;--chip-line:rgba(26,26,26,.1);--bar-muted:#c7c5bd;
+--rail:#1c1c1a;--rail2:#26261f;--rail-ink:#ecebe3;--rail-muted:#a2a097;--rail-faint:#7f7d73;--rail-line:rgba(236,235,227,.12);--rail-chip:rgba(236,235,227,.07);--knob-track:rgba(236,235,227,.14);
+--warn-bg:#ecebe4;--warn-line:rgba(26,26,26,.13);--warn-ink:#3a3a34;
+}
+[data-theme="dark"]{
+--bg:#131312;--surface:#1e1e1c;--ink:#ecebe3;--ink-soft:#c9c7bf;--muted:#9a988f;--faint:#75746b;--line:rgba(236,235,227,.13);--chip:#2a2a26;--chip-line:rgba(236,235,227,.1);--bar-muted:#4b4b45;
+--rail:#0d0d0c;--rail2:#1a1a17;--rail-ink:#ecebe3;--rail-muted:#8f8d84;--rail-faint:#696860;--rail-line:rgba(236,235,227,.1);--rail-chip:rgba(236,235,227,.06);--knob-track:rgba(236,235,227,.12);
+--warn-bg:#232320;--warn-line:rgba(236,235,227,.12);--warn-ink:#c9c7bf;
+}
+*{box-sizing:border-box}
+*{transition:background-color .45s ease,border-color .45s ease,color .35s ease,fill .35s ease,box-shadow .45s ease}
+html,body{margin:0;height:100%}
+body{font-family:"RaptorText","Schibsted Grotesk",system-ui,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+a{color:var(--ink);text-decoration:underline}
+a:hover{opacity:.7}
+::selection{background:rgba(128,128,120,.28)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
+@keyframes grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes pop{0%{transform:scale(0);opacity:0}70%{transform:scale(1.25)}100%{transform:scale(1);opacity:1}}
+.rail-scroll::-webkit-scrollbar,.canvas-scroll::-webkit-scrollbar,.code-scroll::-webkit-scrollbar{width:8px;height:8px}
+.rail-scroll::-webkit-scrollbar-thumb,.code-scroll::-webkit-scrollbar-thumb{background:rgba(236,235,227,.16);border-radius:8px}
+.canvas-scroll::-webkit-scrollbar-thumb{background:rgba(128,128,120,.3);border-radius:8px}
+[data-term]:hover{opacity:.6}
+</style>
+</helmet>
+<div data-theme="{{ theme }}" style="display:flex;flex-direction:column;height:100vh;overflow:hidden;background:var(--bg)">
+  <header style="flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:58px;background:var(--rail);border-bottom:1px solid var(--rail-line);color:var(--rail-ink)">
+    <div style="display:flex;align-items:center;gap:14px;color:var(--rail-ink)">
+      <svg height="21" viewBox="0 0 303 124" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style="display:block"><path d="M50.644 123.684C22.72 123.684 0 100.964 0 73.04s22.72-50.644 50.644-50.644 50.645 22.72 50.645 50.644-22.72 50.644-50.645 50.644zm0-78.756c-15.497 0-28.102 12.605-28.102 28.103 0 15.497 12.605 28.102 28.102 28.102 15.498 0 28.103-12.605 28.103-28.102 0-15.498-12.605-28.103-28.103-28.103z"/><path fill-rule="evenodd" clip-rule="evenodd" d="M179.435 31.122a50.488 50.488 0 00-28.366-8.681c-27.999 0-50.78 22.781-50.78 50.78 0 27.998 22.781 50.779 50.78 50.779 27.998 0 50.779-22.781 50.779-50.78 0-.868-.022-1.73-.065-2.588V.49h-22.348v30.631zm-56.544 42.089c0-15.539 12.639-28.177 28.178-28.177 15.539 0 28.177 12.638 28.177 28.177s-12.638 28.177-28.177 28.177-28.178-12.638-28.178-28.177z"/><path fill-rule="evenodd" clip-rule="evenodd" d="M251.638 101.398c8.297 0 15.765-3.607 20.926-9.333h26.199C291.257 110.759 272.968 124 251.628 124c-27.998 0-50.779-22.781-50.779-50.78 0-27.998 22.781-50.78 50.779-50.78 27.999 0 50.78 22.782 50.78 50.78 0 3.636-.386 7.186-1.121 10.605h-75.756c4.197 10.297 14.317 17.573 26.107 17.573zm-26.794-36.907c3.682-11.279 14.3-19.448 26.794-19.448 12.493 0 23.111 8.17 26.794 19.447h-53.588z"/></svg>
+      <span style="width:1px;height:20px;background:var(--rail-line)"></span>
+      <div style="font-weight:600;font-size:15px;letter-spacing:-.01em">GeoBench Copilot</div>
+      <div style="font-family:'IBM Plex Mono';font-size:10.5px;color:var(--rail-muted);border:1px solid var(--rail-line);padding:2px 7px;border-radius:100px">torchgeo-bench</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:16px;font-size:12.5px;color:var(--rail-muted)">
+      <span style="display:flex;align-items:center;gap:6px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 100 20 10 10 0 000-20z"/><path d="M12 8v4l3 2"/></svg>underlined = definition</span>
+      <span style="display:flex;align-items:center;gap:6px"><span title="{{ statusTitle }}" style="width:7px;height:7px;border-radius:50%;background:{{ statusDot }};flex:none"></span>{{ statsLabel }}</span>
+      <button onClick="{{ toggleTheme }}" title="Toggle theme" style="position:relative;width:52px;height:26px;border-radius:100px;border:1px solid var(--rail-line);background:var(--knob-track);cursor:pointer;padding:0;flex:none">
+        <span style="position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:var(--rail-ink);display:flex;align-items:center;justify-content:center;transition:transform .38s cubic-bezier(.4,0,.2,1);transform:{{ knobTransform }}">
+          <sc-if value="{{ isDark }}" hint-placeholder-val="{{ false }}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--rail)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg></sc-if>
+          <sc-if value="{{ isLight }}" hint-placeholder-val="{{ true }}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--rail)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 1.5v2M12 20.5v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1.5 12h2M20.5 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/></svg></sc-if>
+        </span>
+      </button>
+      <sc-if value="{{ isDone }}" hint-placeholder-val="{{ false }}"><button onClick="{{ reset }}" style="font-family:'RaptorText','Schibsted Grotesk',sans-serif;font-size:12.5px;color:var(--rail-muted);background:transparent;border:1px solid var(--rail-line);padding:5px 12px;border-radius:8px;cursor:pointer">new search</button></sc-if>
+    </div>
+  </header>
+
+  <div style="flex:1;display:grid;grid-template-columns:404px 1fr;min-height:0">
+
+    <!-- LEFT AGENT RAIL -->
+    <aside class="rail-scroll" onClick="{{ onTermClick }}" style="background:var(--rail);color:var(--rail-ink);border-right:1px solid var(--rail-line);overflow-y:auto;padding:26px 24px 40px">
+
+      <sc-if value="{{ isUpload }}" hint-placeholder-val="{{ true }}">
+        <div>
+          <div style="font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.14em;color:var(--rail-faint);margin-bottom:10px">new task</div>
+          <h1 style="font-weight:600;font-size:27px;line-height:1.08;letter-spacing:-.025em;margin:0 0 8px">what are you mapping?</h1>
+          <p style="font-size:13px;line-height:1.55;color:var(--rail-muted);margin:0 0 24px">Drop a dataset and describe the task. I'll find the closest GeoBench benchmarks, the models that won them, and write a torchgeo-bench wrapper for your data.</p>
+
+          <div onClick="{{ pickFile }}" onDrop="{{ onDrop }}" onDragOver="{{ onDragOver }}" style="cursor:pointer;border:1.5px dashed var(--rail-line);border-radius:14px;padding:18px;margin-bottom:18px" style-hover="border-color:var(--rail-ink)">
+            <sc-if value="{{ attached }}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex;align-items:flex-start;gap:12px">
+                <div style="flex:none;width:38px;height:38px;border-radius:9px;background:var(--rail-chip);display:flex;align-items:center;justify-content:center">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--rail-ink)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h9l3 3h4v13H4z"/><circle cx="12" cy="13" r="2.5"/></svg>
+                </div>
+                <div style="min-width:0;flex:1">
+                  <div style="display:flex;align-items:center;gap:7px"><span style="font-family:'IBM Plex Mono';font-size:13px;font-weight:500;color:var(--rail-ink)">{{ inspFilename }}</span><span style="width:6px;height:6px;border-radius:50%;background:var(--rail-ink)"></span></div>
+                  <div style="font-size:11.5px;color:var(--rail-muted);margin-top:3px">{{ inspSummary }}</div>
+                  <div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:9px">
+                    <sc-for list="{{ inspBadges }}" as="b" hint-placeholder-count="4">
+                      <span style="font-family:'IBM Plex Mono';font-size:10px;color:var(--rail-muted);background:var(--rail-chip);border:1px solid var(--rail-line);padding:2px 6px;border-radius:5px">{{ b }}</span>
+                    </sc-for>
+                  </div>
+                </div>
+              </div>
+            </sc-if>
+            <sc-if value="{{ notAttached }}" hint-placeholder-val="{{ false }}">
+              <div style="text-align:center;padding:8px 4px">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--rail-faint)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:8px"><path d="M12 16V4m0 0l-4 4m4-4l4 4"/><path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>
+                <div style="font-size:13px;color:var(--rail-muted)">Drop a dataset .zip or click to browse</div>
+                <div style="font-size:11px;color:var(--rail-faint);margin-top:3px">.zip of chips in class folders (or images + masks) — or a single image/.csv/.geojson/.kml file. A GeoJSON/KML with no imagery auto-fetches real Sentinel-2 chips for its geometries.</div>
+              </div>
+            </sc-if>
+          </div>
+
+          <label style="display:block;font-size:12px;color:var(--rail-muted);margin-bottom:7px">Describe your task</label>
+          <textarea value="{{ task }}" onInput="{{ onTaskInput }}" rows="3" placeholder="e.g. detecting wind farms in Sentinel-2 imagery" style="width:100%;resize:vertical;font-family:'RaptorText','Schibsted Grotesk',sans-serif;font-size:13.5px;line-height:1.5;color:var(--rail-ink);background:var(--rail2);border:1px solid var(--rail-line);border-radius:11px;padding:11px 12px;outline:none"></textarea>
+
+          <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:11px">
+            <sc-for list="{{ examples }}" as="ex" hint-placeholder-count="4">
+              <button onClick="{{ ex.pick }}" style="font-family:'RaptorText','Schibsted Grotesk',sans-serif;font-size:11.5px;color:var(--rail-muted);background:var(--rail-chip);border:1px solid var(--rail-line);padding:5px 10px;border-radius:100px;cursor:pointer" style-hover="border-color:var(--rail-ink);color:var(--rail-ink)">{{ ex.label }}</button>
+            </sc-for>
+          </div>
+
+          <button onClick="{{ run }}" style="margin-top:24px;width:100%;font-family:'RaptorText','Schibsted Grotesk',sans-serif;font-weight:600;font-size:14.5px;color:var(--rail);background:var(--rail-ink);border:none;padding:14px;border-radius:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px" style-hover="opacity:.88">find relevant experiments
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--rail)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+          <button onClick="{{ runSample }}" style="margin-top:10px;width:100%;font-family:'RaptorText','Schibsted Grotesk',sans-serif;font-size:12px;color:var(--rail-muted);background:transparent;border:none;padding:4px;cursor:pointer;text-decoration:underline;text-underline-offset:3px" style-hover="color:var(--rail-ink)">no dataset handy? watch a sample walkthrough →</button>
+          <sc-if value="{{ hasError }}" hint-placeholder-val="{{ false }}">
+            <div style="margin-top:12px;font-size:12px;line-height:1.5;color:var(--rail-ink);background:var(--rail-chip);border:1px solid var(--rail-line);border-radius:10px;padding:10px 12px">⚠ {{ error }}</div>
+          </sc-if>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ started }}" hint-placeholder-val="{{ false }}">
+        <div>
+          <div style="display:flex;align-items:flex-start;gap:11px;padding:12px;background:var(--rail2);border:1px solid var(--rail-line);border-radius:12px;margin-bottom:22px">
+            <div style="flex:none;width:34px;height:34px;border-radius:8px;background:var(--rail-chip);display:flex;align-items:center;justify-content:center">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--rail-ink)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h9l3 3h4v13H4z"/><circle cx="12" cy="13" r="2.5"/></svg>
+            </div>
+            <div style="min-width:0">
+              <div style="font-family:'IBM Plex Mono';font-size:12.5px;color:var(--rail-ink)">{{ inspFilename }}</div>
+              <div style="font-size:11px;color:var(--rail-muted);margin-top:2px">{{ task }}</div>
+            </div>
+          </div>
+
+          <sc-if value="{{ hasImportNote }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;gap:9px;align-items:flex-start;padding:10px 12px;background:var(--rail-chip);border:1px solid var(--rail-line);border-radius:10px;margin:-14px 0 20px">
+              <span style="font-family:'IBM Plex Mono';font-size:9.5px;font-weight:500;color:var(--rail);background:var(--rail-ink);padding:2px 7px;border-radius:100px;flex:none;margin-top:1px">AUTO-FETCHED</span>
+              <span style="font-size:11px;line-height:1.5;color:var(--rail-muted)">{{ importNote }}</span>
+            </div>
+          </sc-if>
+
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px">
+            <span style="font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.14em;color:var(--rail-faint)">agent reasoning</span>
+            <sc-if value="{{ isSample }}" hint-placeholder-val="{{ false }}"><span style="font-family:'IBM Plex Mono';font-size:9px;font-weight:500;letter-spacing:.08em;color:var(--rail);background:var(--rail-muted);padding:2px 7px;border-radius:100px">SAMPLE</span></sc-if>
+          </div>
+
+          <sc-if value="{{ hasConnNote }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;gap:8px;align-items:center;margin:-6px 0 14px;padding:8px 11px;background:var(--rail-chip);border:1px solid var(--rail-line);border-radius:9px;font-size:11.5px;color:var(--rail-muted);animation:fadeIn .3s both">
+              <span style="flex:none;width:12px;height:12px;border-radius:50%;border:2px solid var(--rail-line);border-top-color:var(--rail-muted);animation:spin .9s linear infinite"></span>{{ connNote }}
+            </div>
+          </sc-if>
+
+          <div style="display:flex;flex-direction:column;gap:2px">
+            <sc-for list="{{ steps }}" as="s" hint-placeholder-count="7">
+              <div style="display:flex;gap:12px;align-items:flex-start;padding-bottom:14px;position:relative">
+                <div style="flex:none;display:flex;flex-direction:column;align-items:center;align-self:stretch">
+                  <sc-if value="{{ s.isDone }}" hint-placeholder-val="{{ true }}"><span style="flex:none;width:20px;height:20px;border-radius:50%;background:var(--rail-ink);display:flex;align-items:center;justify-content:center;animation:pop .3s both"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--rail)" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span></sc-if>
+                  <sc-if value="{{ s.isActive }}" hint-placeholder-val="{{ false }}"><span style="flex:none;width:20px;height:20px;border-radius:50%;border:2.5px solid var(--rail-line);border-top-color:var(--rail-ink);animation:spin .8s linear infinite"></span></sc-if>
+                  <sc-if value="{{ s.isPending }}" hint-placeholder-val="{{ false }}"><span style="flex:none;width:20px;height:20px;border-radius:50%;border:2px solid var(--rail-line)"></span></sc-if>
+                  <span style="width:2px;flex:1;background:var(--rail-line);margin-top:4px"></span>
+                </div>
+                <div style="padding-top:1px">
+                  <div style="font-size:13.5px;font-weight:500;color:{{ s.labelColor }}">{{ s.label }}</div>
+                  <sc-if value="{{ s.showDetail }}" hint-placeholder-val="{{ false }}"><div style="font-family:'IBM Plex Mono';font-size:11.5px;color:var(--rail-muted);margin-top:4px;line-height:1.55;animation:fadeIn .3s both"><sc-for list="{{ s.detailRuns }}" as="r" hint-placeholder-count="3"><span data-term="{{ r.term }}" style="{{ r.style }}">{{ r.text }}</span></sc-for></div></sc-if>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+
+          <sc-if value="{{ isDone }}" hint-placeholder-val="{{ false }}">
+            <div style="margin-top:8px;padding:12px 14px;background:var(--rail-chip);border:1px solid var(--rail-line);border-radius:11px;animation:fadeUp .4s both">
+              <div style="font-size:12.5px;color:var(--rail-muted);line-height:1.55"><b style="color:var(--rail-ink)">Done.</b> {{ doneMsg }}</div>
+            </div>
+          </sc-if>
+        </div>
+      </sc-if>
+    </aside>
+
+    <!-- RIGHT RESULTS CANVAS -->
+    <main class="canvas-scroll" onClick="{{ onTermClick }}" style="overflow-y:auto;padding:32px 36px 64px;background:var(--bg)">
+
+      <sc-if value="{{ isUpload }}" hint-placeholder-val="{{ true }}">
+        <div style="height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:var(--faint)">
+          <svg width="58" height="58" viewBox="0 0 24 24" fill="none" stroke="var(--faint)" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:20px"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/><path d="M11 8v6M8 11h6"/></svg>
+          <div style="font-family:'RaptorText','Schibsted Grotesk',sans-serif;font-size:20px;font-weight:600;letter-spacing:-.02em;color:var(--ink-soft);max-width:400px;line-height:1.25">matched benchmarks, a model leaderboard, and a ready-to-run wrapper appear here</div>
+          <p style="font-size:13px;max-width:340px;line-height:1.55;margin-top:12px;color:var(--muted)">I compare your dataset's bands, resolution and label type against every GeoBench dataset, then rank frozen-backbone results.</p>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ started }}" hint-placeholder-val="{{ false }}">
+        <div>
+          <!-- SAMPLE-MODE BANNER -->
+          <sc-if value="{{ isSample }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;gap:10px;align-items:flex-start;background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:11px;padding:11px 14px;margin-bottom:20px">
+              <span style="font-family:'IBM Plex Mono';font-size:9.5px;font-weight:500;letter-spacing:.08em;color:var(--surface);background:var(--ink);padding:2px 8px;border-radius:100px;flex:none;margin-top:1px">SAMPLE</span>
+              <span style="font-size:12.5px;line-height:1.55;color:var(--warn-ink)">This is a canned wind-farm walkthrough with example numbers — not an analysis of your data. Attach a dataset and describe your task to run the real agent.</span>
+            </div>
+          </sc-if>
+
+          <!-- RECOMMENDATION -->
+          <sc-if value="{{ isDone }}" hint-placeholder-val="{{ false }}">
+            <section style="animation:fadeUp .5s both">
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+                <span style="font-size:11px;letter-spacing:.13em;color:var(--muted)">recommendation</span>
+                <span style="height:1px;flex:1;background:var(--line)"></span>
+                <span data-term="{{ recMetric }}" style="font-family:'IBM Plex Mono';font-size:10px;font-weight:500;color:var(--surface);background:var(--ink);padding:2px 9px;border-radius:100px;cursor:help">metric: {{ recMetric }}</span>
+              </div>
+              <div style="background:var(--rail);color:var(--rail-ink);border-radius:16px;padding:26px 28px;display:grid;grid-template-columns:1fr auto;gap:28px;align-items:center">
+                <div>
+                  <div style="font-family:'RaptorText','Schibsted Grotesk',sans-serif;font-size:22px;font-weight:600;letter-spacing:-.02em;line-height:1.25;margin-bottom:12px"><sc-for list="{{ recHeadRuns }}" as="r" hint-placeholder-count="4"><span data-term="{{ r.term }}" style="{{ r.style }}">{{ r.text }}</span></sc-for></div>
+                  <p style="font-size:13.5px;line-height:1.65;color:var(--rail-muted);margin:0"><sc-for list="{{ recRuns }}" as="r" hint-placeholder-count="8"><span data-term="{{ r.term }}" style="{{ r.style }}">{{ r.text }}</span></sc-for></p>
+                  <div style="display:flex;gap:9px;align-items:flex-start;margin-top:16px;padding-top:14px;border-top:1px solid var(--rail-line)">
+                    <svg style="flex:none;margin-top:2px" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--rail-faint)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="M12 11v5.5M12 7.6v.1"/></svg>
+                    <span style="font-size:12px;line-height:1.55;color:var(--rail-faint)">Nothing is scored here — this app runs no inference on your imagery. To get predicted classes or per-pixel masks for your own chips, copy the generated wrapper and run command below into torchgeo-bench.</span>
+                  </div>
+                </div>
+                <div style="flex:none;text-align:center;border-left:1px solid var(--rail-line);padding-left:28px;max-width:170px">
+                  <div style="font-family:'IBM Plex Mono';font-size:11px;color:var(--rail-muted);letter-spacing:.05em">CLOSEST BENCHMARK RESULT</div>
+                  <div style="font-family:'RaptorText','Schibsted Grotesk',sans-serif;font-size:48px;font-weight:700;color:var(--rail-ink);line-height:1;margin-top:6px">{{ recExpected }}</div>
+                  <div style="font-size:11px;color:var(--rail-muted);margin-top:4px;line-height:1.4">{{ recExpectedLabel }}</div>
+                </div>
+              </div>
+            </section>
+          </sc-if>
+
+          <!-- CHARTS -->
+          <sc-if value="{{ chartsOn }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;align-items:center;gap:10px;margin:26px 0 12px">
+              <span style="font-size:11px;letter-spacing:.13em;color:var(--muted)">result visualizations</span>
+              <span style="height:1px;flex:1;background:var(--line)"></span>
+            </div>
+            <section style="display:grid;grid-template-columns:1fr 1fr;gap:16px;animation:fadeUp .5s .18s both">
+              <div style="background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 20px">
+                <div style="font-family:'RaptorText','Schibsted Grotesk',sans-serif;font-size:14px;font-weight:600;margin-bottom:2px">Linear-probe leaderboard</div>
+                <div style="font-size:11px;color:var(--muted);margin-bottom:16px">{{ lbSubtitle }}</div>
+                <div style="display:flex;flex-direction:column;gap:11px">
+                  <sc-for list="{{ leaderboard }}" as="b" hint-placeholder-count="6">
+                    <div style="display:flex;align-items:center;gap:10px">
+                      <div style="flex:none;width:150px;font-family:'IBM Plex Mono';font-size:10.5px;color:{{ b.labelColor }};text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ b.name }}</div>
+                      <div style="flex:1;height:16px;background:var(--chip);border-radius:5px;overflow:hidden">
+                        <div style="height:100%;width:{{ b.pct }}%;background:{{ b.fill }};border-radius:5px;transform-origin:left;animation:grow .7s cubic-bezier(.2,.8,.2,1) both"></div>
+                      </div>
+                      <div style="flex:none;width:38px;font-family:'IBM Plex Mono';font-size:11.5px;font-weight:500;color:var(--ink)">{{ b.acc }}</div>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+
+              <div style="background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 20px">
+                <div style="font-family:'RaptorText','Schibsted Grotesk',sans-serif;font-size:14px;font-weight:600;margin-bottom:2px">Accuracy vs. compute</div>
+                <div style="font-size:11px;color:var(--muted);margin-bottom:14px">pick the frontier for your compute budget</div>
+                <div style="position:relative;height:196px;margin:6px 4px 0 30px;border-left:1.5px solid var(--line);border-bottom:1.5px solid var(--line)">
+                  <span style="position:absolute;left:-26px;top:-4px;font-family:'IBM Plex Mono';font-size:9px;color:var(--faint)">{{ scYMax }}</span>
+                  <span style="position:absolute;left:-26px;bottom:-6px;font-family:'IBM Plex Mono';font-size:9px;color:var(--faint)">{{ scYMin }}</span>
+                  <span style="position:absolute;right:0;bottom:-18px;font-family:'IBM Plex Mono';font-size:9px;color:var(--faint)">GMACs →</span>
+                  <sc-for list="{{ scatter }}" as="p" hint-placeholder-count="6">
+                    <div title="{{ p.name }}" style="position:absolute;left:{{ p.x }}%;bottom:{{ p.y }}%;transform:translate(-50%,50%)">
+                      <span style="display:block;width:{{ p.size }}px;height:{{ p.size }}px;border-radius:50%;background:{{ p.color }};box-shadow:0 0 0 {{ p.ring }} {{ p.ringColor }};animation:pop .5s both"></span>
+                      <span style="position:absolute;left:50%;top:-15px;transform:translateX(-50%);font-family:'IBM Plex Mono';font-size:8.5px;color:var(--muted);white-space:nowrap">{{ p.label }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </section>
+          </sc-if>
+
+          <!-- VECTOR CONTEXT (GeoJSON/KML) -->
+          <sc-if value="{{ hasVectorContext }}" hint-placeholder-val="{{ false }}">
+            <section style="margin-top:26px;animation:fadeUp .5s .2s both">
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+                <span style="font-size:11px;letter-spacing:.13em;color:var(--muted)">detected vector context</span>
+                <span style="height:1px;flex:1;background:var(--line)"></span>
+                <span style="font-size:11px;color:var(--faint)">supplementary — not used for label detection</span>
+              </div>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px">
+                <sc-for list="{{ vectorContext }}" as="v" hint-placeholder-count="2">
+                  <div style="background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px">
+                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+                      <span style="font-family:'IBM Plex Mono';font-size:12.5px;font-weight:500;color:var(--ink)">{{ v.filename }}</span>
+                      <span style="font-family:'IBM Plex Mono';font-size:10px;font-weight:500;color:var(--muted);background:var(--chip);padding:2px 7px;border-radius:6px;text-transform:uppercase">{{ v.format }}</span>
+                    </div>
+                    <div style="font-size:12px;line-height:1.7;color:var(--muted)">
+                      <div>{{ v.geomLine }}</div>
+                      <div>{{ v.attrLine }}</div>
+                      <div>{{ v.bboxLine }}</div>
+                      <div>{{ v.crsLine }}</div>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </section>
+          </sc-if>
+
+          <!-- CLOSEST BENCHMARKS -->
+          <section style="margin-top:26px;animation:fadeUp .5s .24s both">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+              <span style="font-size:11px;letter-spacing:.13em;color:var(--muted)">closest benchmarks</span>
+              <span style="height:1px;flex:1;background:var(--line)"></span>
+            </div>
+            <sc-if value="{{ isRunning }}" hint-placeholder-val="{{ true }}"><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px"><div style="height:160px;background:var(--chip);border-radius:14px;animation:pulse 1.2s infinite"></div><div style="height:160px;background:var(--chip);border-radius:14px;animation:pulse 1.2s .2s infinite"></div><div style="height:160px;background:var(--chip);border-radius:14px;animation:pulse 1.2s .4s infinite"></div></div></sc-if>
+            <sc-if value="{{ isDone }}" hint-placeholder-val="{{ false }}">
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px">
+                <sc-for list="{{ matched }}" as="m" hint-placeholder-count="3">
+                  <div style="background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px">
+                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+                      <span data-term="{{ m.name }}" style="font-family:'IBM Plex Mono';font-size:13px;font-weight:500;color:var(--ink);border-bottom:1.5px dotted var(--faint);cursor:help">{{ m.name }}</span>
+                      <span style="font-family:'IBM Plex Mono';font-size:11px;font-weight:500;color:{{ m.simColor }};background:{{ m.simBg }};padding:2px 7px;border-radius:6px">{{ m.sim }}</span>
+                    </div>
+                    <div style="font-size:12px;line-height:1.5;color:var(--muted);min-height:54px"><sc-for list="{{ m.descRuns }}" as="r" hint-placeholder-count="4"><span data-term="{{ r.term }}" style="{{ r.style }}">{{ r.text }}</span></sc-for></div>
+                    <div style="margin-top:12px;display:flex;flex-direction:column;gap:6px">
+                      <sc-for list="{{ m.facets }}" as="f" hint-placeholder-count="4">
+                        <div style="display:flex;align-items:center;gap:8px">
+                          <span style="flex:none;width:74px;font-size:10px;color:var(--faint)">{{ f.label }}</span>
+                          <span style="flex:1;height:6px;background:var(--chip);border-radius:4px;overflow:hidden"><span style="display:block;height:100%;width:{{ f.pct }}%;background:var(--ink-soft);border-radius:4px;transform-origin:left;animation:grow .7s cubic-bezier(.2,.8,.2,1) both"></span></span>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+          </section>
+
+          <!-- RECOMMENDED MODELS -->
+          <section style="margin-top:26px;animation:fadeUp .5s .3s both">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+              <span style="font-size:11px;letter-spacing:.13em;color:var(--muted)">recommended backbones</span>
+              <span style="height:1px;flex:1;background:var(--line)"></span>
+              <span style="font-size:11px;color:var(--faint)">{{ backboneRankLabel }}</span>
+            </div>
+            <sc-if value="{{ isRunning }}" hint-placeholder-val="{{ true }}"><div style="display:flex;flex-direction:column;gap:10px"><div style="height:66px;background:var(--chip);border-radius:12px;animation:pulse 1.2s infinite"></div><div style="height:66px;background:var(--chip);border-radius:12px;animation:pulse 1.2s .2s infinite"></div><div style="height:66px;background:var(--chip);border-radius:12px;animation:pulse 1.2s .4s infinite"></div></div></sc-if>
+            <sc-if value="{{ isDone }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-direction:column;gap:10px">
+                <sc-for list="{{ models }}" as="mo" hint-placeholder-count="5">
+                  <div style="display:flex;align-items:center;gap:16px;background:var(--surface);border:1px solid {{ mo.border }};border-radius:13px;padding:14px 18px">
+                    <div style="flex:none;width:30px;text-align:center;font-family:'RaptorText','Schibsted Grotesk',sans-serif;font-size:18px;font-weight:600;color:{{ mo.rankColor }}">{{ mo.rank }}</div>
+                    <div style="flex:1;min-width:0">
+                      <div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap">
+                        <span style="font-family:'IBM Plex Mono';font-size:13.5px;font-weight:500;color:var(--ink)">{{ mo.name }}</span>
+                        <sc-if value="{{ mo.top }}" hint-placeholder-val="{{ false }}"><span style="font-family:'RaptorText','Schibsted Grotesk',sans-serif;font-size:10px;font-weight:600;letter-spacing:.04em;color:var(--surface);background:var(--ink);padding:2px 8px;border-radius:100px">TOP PICK</span></sc-if>
+                        <sc-if value="{{ mo.budget }}" hint-placeholder-val="{{ false }}"><span style="font-family:'RaptorText','Schibsted Grotesk',sans-serif;font-size:10px;font-weight:600;letter-spacing:.04em;color:var(--muted);background:var(--chip);border:1px solid var(--line);padding:2px 8px;border-radius:100px">CPU / EDGE</span></sc-if>
+                      </div>
+                      <div style="font-size:12px;color:var(--muted);margin-top:4px"><sc-for list="{{ mo.noteRuns }}" as="r" hint-placeholder-count="3"><span data-term="{{ r.term }}" style="{{ r.style }}">{{ r.text }}</span></sc-for></div>
+                      <div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:9px">
+                        <sc-for list="{{ mo.chips }}" as="c" hint-placeholder-count="4"><span data-term="{{ c.term }}" style="{{ c.style }}">{{ c.label }}</span></sc-for>
+                      </div>
+                    </div>
+                    <div style="flex:none;text-align:right">
+                      <div style="font-family:'RaptorText','Schibsted Grotesk',sans-serif;font-size:22px;font-weight:600;color:{{ mo.accColor }};line-height:1">{{ mo.expected }}</div>
+                      <div style="font-size:10px;color:var(--faint);margin-top:2px">{{ benchMetricLabel }}</div>
+                    </div>
+                    <div style="flex:none;text-align:right;border-left:1px solid var(--line);padding-left:16px;min-width:66px">
+                      <div style="font-family:'IBM Plex Mono';font-size:13px;color:var(--ink-soft)">{{ mo.gmacs }}</div>
+                      <div style="font-size:10px;color:var(--faint);margin-top:2px"><span data-term="GMACs" style="border-bottom:1px dotted var(--faint);cursor:help">GMACs</span></div>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+          </section>
+
+          <!-- GENERATED WRAPPER -->
+          <sc-if value="{{ isDone }}" hint-placeholder-val="{{ false }}">
+            <section style="margin-top:26px;animation:fadeUp .5s .36s both">
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+                <span style="font-size:11px;letter-spacing:.13em;color:var(--muted)">generated wrapper</span>
+                <span style="font-family:'RaptorText','Schibsted Grotesk',sans-serif;font-size:10px;font-weight:600;letter-spacing:.04em;color:var(--surface);background:var(--ink);padding:2px 8px;border-radius:100px">AUTO-WRITTEN</span>
+                <span style="height:1px;flex:1;background:var(--line)"></span>
+              </div>
+              <p style="font-size:12.5px;line-height:1.6;color:var(--muted);margin:0 0 12px;max-width:760px"><sc-for list="{{ wrapperNoteRuns }}" as="r" hint-placeholder-count="4"><span data-term="{{ r.term }}" style="{{ r.style }}">{{ r.text }}</span></sc-for></p>
+              <div style="background:var(--rail);border-radius:14px;overflow:hidden;border:1px solid var(--rail-line)">
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 14px;border-bottom:1px solid var(--rail-line)">
+                  <span style="font-family:'IBM Plex Mono';font-size:11px;color:var(--rail-faint)">{{ wrapperFilename }}</span>
+                  <button onClick="{{ copyWrapper }}" style="display:flex;align-items:center;gap:6px;font-family:'RaptorText','Schibsted Grotesk',sans-serif;font-size:11.5px;color:var(--rail-muted);background:var(--rail-chip);border:1px solid var(--rail-line);padding:4px 11px;border-radius:7px;cursor:pointer" style-hover="color:var(--rail-ink)"><span>{{ wrapperLabel }}</span></button>
+                </div>
+                <pre class="code-scroll" style="margin:0;padding:16px;font-family:'IBM Plex Mono';font-size:12px;line-height:1.65;color:var(--rail-ink);overflow-x:auto;white-space:pre;max-height:340px;overflow-y:auto">{{ wrapperCode }}</pre>
+              </div>
+            </section>
+          </sc-if>
+
+          <!-- RUN BUILDER -->
+          <sc-if value="{{ isDone }}" hint-placeholder-val="{{ false }}">
+            <section style="margin-top:26px;animation:fadeUp .5s .42s both">
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+                <span style="font-size:11px;letter-spacing:.13em;color:var(--muted)">build your run</span>
+                <span style="height:1px;flex:1;background:var(--line)"></span>
+                <span style="font-size:11px;color:var(--faint)">pick experiments · get an estimate · export a dashboard</span>
+              </div>
+
+              <div style="background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden">
+                <div style="display:grid;grid-template-columns:1.15fr .85fr">
+                  <!-- experiment picker -->
+                  <div style="padding:16px 18px;border-right:1px solid var(--line)">
+                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+                      <span style="font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.1em;color:var(--faint)">EXPERIMENTS · {{ runCount }} SELECTED</span>
+                      <button onClick="{{ toggleAll }}" style="font-family:'RaptorText','Schibsted Grotesk',sans-serif;font-size:11px;color:var(--muted);background:transparent;border:none;cursor:pointer;text-decoration:underline">{{ toggleAllLabel }}</button>
+                    </div>
+                    <div style="display:flex;flex-direction:column;gap:6px">
+                      <sc-for list="{{ runRows }}" as="r" hint-placeholder-count="5">
+                        <div onClick="{{ r.toggle }}" style="display:flex;align-items:center;gap:11px;padding:9px 11px;border:1px solid {{ r.border }};background:{{ r.bg }};border-radius:10px;cursor:pointer">
+                          <span style="flex:none;width:17px;height:17px;border-radius:5px;border:1.5px solid {{ r.boxBorder }};background:{{ r.boxBg }};display:flex;align-items:center;justify-content:center">
+                            <sc-if value="{{ r.on }}" hint-placeholder-val="{{ true }}"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--surface)" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></sc-if>
+                          </span>
+                          <div style="flex:1;min-width:0">
+                            <div style="font-family:'IBM Plex Mono';font-size:11.5px;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.name }}</div>
+                          </div>
+                          <span style="flex:none;font-family:'IBM Plex Mono';font-size:11px;color:var(--muted)">{{ r.eta }}</span>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </div>
+
+                  <!-- estimate + options -->
+                  <div style="padding:16px 18px;display:flex;flex-direction:column">
+                    <span style="font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.1em;color:var(--faint)">ESTIMATED WALL-CLOCK</span>
+                    <div style="display:flex;align-items:baseline;gap:8px;margin-top:8px">
+                      <span style="font-family:'RaptorText','Schibsted Grotesk',sans-serif;font-size:40px;font-weight:700;color:var(--ink);line-height:1">{{ etaTotal }}</span>
+                      <span style="font-size:12px;color:var(--muted)">on {{ hw }}</span>
+                    </div>
+                    <div style="font-size:11.5px;color:var(--faint);margin-top:6px;line-height:1.5">{{ runSummaryLine }}</div>
+
+                    <div style="display:flex;gap:7px;margin:14px 0 4px">
+                      <sc-for list="{{ hwRows }}" as="h" hint-placeholder-count="3">
+                        <button onClick="{{ h.pick }}" style="flex:1;font-family:'IBM Plex Mono';font-size:10.5px;padding:7px 4px;border-radius:8px;border:1px solid {{ h.border }};background:{{ h.bg }};color:{{ h.color }};cursor:pointer">{{ h.label }}</button>
+                      </sc-for>
+                    </div>
+
+                    <div onClick="{{ toggleDash }}" style="margin-top:14px;display:flex;align-items:flex-start;gap:10px;padding:11px 12px;border:1px solid var(--line);border-radius:10px;cursor:pointer">
+                      <span style="flex:none;margin-top:1px;position:relative;width:34px;height:19px;border-radius:100px;background:{{ dashTrack }}">
+                        <span style="position:absolute;top:2px;left:2px;width:15px;height:15px;border-radius:50%;background:var(--surface);transition:transform .28s cubic-bezier(.4,0,.2,1);transform:{{ dashKnob }}"></span>
+                      </span>
+                      <div>
+                        <div style="font-size:12px;font-weight:500;color:var(--ink)">Emit HTML results dashboard</div>
+                        <div style="font-size:11px;color:var(--muted);margin-top:2px;line-height:1.45">Writes an interactive report.html — leaderboard, per-chip predictions, confusion matrix.</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- command -->
+                <div style="background:var(--rail);border-top:1px solid var(--line)">
+                  <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 14px;border-bottom:1px solid var(--rail-line)">
+                    <span style="font-family:'IBM Plex Mono';font-size:11px;color:var(--rail-faint)">bash · {{ cmdCaption }}</span>
+                    <button onClick="{{ copyCmd }}" style="display:flex;align-items:center;gap:6px;font-family:'RaptorText','Schibsted Grotesk',sans-serif;font-size:11.5px;color:var(--rail-muted);background:var(--rail-chip);border:1px solid var(--rail-line);padding:4px 11px;border-radius:7px;cursor:pointer" style-hover="color:var(--rail-ink)"><span>{{ copyLabel }}</span></button>
+                  </div>
+                  <pre style="margin:0;padding:16px;font-family:'IBM Plex Mono';font-size:12.5px;line-height:1.7;color:var(--rail-ink);overflow-x:auto;white-space:pre">{{ runCmd }}</pre>
+                </div>
+              </div>
+
+              <sc-if value="{{ dashOn }}" hint-placeholder-val="{{ true }}">
+                <div style="margin-top:12px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--surface);animation:fadeIn .3s both">
+                  <div style="display:flex;align-items:center;gap:8px;padding:9px 14px;border-bottom:1px solid var(--line)">
+                    <span style="width:9px;height:9px;border-radius:50%;background:var(--bar-muted)"></span>
+                    <span style="width:9px;height:9px;border-radius:50%;background:var(--bar-muted)"></span>
+                    <span style="width:9px;height:9px;border-radius:50%;background:var(--bar-muted)"></span>
+                    <span style="font-family:'IBM Plex Mono';font-size:11px;color:var(--muted);margin-left:6px">report.html · preview of the generated dashboard</span>
+                  </div>
+                  <div style="padding:18px 20px">
+                    <div style="font-family:'RaptorText','Schibsted Grotesk',sans-serif;font-size:16px;font-weight:600;color:var(--ink)">{{ dashTitle }}</div>
+                    <div style="font-size:11px;color:var(--faint);margin-bottom:14px">{{ runCount }} experiments · generated {{ stamp }}</div>
+                    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px">
+                      <sc-for list="{{ dashStats }}" as="d" hint-placeholder-count="4">
+                        <div style="background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:11px 13px">
+                          <div style="font-family:'IBM Plex Mono';font-size:9.5px;letter-spacing:.08em;color:var(--faint)">{{ d.k }}</div>
+                          <div style="font-family:'RaptorText','Schibsted Grotesk',sans-serif;font-size:20px;font-weight:600;color:var(--ink);margin-top:3px">{{ d.v }}</div>
+                        </div>
+                      </sc-for>
+                    </div>
+                    <div style="font-size:11px;color:var(--muted);margin-top:12px;display:flex;align-items:center;gap:6px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h9l3 3h4v13H4z"/></svg>self-contained · opens in any browser · no server needed</div>
+                  </div>
+                </div>
+              </sc-if>
+            </section>
+          </sc-if>
+
+          <!-- CAVEATS -->
+          <sc-if value="{{ isDone }}" hint-placeholder-val="{{ false }}">
+            <section style="margin-top:26px;animation:fadeUp .5s .48s both">
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+                <span style="font-size:11px;letter-spacing:.13em;color:var(--muted)">before you run</span>
+                <span style="height:1px;flex:1;background:var(--line)"></span>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:9px">
+                <sc-for list="{{ caveats }}" as="c" hint-placeholder-count="3">
+                  <div style="display:flex;gap:11px;align-items:flex-start;background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:11px;padding:12px 14px">
+                    <svg style="flex:none;margin-top:1px" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4m0 4h.01M10.3 3.9L2 18a1.7 1.7 0 001.5 2.5h17A1.7 1.7 0 0022 18L13.7 3.9a1.7 1.7 0 00-3 0z"/></svg>
+                    <div style="font-size:12.5px;line-height:1.55;color:var(--warn-ink)"><sc-for list="{{ c.runs }}" as="r" hint-placeholder-count="4"><span data-term="{{ r.term }}" style="{{ r.style }}">{{ r.text }}</span></sc-for></div>
+                  </div>
+                </sc-for>
+              </div>
+            </section>
+          </sc-if>
+        </div>
+      </sc-if>
+    </main>
+  </div>
+
+  <!-- GLOSSARY POPOVER -->
+  <sc-if value="{{ hasPop }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;left:{{ popX }}px;top:{{ popY }}px;width:288px;z-index:60;background:var(--rail);color:var(--rail-ink);border:1px solid var(--rail-line);border-radius:12px;padding:14px 15px;box-shadow:0 18px 44px -12px rgba(0,0,0,.5);animation:fadeUp .16s both">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:7px">
+        <span style="font-family:'IBM Plex Mono';font-size:12.5px;font-weight:500;color:var(--rail-ink);line-height:1.3">{{ popTerm }}</span>
+        <button onClick="{{ closePop }}" style="flex:none;width:20px;height:20px;border-radius:6px;border:none;background:var(--rail-chip);color:var(--rail-muted);cursor:pointer;font-size:14px;line-height:1;display:flex;align-items:center;justify-content:center">×</button>
+      </div>
+      <div style="font-size:12.5px;line-height:1.6;color:var(--rail-muted)">{{ popDef }}</div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:720},&quot;showCharts&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Results&quot;},&quot;reasoningStyle&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Step-by-step&quot;,&quot;Concise&quot;],&quot;default&quot;:&quot;Step-by-step&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Agent&quot;}}">
+class Component extends DCLogic {
+  state = { phase: "upload", task: "Detecting wind farms in Sentinel-2 imagery", attached: false, active: 0, copied: false, wcopied: false, pop: null, theme: "light", selected: { m0: true, m1: true, m2: false, m3: true, m4: false }, hw: "1×A100", dashOn: true, inspection: null, steps: null, result: null, error: null, demo: false, connNote: null, backendUp: null, health: null };
+
+  // Probe the backend once at mount so the UI can say up-front whether runs
+  // will be live (real agent) or sample-only, instead of failing on submit.
+  componentDidMount() {
+    if (location.protocol === "file:") { this.setState({ backendUp: false }); return; }
+    fetch("/api/health")
+      .then(r => (r.ok ? r.json() : Promise.reject(new Error("health " + r.status))))
+      .then(hj => this.setState({ backendUp: true, health: { datasets: hj.datasets, backbones: hj.backbones } }))
+      .catch(() => this.setState({ backendUp: false }));
+  }
+
+  componentWillUnmount() { clearTimeout(this._t); clearTimeout(this._c); clearTimeout(this._w); clearTimeout(this._p); if (this._es) this._es.close(); }
+
+  GLOSSARY = {
+    "linear probe": "Train only a small linear classifier on top of the frozen model's features. It's cheap and the standard way to compare backbones without fine-tuning.",
+    "KNN-5": "k-nearest-neighbours (k=5) classification directly on the frozen features — a fine-tuning-free accuracy proxy.",
+    "frozen backbone": "The pretrained model's weights are not updated; you only train a small head on top. Fast, cheap, and reproducible.",
+    "frozen": "The pretrained model's weights are not updated; you only train a small head on top of its features.",
+    "DINOv3": "A self-supervised vision transformer. torchgeo-bench includes web-pretrained and satellite-pretrained ('sat493m') checkpoints.",
+    "sat493m": "A DINOv3 checkpoint pretrained on 493 million Maxar WorldView satellite images — strong on optical satellite RGB.",
+    "bandspec_zscore": "Per-band z-score normalization using each band's own train-split mean and std. torchgeo-bench's safe default for linear probing.",
+    "model_native": "Normalize inputs with the pretrained model's original stats. Often mismatched to satellite data — can drop accuracy 20+ points.",
+    "foundation model": "A large model pretrained on huge unlabeled data, then reused across many downstream tasks with little or no fine-tuning.",
+    "foundation models": "Large models pretrained on huge unlabeled data, then reused across many downstream tasks with little or no fine-tuning.",
+    "mIoU": "Mean Intersection-over-Union — the standard accuracy metric for segmentation tasks.",
+    "GMACs": "Billions of multiply-accumulate operations per image — a proxy for compute cost. Lower is cheaper and faster to run.",
+    "Sentinel-2": "The European Space Agency's optical satellite pair: 13 spectral bands at roughly 10 m ground resolution.",
+    "GSD": "Ground Sample Distance — the real-world size of a single pixel (e.g. ~10 m for Sentinel-2).",
+    "m-pv4ger": "GeoBench dataset: solar-photovoltaic presence in NAIP aerial RGB. Binary classification.",
+    "m-brick-kiln": "GeoBench dataset: brick-kiln presence in Sentinel-2 RGB. Binary classification.",
+    "m-eurosat": "GeoBench dataset: Sentinel-2 land-cover classification with 10 classes.",
+    "GeoBench": "A standardized suite of geospatial datasets (V1 + V2) for evaluating Earth-observation models on a level field.",
+    "intrinsic dimension": "The effective number of dimensions a feature manifold occupies. Low values mean compact, learnable features.",
+    "BenchDataset": "torchgeo-bench's base class. Every dataset subclasses it to declare its bands, classes, splits, and how to load samples.",
+    "BandSpec": "Per-band metadata (sensor, name, mean/std/min/max, wavelength) that torchgeo-bench uses to normalize each channel.",
+    "NAIP": "US National Agriculture Imagery Program — sub-meter aerial RGB imagery of the continental US.",
+    "RGB": "The red, green and blue bands only — 3 channels, no other spectral information.",
+    "multispectral": "Imagery with more than the 3 visible bands (e.g. near-infrared, SWIR). Richer signal, but not every model handles it well.",
+    "z-score": "Rescale values by subtracting the mean and dividing by the standard deviation, so each band is centered at 0 with unit variance.",
+    "macro-F1": "The F1 score (harmonic mean of precision and recall) averaged equally across classes. Preferred over accuracy for imbalanced data, since it isn't dominated by the majority class.",
+    "accuracy": "The fraction of chips classified correctly. Simple, but misleading when classes are imbalanced — a background-only guess scores high.",
+  };
+
+  STEPS = [
+    { label: "Inspecting dataset", detail: "3,412 chips · 3 bands (RGB) · 224px · Sentinel-2 · binary labels — 21% windfarm / 79% background (imbalanced)" },
+    { label: "Characterizing task", detail: "Object-presence classification · optical RGB · ~10 m GSD · not segmentation" },
+    { label: "Selecting eval metric", detail: "Binary classification → accuracy; but 21/79 class split is imbalanced, so primary = macro-F1 (accuracy reported alongside). Segmentation would use mIoU." },
+    { label: "Matching GeoBench datasets", detail: "Nearest by bands, label type and sensor → m-pv4ger, m-brick-kiln, m-eurosat" },
+    { label: "Ranking 28 frozen backbones", detail: "Reading linear probe + KNN-5 leaderboards on the 3 matched datasets" },
+    { label: "Checking bands & normalization", detail: "bandspec_zscore beats model_native here; keep bands as RGB (multispectral adapters regress)" },
+    { label: "Generating torchgeo-bench wrapper", detail: "Mapped folders windfarm/ + background/ to 2 classes; computed per-band z-score stats from 2,388 train chips" },
+    { label: "Composing recommendation", detail: "DINOv3 ViT-L (sat493m) + linear probe · 0.96 acc on the matched benchmark" },
+  ];
+
+  // per-experiment: id, model path, GMACs, minutes on 1×A100 (incl. feature caching + probe)
+  RUN_MODELS = [
+    { id: "m0", model: "timm/vit_large_patch16_dinov3sat", short: "vit_large_patch16_dinov3sat", gmacs: 61.6, mins: 7 },
+    { id: "m1", model: "timm/vit_large_patch16_dinov3", short: "vit_large_patch16_dinov3", gmacs: 61.6, mins: 7 },
+    { id: "m2", model: "tgeo/dofa_large", short: "tgeo_dofa_large", gmacs: 59.0, mins: 6 },
+    { id: "m3", model: "tgeo/resnet50_s2rgb_moco", short: "tgeo_resnet50_s2rgb_moco", gmacs: 4.1, mins: 2 },
+    { id: "m4", model: "tgeo/rcf", short: "rcf", gmacs: 2.0, mins: 1 },
+  ];
+  HW = [
+    { id: "1×A100", label: "1×A100", factor: 1 },
+    { id: "1×T4", label: "1×T4", factor: 3.2 },
+    { id: "CPU", label: "CPU", factor: 11 },
+  ];
+
+  // Raw metric names from all_results.csv (accuracy, micro_mAP, f1_macro, …)
+  // rendered as one consistent human label. `full` for prose, `short` for the
+  // tight numeric columns. Unknown metrics fall through with underscores
+  // swapped for hyphens rather than being silently relabeled.
+  METRIC_LABELS = {
+    accuracy: { full: "accuracy", short: "acc" },
+    acc: { full: "accuracy", short: "acc" },
+    micro_map: { full: "micro-mAP", short: "mAP" },
+    macro_f1: { full: "macro-F1", short: "F1" },
+    f1_macro: { full: "macro-F1", short: "F1" },
+    miou: { full: "mIoU", short: "mIoU" },
+    iou: { full: "IoU", short: "IoU" },
+    rmse: { full: "RMSE", short: "RMSE" },
+  };
+  metricLabel(m, form = "full") {
+    if (!m) return form === "short" ? "acc" : "accuracy";
+    const hit = this.METRIC_LABELS[String(m).toLowerCase()];
+    return hit ? hit[form] : String(m).replace(/_/g, "-");
+  }
+
+  fmtDur(mins) {
+    const m = Math.max(1, Math.round(mins));
+    if (m < 60) return "~" + m + " min";
+    const h = Math.floor(m / 60), r = m % 60;
+    return "~" + h + "h" + (r ? " " + r + "m" : "");
+  }
+
+  // the experiment list: live runModels from the backend, else the demo set
+  runList() {
+    const R = this.state.result;
+    return (R && R.runModels && R.runModels.length) ? R.runModels : this.RUN_MODELS;
+  }
+
+  buildCmd() {
+    const list = this.runList();
+    const sel = list.filter(m => this.state.selected[m.id]);
+    const chosen = sel.length ? sel : [list[0]];
+    // one command per selected experiment — only real torchgeo-bench keys
+    return chosen.map(m => m.command ||
+      ("torchgeo-bench run model=" + m.model + " \\\n  dataset.names=[windfarm-s2] dataset.bands=rgb \\\n  dataset.normalization=bandspec_zscore dataset.image_size=224 \\\n  eval.knn_k=5")
+    ).join("\n\n");
+  }
+
+  wrapperCode = `"""windfarm_s2.py — auto-generated torchgeo-bench wrapper.
+
+Detected 3,412 RGB chips in class folders windfarm/ and background/.
+Band stats below were computed from your 2,388 train chips (raw S2 DN).
+Edit if you re-partition or add bands, then register in datasets/__init__.py.
+"""
+from pathlib import Path
+from collections.abc import Callable
+
+from torch.utils.data import Dataset
+
+from torchgeo_bench.datasets.base import BandSpec, BenchDataset
+from torchgeo_bench.datasets.loading import ImageFolderSplit
+
+
+class WindfarmS2(BenchDataset):
+    """Wind-farm presence in Sentinel-2 RGB chips (binary)."""
+
+    name = "windfarm-s2"
+    task = "classification"
+    num_classes = 2
+    multilabel = False
+    rgb_bands = ["red", "green", "blue"]
+    split_sizes = {"train": 2388, "val": 512, "test": 512}
+
+    bands = [
+        BandSpec("s2", "red",   "B04", mean=968.4,  std=604.1, min=0, max=12031, wavelength_um=0.665),
+        BandSpec("s2", "green", "B03", mean=1062.7, std=402.9, min=0, max=11890, wavelength_um=0.560),
+        BandSpec("s2", "blue",  "B02", mean=1131.9, std=345.2, min=0, max=12447, wavelength_um=0.490),
+    ]
+
+    @classmethod
+    def data_root(cls) -> Path:
+        return Path("data/windfarm_s2")
+
+    def get_dataset(self, split, *, partition="default", bands=None,
+                    transform: Callable | None = None) -> Dataset:
+        specs = self.select_band_specs(bands)
+        return ImageFolderSplit(self.data_root() / split, specs, transform=transform)`;
+
+  LIVE_STEPS = ["Inspecting dataset", "Characterizing task", "Selecting eval metric", "Matching GeoBench datasets", "Ranking frozen backbones", "Checking bands & normalization", "Generating torchgeo-bench wrapper", "Composing recommendation"];
+
+  _setFile = (f) => {
+    if (!f) return;
+    this._file = f;
+    this.setState({ attached: true, error: null, inspection: { filename: f.name, sizeMB: Math.round(f.size / 104857.6) / 10 } });
+  };
+  pickFile = () => {
+    const input = document.createElement("input");
+    input.type = "file"; input.accept = ".zip,application/zip,.tif,.tiff,.png,.jpg,.jpeg,.csv,.geojson,.kml,.json";
+    input.onchange = () => this._setFile(input.files && input.files[0]);
+    input.click();
+  };
+  onDragOver = (e) => { e.preventDefault(); };
+  onDrop = (e) => { e.preventDefault(); this._setFile(e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]); };
+
+  // explicit sample mode: walks the canned wind-farm demo, clearly labeled
+  runSample = () => {
+    if (this.state.phase !== "upload") return;
+    this.setState({ phase: "running", demo: true, active: 0, error: null, connNote: null, result: null, steps: null });
+    let i = 0;
+    const tick = () => {
+      i += 1;
+      if (i >= this.STEPS.length) { this.setState({ active: this.STEPS.length, phase: "done" }); return; }
+      this.setState({ active: i });
+      this._t = setTimeout(tick, 720);
+    };
+    this._t = setTimeout(tick, 650);
+  };
+
+  run = async () => {
+    if (this.state.phase !== "upload") return;
+    if (!this._file) {
+      this.setState({ error: "Attach a dataset first — or use the sample walkthrough link below to see how it works." });
+      return;
+    }
+    if (!(this.state.task || "").trim()) {
+      this.setState({ error: "Describe your task in a sentence first — it drives the benchmark matching." });
+      return;
+    }
+    if (location.protocol === "file:") {
+      this.setState({ error: "This page was opened as a local file, so there's no backend to analyze your dataset. Serve it via the backend (see backend/README.md) — or watch the sample walkthrough." });
+      return;
+    }
+    this.setState({
+      phase: "running", demo: false, active: 0, error: null, connNote: null, result: null,
+      steps: this.LIVE_STEPS.map(l => ({ label: l, detail: "" })),
+    });
+    let runId;
+    try {
+      const fd = new FormData();
+      fd.append("file", this._file);
+      fd.append("task", this.state.task.trim());
+      const r = await fetch("/api/analyze", { method: "POST", body: fd });
+      if (!r.ok) {
+        const body = await r.json().catch(() => ({}));
+        throw new Error(body.detail || ("upload failed (" + r.status + ")"));
+      }
+      runId = (await r.json()).run_id;
+    } catch (err) {
+      const hint = this.state.backendUp === false
+        ? " The backend isn't reachable — start it (see backend/README.md), or watch the sample walkthrough."
+        : "";
+      this.setState({ phase: "upload", error: String((err && err.message) || err) + hint });
+      return;
+    }
+    this._listen(runId);
+  };
+
+  _applyFinal = (d) => {
+    if (d.glossary) this.GLOSSARY = { ...this.GLOSSARY, ...d.glossary };
+    const sel = {};
+    (d.runModels || []).forEach((m, i) => { sel[m.id] = i < 2; });
+    this.setState(s => ({ result: d, selected: Object.keys(sel).length ? sel : s.selected }));
+  };
+
+  _listen = (runId) => {
+    const es = this._es = new EventSource("/api/runs/" + runId + "/events");
+    const J = (e) => { try { return JSON.parse(e.data); } catch (_) { return {}; } };
+    // EventSource auto-reconnects (the server replays via Last-Event-ID), so a
+    // brief hiccup heals itself; only after repeated failures do we give up on
+    // streaming and fall back to polling the run's status endpoint.
+    es.onopen = () => { this._esErrs = 0; if (this.state.connNote) this.setState({ connNote: null }); };
+    es.onerror = () => {
+      if (this.state.phase !== "running") return;
+      this._esErrs = (this._esErrs || 0) + 1;
+      if (this._esErrs >= 3) {
+        es.close(); this._es = null;
+        this._pollFinal(runId, 0);
+      } else {
+        this.setState({ connNote: "connection hiccup — reconnecting to the agent…" });
+      }
+    };
+    es.addEventListener("step_start", (e) => {
+      const d = J(e);
+      this.setState(s => {
+        const steps = (s.steps || []).slice();
+        if (steps[d.step] && d.label) steps[d.step] = { ...steps[d.step], label: d.label };
+        return { active: Math.max(s.active, d.step), steps };
+      });
+    });
+    es.addEventListener("step_detail", (e) => {
+      const d = J(e);
+      this.setState(s => {
+        const steps = (s.steps || []).slice();
+        if (steps[d.step]) steps[d.step] = { ...steps[d.step], detail: d.detail };
+        return { steps };
+      });
+    });
+    es.addEventListener("inspection", (e) => {
+      const d = J(e);
+      this.setState(s => ({ inspection: { ...s.inspection, ...d } }));
+    });
+    es.addEventListener("final", (e) => this._applyFinal(J(e)));
+    es.addEventListener("error", (e) => {
+      const d = J(e);
+      es.close(); this._es = null;
+      this.setState({ phase: "upload", error: d.message || "analysis failed" });
+    });
+    es.addEventListener("done", () => {
+      es.close(); this._es = null;
+      this.setState(s => (s.result
+        ? { phase: "done", active: (s.steps || this.STEPS).length, connNote: null }
+        : { phase: "upload", error: "the run ended without a result — please retry" }));
+    });
+  };
+
+  // streaming gave up: poll GET /api/runs/{id} until the run resolves. The
+  // agent keeps working server-side through a dropped stream, so the result
+  // is usually still recoverable.
+  _pollFinal = (runId, attempt) => {
+    this.setState({ connNote: "stream lost — polling for the result instead…" });
+    fetch("/api/runs/" + runId)
+      .then(r => (r.ok ? r.json() : Promise.reject(new Error("run not found (the backend may have restarted)"))))
+      .then(d => {
+        if (d.status === "done" && d.final) {
+          this._applyFinal(d.final);
+          this.setState(s => ({ phase: "done", active: (s.steps || this.STEPS).length, connNote: null }));
+        } else if (d.status === "error") {
+          this.setState({ phase: "upload", connNote: null, error: "analysis failed after the stream dropped — please retry" });
+        } else if (attempt < 100) {
+          this._p = setTimeout(() => this._pollFinal(runId, attempt + 1), 3000);
+        } else {
+          this.setState({ phase: "upload", connNote: null, error: "lost the stream and the run didn't finish in time — please retry" });
+        }
+      })
+      .catch(err => this.setState({ phase: "upload", connNote: null, error: "lost the connection to the backend: " + ((err && err.message) || err) }));
+  };
+
+  reset = () => { clearTimeout(this._t); clearTimeout(this._p); if (this._es) { this._es.close(); this._es = null; } this.setState({ phase: "upload", active: 0, copied: false, wcopied: false, pop: null, result: null, steps: null, error: null, demo: false, connNote: null }); };
+  onTaskInput = (e) => this.setState({ task: e.target.value });
+  toggleTheme = () => this.setState(s => ({ theme: s.theme === "dark" ? "light" : "dark" }));
+  copyCmd = () => { try { navigator.clipboard.writeText(this.buildCmd()); } catch (e) {} clearTimeout(this._c); this.setState({ copied: true }); this._c = setTimeout(() => this.setState({ copied: false }), 1600); };
+  toggleRun = (id) => this.setState(s => ({ selected: { ...s.selected, [id]: !s.selected[id] } }));
+  toggleAllRuns = () => this.setState(s => { const list = this.runList(); const all = list.every(m => s.selected[m.id]); const next = {}; list.forEach(m => next[m.id] = !all); return { selected: next }; });
+  pickHw = (id) => this.setState({ hw: id });
+  toggleDash = () => this.setState(s => ({ dashOn: !s.dashOn }));
+  copyWrapper = () => { const code = this.state.result ? this.state.result.wrapper.code : this.wrapperCode; try { navigator.clipboard.writeText(code); } catch (e) {} clearTimeout(this._w); this.setState({ wcopied: true }); this._w = setTimeout(() => this.setState({ wcopied: false }), 1600); };
+
+  onTermClick = (e) => {
+    const el = e.target.closest && e.target.closest("[data-term]");
+    const term = el && el.getAttribute("data-term");
+    if (term && this.GLOSSARY[term]) {
+      const r = el.getBoundingClientRect();
+      const w = 288;
+      const x = Math.max(12, Math.min(r.left, window.innerWidth - w - 12));
+      let y = r.bottom + 8;
+      if (y + 150 > window.innerHeight) y = Math.max(12, r.top - 158);
+      this.setState({ pop: { term, x, y } });
+    } else if (this.state.pop) {
+      this.setState({ pop: null });
+    }
+  };
+  closePop = () => this.setState({ pop: null });
+
+  tokenize(text) {
+    const keys = Object.keys(this.GLOSSARY).sort((a, b) => b.length - a.length);
+    const lower = text.toLowerCase();
+    const raw = [];
+    let i = 0;
+    const alnum = /[a-z0-9]/i;
+    while (i < text.length) {
+      let hit = null;
+      for (const k of keys) {
+        const kl = k.toLowerCase();
+        if (lower.startsWith(kl, i)) {
+          const before = i === 0 ? " " : text[i - 1];
+          const after = text[i + k.length] || " ";
+          const kEndsAlnum = alnum.test(k[k.length - 1]);
+          const kStartsAlnum = alnum.test(k[0]);
+          if ((!kStartsAlnum || !alnum.test(before)) && (!kEndsAlnum || !alnum.test(after))) { hit = k; break; }
+        }
+      }
+      if (hit) { raw.push({ text: text.substr(i, hit.length), term: hit }); i += hit.length; }
+      else { raw.push({ text: text[i], term: "" }); i += 1; }
+    }
+    const merged = [];
+    for (const r of raw) {
+      if (!r.term && merged.length && !merged[merged.length - 1].term) merged[merged.length - 1].text += r.text;
+      else merged.push({ text: r.text, term: r.term });
+    }
+    return merged.map(r => ({ text: r.text, term: r.term, style: r.term ? "border-bottom:1.5px dotted currentColor;cursor:help" : "" }));
+  }
+
+  // like tokenize(), but also bolds the load-bearing bits — glossary terms
+  // (model / dataset / metric names) and numbers (scores, ratios, percentages)
+  emphasize(text) {
+    const bold = "font-weight:600;color:var(--rail-ink)";
+    const numRe = /\d[\d.,]*\+?%?|\d+\/\d+/g;
+    const out = [];
+    for (const r of this.tokenize(text)) {
+      if (r.term) { out.push({ ...r, style: r.style + ";" + bold }); continue; }
+      let last = 0, m;
+      numRe.lastIndex = 0;
+      while ((m = numRe.exec(r.text))) {
+        if (m.index > last) out.push({ text: r.text.slice(last, m.index), term: "", style: "" });
+        out.push({ text: m[0], term: "", style: bold });
+        last = m.index + m[0].length;
+      }
+      if (last < r.text.length) out.push({ text: r.text.slice(last), term: "", style: "" });
+    }
+    return out;
+  }
+
+  canon(label) {
+    if (this.GLOSSARY[label]) return label;
+    const hit = Object.keys(this.GLOSSARY).find(k => k.toLowerCase() === String(label).toLowerCase());
+    return hit || "";
+  }
+  chip(label) {
+    const term = this.canon(label);
+    const base = "font-family:'IBM Plex Mono';font-size:9.5px;color:var(--ink-soft);background:var(--chip);border:1px solid var(--chip-line);padding:2px 6px;border-radius:5px";
+    return { label, term, style: term ? base + ";text-decoration:underline dotted;text-underline-offset:2px;cursor:help" : base };
+  }
+
+  // --- demo fallback data (used when no backend result is present) ---
+  DEMO_MATCHED = [
+    { name: "m-pv4ger", sim: 93, desc: "Solar-PV presence in NAIP RGB — same binary object-detection framing as wind farms.", facets: [["Bands", 100], ["Label type", 100], ["Task", 100], ["Object scale", 72]].map(([label, pct]) => ({ label, pct })) },
+    { name: "m-brick-kiln", sim: 91, desc: "Kiln presence in Sentinel-2 RGB — small man-made objects, identical sensor to your data.", facets: [["Bands", 100], ["Label type", 100], ["Task", 100], ["Object scale", 64]].map(([label, pct]) => ({ label, pct })) },
+    { name: "m-eurosat", sim: 64, desc: "Sentinel-2 RGB land cover — shares sensor and resolution, but multi-class not binary.", facets: [["Bands", 100], ["Label type", 45], ["Task", 70], ["Object scale", 40]].map(([label, pct]) => ({ label, pct })) },
+  ];
+  DEMO_MODELS = [
+    { rank: 1, name: "vit_large_patch16_dinov3sat", top: true, budget: false, expected: 0.96, gmacs: 61.6, note: "Web + sat493m pretrain. Tops m-brick-kiln (0.976) and near-tops m-pv4ger.", chips: ["linear probe", "rgb", "bandspec_zscore", "224px"] },
+    { rank: 2, name: "vit_large_patch16_dinov3", top: false, budget: false, expected: 0.96, gmacs: 61.6, note: "Web pretrain (ImageNet stats). Wins m-pv4ger at 0.974 — best on natural-image-like RGB.", chips: ["linear probe", "rgb", "224px"] },
+    { rank: 3, name: "tgeo_dofa_large", top: false, budget: false, expected: 0.94, gmacs: 59.0, note: "Band-agnostic foundation model. Wins m-eurosat (0.973); a sensor-flexible fallback.", chips: ["linear probe", "rgb", "224px"] },
+    { rank: 4, name: "tgeo_resnet50_s2rgb_moco", top: false, budget: true, expected: 0.90, gmacs: 4.1, note: "15x cheaper. Runs on CPU / edge — pick this if deployability beats last-mile accuracy.", chips: ["linear probe", "rgb", "cpu-ok"] },
+    { rank: 5, name: "rcf", top: false, budget: false, expected: 0.85, gmacs: 2.0, note: "Random conv features — instant, no pretraining. Use as a sanity-check baseline.", chips: ["baseline", "rgb", "instant"] },
+  ];
+  DEMO_LEADERBOARD = [
+    { name: "vit_large_..dinov3sat", acc: 0.966, top: true },
+    { name: "vit_large_..dinov3", acc: 0.958, top: true },
+    { name: "tgeo_dofa_large", acc: 0.945 },
+    { name: "tt_terramind_v1_base", acc: 0.930 },
+    { name: "resnet50_s2rgb_moco", acc: 0.902 },
+    { name: "rcf", acc: 0.851 },
+  ];
+  DEMO_SCATTER = [
+    { name: "rcf", gmacs: 2.0, acc: 0.851, label: "RCF" },
+    { name: "resnet50_moco", gmacs: 4.1, acc: 0.902, label: "ResNet50" },
+    { name: "terramind", gmacs: 17, acc: 0.930, label: "TerraMind" },
+    { name: "dofa_large", gmacs: 59, acc: 0.945, label: "DOFA" },
+    { name: "dinov3", gmacs: 61.6, acc: 0.958, label: "DINOv3" },
+    { name: "dinov3sat", gmacs: 61.6, acc: 0.966, top: true, label: "sat493m ★" },
+  ];
+  DEMO_CAVEATS = [
+    "Keep bands as RGB. Adapting RGB-pretrained backbones to multispectral regressed on 16 of 17 benchmark cells (avg -3.9 pp) — your data is RGB, so you're clear.",
+    "Avoid model_native normalization — it dropped Prithvi-family accuracy up to -24 pp. bandspec_zscore is the safe default for all linear probing.",
+    "Watch the metric, not just accuracy. Your classes are imbalanced (21% windfarm), so a model can score ~0.79 accuracy by always predicting background. macro-F1 is the primary metric here; the 0.96 figure is accuracy on the balanced benchmark analogs.",
+    "Scores are transferred from analog benchmarks, not your labels. Generate the wrapper above and run to confirm the numbers on your own chips.",
+  ];
+  DEMO_REC = {
+    headlineModel: "DINOv3 ViT-L (sat493m)", head: "linear probe", expected: 0.96, metric: "macro-F1",
+    prose: "Your wind-farm task is a binary optical-RGB presence problem — closest to m-pv4ger (solar PV, NAIP RGB) and m-brick-kiln (kilns, Sentinel-2). On both, a frozen backbone with a linear probe tops the leaderboard at 0.97+, beating geospatial foundation models. Use bandspec_zscore normalization and keep bands as RGB; expect roughly 0.95 to 0.97 accuracy.",
+  };
+
+  renderVals() {
+    const p = this.state.phase, active = this.state.active;
+    const concise = this.props.reasoningStyle === "Concise";
+    const chartsOn = (this.props.showCharts ?? true) && p === "done";
+    const tk = (t) => this.tokenize(t);
+    const isDark = this.state.theme === "dark";
+    const R = this.state.result;
+    const insp = this.state.inspection;
+
+    const examples = ["Detecting wind farms", "Solar farm detection", "Deforestation mapping", "Flood extent"].map(label => ({ label, pick: () => this.setState({ task: label }) }));
+
+    const stepSrc = this.state.steps || this.STEPS;
+    const steps = stepSrc.map((s, i) => {
+      const isDone = i < active || p === "done";
+      const isActive = i === active && p === "running";
+      return { label: s.label, isDone, isActive, isPending: !isDone && !isActive, showDetail: (isDone || isActive) && !concise && !!s.detail, detailRuns: tk(s.detail || ""), labelColor: (isDone || isActive) ? "var(--rail-ink)" : "var(--rail-faint)" };
+    });
+
+    const darkBadge = { simColor: "var(--surface)", simBg: "var(--ink)" };
+    const softBadge = { simColor: "var(--muted)", simBg: "var(--chip)" };
+    const matched = ((R && R.matched) || this.DEMO_MATCHED).map(m => ({
+      name: m.name, sim: m.sim + "% match", ...(m.sim >= 80 ? darkBadge : softBadge),
+      descRuns: tk(m.desc), facets: m.facets.map(f => ({ label: f.label, pct: f.pct })),
+    }));
+
+    const models = ((R && R.models) || this.DEMO_MODELS).map((m, i) => ({
+      rank: String(m.rank), name: m.name, top: !!m.top, budget: !!m.budget,
+      expected: m.expected.toFixed(2),
+      accColor: i === 0 ? "var(--ink)" : i < 3 ? "var(--ink-soft)" : "var(--muted)",
+      gmacs: m.gmacs == null ? "—" : String(m.gmacs),
+      border: m.top ? "var(--ink)" : "var(--line)",
+      rankColor: m.top ? "var(--ink)" : i < 4 ? "var(--muted)" : "var(--faint)",
+      noteRuns: tk(m.note), chips: (m.chips || []).map(c => this.chip(c)),
+    }));
+
+    // Two different metrics are in play and they are NOT interchangeable:
+    //   rankMetric — what the leaderboard numbers actually are (whatever
+    //     query_results ranked by; the benchmarks only report accuracy/micro_mAP)
+    //   rec.metric — the metric recommended for the USER's task, which may not
+    //     exist in the benchmark results at all (e.g. macro-F1 for an imbalanced
+    //     task, mIoU for segmentation)
+    // Everything that labels a leaderboard number derives from rankMetric. When
+    // the two differ, say so inline so the mismatch reads as deliberate.
+    const rec = (R && R.recommendation) || this.DEMO_REC;
+    const rankMetric = R ? ((R.models[0] && R.models[0].metric) || "accuracy") : "accuracy";
+    const rankMetricLabel = this.metricLabel(rankMetric);
+    const rankMetricShort = this.metricLabel(rankMetric, "short");
+    const recMetricLabel = this.metricLabel(rec.metric);
+    const metricDiffers = recMetricLabel.toLowerCase() !== rankMetricLabel.toLowerCase();
+
+    const lbRaw = (R && R.leaderboard && R.leaderboard.length) ? R.leaderboard : this.DEMO_LEADERBOARD;
+    const lbAccs = lbRaw.map(b => b.acc);
+    const lbMin = Math.min(...lbAccs) - 0.02, lbMax = Math.max(...lbAccs) + 0.005;
+    const leaderboard = lbRaw.map(b => ({ name: b.name, acc: b.acc.toFixed(3), pct: Math.max(3, Math.round(((b.acc - lbMin) / (lbMax - lbMin)) * 100)), fill: b.top ? "var(--ink)" : "var(--bar-muted)", labelColor: b.top ? "var(--ink)" : "var(--muted)" }));
+    const matchedNames = R && R.matched.length
+      ? R.matched.map(m => m.name).join(" / ")
+      : "m-pv4ger / m-brick-kiln";
+    const lbSubtitle = rankMetricLabel + " on " + matchedNames + " (mean)";
+    const backboneRankLabel = metricDiffers
+      ? "ranked by linear-probe " + rankMetricLabel + " — these benchmarks don't report " + recMetricLabel
+      : "ranked by linear-probe " + rankMetricLabel + " on your closest benchmarks";
+    // NOT a forecast for the user's data — this is the model's score on the
+    // matched benchmark. Label it as such; never "expected/exp. accuracy".
+    const benchMetricLabel = rankMetricShort + " on benchmark";
+
+    const scPts = ((R && R.scatter && R.scatter.length) ? R.scatter : this.DEMO_SCATTER).map((s, i, arr) => ({
+      name: s.name, g: s.gmacs, acc: s.acc, top: !!s.top, label: s.label,
+      color: s.top ? "var(--ink)" : i >= arr.length - 3 ? "var(--ink-soft)" : "var(--bar-muted)",
+    }));
+    const scAccs = scPts.length ? scPts.map(s => s.acc) : [0.82, 0.98];
+    const scMin = Math.min(...scAccs) - 0.02, scMax = Math.max(...scAccs) + 0.01;
+    const gTop = Math.max(...(scPts.length ? scPts.map(s => s.g) : [70])) * 1.3;
+    const gx = (g) => 8 + (Math.log10(Math.max(g, 1.01)) / Math.log10(gTop)) * 82;
+    const yy = (a) => ((a - scMin) / (scMax - scMin)) * 88;
+    const scatter = scPts.map(s => ({ name: s.name, label: s.label, x: Math.round(gx(s.g) * 10) / 10, y: Math.round(yy(s.acc) * 10) / 10, size: s.top ? 15 : 11, color: s.color, ring: s.top ? "4px" : "0px", ringColor: "rgba(128,128,120,.28)" }));
+    const scYMax = scMax.toFixed(2), scYMin = scMin.toFixed(2);
+
+    const caveats = ((R && R.caveats) || this.DEMO_CAVEATS).map(c => ({ runs: tk(c) }));
+
+    // run builder
+    const sel = this.state.selected;
+    const hwFactor = (this.HW.find(h => h.id === this.state.hw) || this.HW[0]).factor;
+    const runList = this.runList();
+    const selList = runList.filter(m => sel[m.id]);
+    const runCount = selList.length;
+    const runRows = runList.map(m => {
+      const on = !!sel[m.id];
+      return {
+        name: m.short, on, toggle: () => this.toggleRun(m.id), eta: this.fmtDur(m.mins * hwFactor),
+        border: on ? "var(--ink)" : "var(--line)", bg: on ? "var(--chip)" : "transparent",
+        boxBorder: on ? "var(--ink)" : "var(--faint)", boxBg: on ? "var(--ink)" : "transparent",
+      };
+    });
+    const totalMins = selList.reduce((a, m) => a + m.mins, 0) * hwFactor;
+    const allOn = runList.every(m => sel[m.id]);
+    const hwRows = this.HW.map(h => ({
+      label: h.label, pick: () => this.pickHw(h.id),
+      border: h.id === this.state.hw ? "var(--ink)" : "var(--line)",
+      bg: h.id === this.state.hw ? "var(--ink)" : "transparent",
+      color: h.id === this.state.hw ? "var(--surface)" : "var(--muted)",
+    }));
+
+    const dsName = R
+      ? (((R.runModels[0] || {}).command || "").match(/dataset\.names=\[([^\]]+)\]/) || [])[1] || "your-dataset"
+      : "windfarm-s2";
+    const chipCount = insp && insp.chips ? insp.chips : null;
+    const bestModel = ((R && R.models) || this.DEMO_MODELS).find(m => m.top) || ((R && R.models) || this.DEMO_MODELS)[0];
+    const dashStats = [
+      { k: "EXPERIMENTS", v: String(runCount || 1) },
+      { k: "BEST " + rankMetricShort.toUpperCase() + " (benchmark)", v: runCount ? bestModel.expected.toFixed(3) : "—" },
+      { k: "TEST CHIPS", v: R && insp ? String((insp.splits && insp.splits.test) || chipCount || "—") : "512" },
+      { k: "RUNTIME", v: this.fmtDur(totalMins).replace("~", "") },
+    ];
+
+    // recommendation + wrapper + inspection card (`rec` is defined above, with
+    // the metric labels that depend on it)
+    const recHeadRuns = tk("Start with a frozen " + rec.headlineModel + " + " + rec.head + ".");
+    const wrapperObj = R ? R.wrapper : { filename: "datasets/windfarm_s2.py", code: this.wrapperCode, note: "The agent inspected your archive and wrote a BenchDataset subclass with one BandSpec per band and per-band stats computed from your train split. Drop it in datasets/, register the name, and it runs like any built-in benchmark." };
+
+    const SENSOR_LABEL = { s2: "Sentinel-2", aerial: "Aerial", sar: "SAR", unknown: "unknown sensor" };
+    const inspFilename = insp ? insp.filename : "windfarm_s2_rgb.zip";
+    const inspSummary = insp
+      ? (insp.chips ? insp.chips.toLocaleString() + " chips · " + insp.sizeMB + " MB · inspected" : insp.sizeMB + " MB · ready to analyze")
+      : "3,412 chips · 41 MB · inspected";
+    const inspBadges = insp
+      ? (insp.chips
+          ? [insp.bands + " band" + (insp.bands > 1 ? "s" : ""), insp.imageSize ? insp.imageSize + "px" : insp.dtype, SENSOR_LABEL[insp.sensorGuess] || insp.sensorGuess, insp.labelType]
+            .concat(insp.importedSatellite ? ["auto-fetched"] : [])
+          : ["zip attached"])
+      : ["RGB · 3 bands", "224px", "Sentinel-2", "binary"];
+    const hasImportNote = !!(insp && insp.importedSatellite && insp.importNote);
+    const importNote = hasImportNote ? insp.importNote : "";
+
+    const vectorContext = ((insp && insp.vectorContext) || []).map(v => ({
+      filename: v.filename, format: v.format,
+      geomLine: (v.geometryTypes && v.geometryTypes.length ? v.geometryTypes.join(", ") : "no geometry") + " · " + v.featureCount + " feature" + (v.featureCount === 1 ? "" : "s"),
+      attrLine: v.attributeFields && v.attributeFields.length ? "fields: " + v.attributeFields.slice(0, 6).join(", ") : "no attribute fields",
+      bboxLine: v.bbox ? "bbox: " + v.bbox.map(n => n.toFixed(3)).join(", ") : "bbox unavailable",
+      crsLine: "crs: " + (v.crs || "unspecified"),
+    }));
+    const hasVectorContext = vectorContext.length > 0;
+
+    const doneMsg = R
+      ? "Ranked the benchmark's frozen backbones against your task's " + R.matched.length + " closest benchmark" + (R.matched.length > 1 ? "s" : "") + " and generated a runnable wrapper."
+      : "Ranked 28 frozen backbones against your task's 3 closest benchmarks and generated a runnable wrapper.";
+
+    const pop = this.state.pop;
+
+    // header status: live backend vs sample-only (grayscale only — no color accents)
+    const isSample = this.state.demo && p !== "upload";
+    const bs = this.state.backendUp, hj = this.state.health;
+    const statsLabel = bs === true
+      ? ((hj && hj.backbones ? hj.backbones + " backbones · " : "") + (hj && hj.datasets ? hj.datasets + " datasets · " : "") + "live")
+      : bs === false ? "backend offline · sample mode only" : "28 backbones · 20 datasets";
+    const statusDot = bs === true ? "var(--rail-ink)" : "var(--rail-faint)";
+    const statusTitle = bs === true
+      ? "Backend connected — analyses run for real."
+      : bs === false
+        ? "No backend reachable — only the sample walkthrough is available. Start it with: cd backend && uv run uvicorn app:app --port 8000"
+        : "Checking backend…";
+
+    return {
+      statsLabel, statusDot, statusTitle,
+      runSample: this.runSample, isSample,
+      hasConnNote: !!this.state.connNote, connNote: this.state.connNote || "",
+      runRows, runCount, toggleAll: this.toggleAllRuns, toggleAllLabel: allOn ? "clear all" : "select all",
+      etaTotal: runCount ? this.fmtDur(totalMins) : "—", hw: this.state.hw, hwRows,
+      dashOn: this.state.dashOn, toggleDash: this.toggleDash,
+      dashTrack: this.state.dashOn ? "var(--ink)" : "var(--bar-muted)", dashKnob: this.state.dashOn ? "translateX(15px)" : "translateX(0)",
+      cmdCaption: runCount > 1 ? "runs " + runCount + " experiments on " + dsName : "runs the top pick on " + dsName,
+      runCmd: this.buildCmd(), dashStats, stamp: "just now", dashTitle: dsName + " · run report",
+      runSummaryLine: runCount + " experiment(s) × linear probe over " + (chipCount ? chipCount.toLocaleString() : "3,412") + " chips, incl. feature caching.",
+      theme: this.state.theme, isDark, isLight: !isDark, toggleTheme: this.toggleTheme, knobTransform: isDark ? "translateX(24px)" : "translateX(0)",
+      phase: p, isUpload: p === "upload", isRunning: p === "running", isDone: p === "done", started: p !== "upload", chartsOn,
+      task: this.state.task, attached: this.state.attached, notAttached: !this.state.attached,
+      pickFile: this.pickFile, onDrop: this.onDrop, onDragOver: this.onDragOver,
+      onTaskInput: this.onTaskInput, run: this.run, reset: this.reset, onTermClick: this.onTermClick, closePop: this.closePop,
+      hasError: !!this.state.error, error: this.state.error || "",
+      examples, steps, matched, models, leaderboard, scatter, caveats,
+      vectorContext, hasVectorContext,
+      lbSubtitle, backboneRankLabel, scYMax, scYMin, doneMsg,
+      inspFilename, inspSummary, inspBadges, hasImportNote, importNote,
+      recMetric: recMetricLabel, recExpected: rec.expected.toFixed(2),
+      recExpectedLabel: "linear-probe " + rankMetricLabel + " on "
+        + (R && R.matched.length ? R.matched.map(m => m.name).slice(0, 2).join(" / ") + (R.matched.length > 2 ? " +" + (R.matched.length - 2) : "") : "m-pv4ger / m-brick-kiln")
+        + " — not measured on your data",
+      recHeadRuns, recRuns: this.emphasize(rec.prose), benchMetricLabel,
+      wrapperNoteRuns: tk(wrapperObj.note), wrapperFilename: wrapperObj.filename,
+      wrapperCode: wrapperObj.code, copyWrapper: this.copyWrapper, wrapperLabel: this.state.wcopied ? "Copied ✓" : "Copy",
+      copyCmd: this.copyCmd, copyLabel: this.state.copied ? "Copied ✓" : "Copy",
+      hasPop: !!pop, popTerm: pop ? pop.term : "", popDef: pop ? this.GLOSSARY[pop.term] : "", popX: pop ? pop.x : 0, popY: pop ? pop.y : 0,
+    };
+  }
+}
+</script>
+</body>
+</html>

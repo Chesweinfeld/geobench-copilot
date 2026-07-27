@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "geobench-backend",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": ["/Users/chesapeake/Desktop/Agent dataset task matcher/backend/start.sh"],
+      "port": 8000
+    }
+  ]
+}

@@ -3,7 +3,38 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- React is served from this app, not unpkg.com. support.js otherwise fetches
+     the UMD builds from the CDN at runtime, and it hides the raw template
+     before that resolves — so on a network that blocks unpkg (corporate proxy,
+     firewall, offline laptop) the page rendered as a silent blank white screen.
+     Loading them first makes support.js's loadReactUmd() a no-op. These are the
+     exact pinned builds, matching the sha384 SRI hashes in support.js. -->
+<script src="./vendor/react-18.3.1.production.min.js"></script>
+<script src="./vendor/react-dom-18.3.1.production.min.js"></script>
 <script src="./support.js"></script>
+<script>
+// Last-resort visible failure. If the app still hasn't mounted, say so on the
+// page instead of leaving a white void with the reason only in the console.
+(function () {
+  function check() {
+    var root = document.getElementById('dc-root');
+    if (root && root.firstChild) return;
+    var msg = document.createElement('div');
+    msg.setAttribute('style', 'position:fixed;inset:0;z-index:2147483647;display:flex;' +
+      'align-items:center;justify-content:center;padding:24px;background:#f4f4f2;color:#1a1a1a;' +
+      'font:15px/1.6 ui-sans-serif,system-ui,-apple-system,sans-serif;text-align:center');
+    msg.innerHTML = '<div style="max-width:34em">' +
+      '<div style="font-size:19px;font-weight:600;margin-bottom:.6em">GeoBench Copilot failed to start</div>' +
+      '<div>The page loaded but the app could not boot. This is usually a network ' +
+      'or browser issue rather than a problem with your data.</div>' +
+      '<div style="margin-top:1em">Try a hard refresh. If it keeps happening, open your ' +
+      'browser\'s developer console and send the red error text to whoever set this up.</div>' +
+      '</div>';
+    document.body.appendChild(msg);
+  }
+  setTimeout(check, 10000);
+})();
+</script>
 </head>
 <body>
 <x-dc>

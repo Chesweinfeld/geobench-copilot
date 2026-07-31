@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import csv
 import json
+import math
 import random
 import zipfile
 import xml.etree.ElementTree as ET
@@ -532,7 +533,19 @@ def inspect_archive(archive_path: Path, workdir: Path, *, filename: str, size_by
             if p.suffix.lower() in {".tif", ".tiff"}:
                 with rasterio.open(p) as src:
                     if src.crs and src.res and src.res[0] not in (0, 1):
-                        resolution = f"{src.res[0]:g} m/px"
+                        res_m = src.res[0]
+                        if src.crs.is_geographic:
+                            # A geographic CRS (EPSG:4326 &c.) states pixel size
+                            # in degrees, not metres — reporting it raw made a
+                            # 10 m/px Sentinel-2 chip look like 9e-05 m/px, five
+                            # orders of magnitude off, which matches nothing.
+                            # Convert via the y (latitude) pixel size, whose
+                            # degree length barely varies, at the chip's centre.
+                            lat = math.radians((src.bounds.bottom + src.bounds.top) / 2)
+                            m_per_deg_lat = (111132.92 - 559.82 * math.cos(2 * lat)
+                                             + 1.175 * math.cos(4 * lat))
+                            res_m = src.res[1] * m_per_deg_lat
+                        resolution = f"{res_m:.3g} m/px"
                         break
     except ImportError:
         pass

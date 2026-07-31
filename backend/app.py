@@ -62,7 +62,10 @@ app.add_middleware(
 async def _password_gate(request: Request, call_next):
     """HTTP Basic-Auth gate for hosted deploys. Active only when APP_PASSWORD is
     set (a host secret); browsers show a native login prompt. No-op locally."""
-    if config.APP_PASSWORD:
+    # The platform's own health check is unauthenticated, so gating everything
+    # made it read the service as failing (401 on HEAD /). Exempt one liveness
+    # path that reveals nothing — no config, no data, no version.
+    if config.APP_PASSWORD and request.url.path != "/healthz":
         import base64
         import secrets
 
@@ -167,6 +170,14 @@ _BADGE = """
   padding:3px 8px;border-radius:6px;pointer-events:none;letter-spacing:.02em;">
   benchmark results as of {date}</div>
 """
+
+
+@app.get("/healthz")
+async def healthz():
+    """Liveness only, and deliberately unauthenticated — see _password_gate.
+    Says nothing about configuration, data, or the model; /api/health is the
+    gated endpoint that does."""
+    return {"ok": True}
 
 
 @app.get("/")

@@ -146,7 +146,20 @@ def generate_wrapper(
 ) -> Wrapper:
     n = inspection.bands
     if len(band_names) != n or len(wavelengths) != n:
-        raise ValueError(f"band_names/wavelengths must have exactly {n} entries")
+        # The caller is a language model, so the error is the only instruction
+        # it gets. "must have exactly 19 entries" was true but not actionable —
+        # it kept re-sending the informative bands only (the usual cause: a
+        # dataset padded with all-zero bands) and burned iterations. Say what
+        # was received and exactly how to fix it.
+        raise ValueError(
+            f"band_names has {len(band_names)} entries and wavelengths has "
+            f"{len(wavelengths)}, but this dataset has {n} raw bands and both "
+            f"must have exactly {n} — one per band, in band order, INCLUDING "
+            f"any all-zero padding bands. Do not drop padding bands: name them "
+            f"\"unused\" with a null wavelength and resend all {n}. Which bands "
+            f"are worth training on belongs in the normalization note, not in "
+            f"the length of these lists."
+        )
 
     band_lines = []
     for i, stat in enumerate(inspection.bandStats):

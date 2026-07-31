@@ -10,6 +10,7 @@ from __future__ import annotations
 import asyncio
 import json
 import logging
+import time
 
 import anthropic
 from anthropic import beta_async_tool
@@ -661,6 +662,13 @@ async def run_agent(run: Run, manager: RunManager) -> None:
         f"described their task as:\n\n{run.task!r}\n\nAnalyze it end to end."
     )
 
+    # Bracket every run in the log. A successful run used to log nothing at
+    # all, so a log showing agent activity then "Shutting down" was unreadable:
+    # no way to tell whether the run finished or the instance killed it. These
+    # two lines are what make that answerable after the fact.
+    started = time.time()
+    log.info("run %s: start — %s (%.1f MB), task=%r",
+             run.id, run.filename, run.size_bytes / 1048576, run.task[:120])
     run.status = "running"
     try:
         async with asyncio.timeout(config.AGENT_TIMEOUT_S):
@@ -716,4 +724,5 @@ async def run_agent(run: Run, manager: RunManager) -> None:
         log.exception("agent run failed")
         emit("error", {"message": run_error_message(e, run.id)})
     finally:
+        log.info("run %s: %s after %.1fs", run.id, run.status, time.time() - started)
         emit("done", {})

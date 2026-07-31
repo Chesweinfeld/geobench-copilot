@@ -553,7 +553,7 @@ class Component extends DCLogic {
       .catch(() => this.setState({ backendUp: false }));
   }
 
-  componentWillUnmount() { clearTimeout(this._t); clearTimeout(this._c); clearTimeout(this._w); clearTimeout(this._p); if (this._es) this._es.close(); }
+  componentWillUnmount() { clearTimeout(this._t); clearTimeout(this._c); clearTimeout(this._w); clearTimeout(this._p); this._stopKeepalive(); if (this._es) this._es.close(); }
 
   GLOSSARY = {
     "linear probe": "Train only a small linear classifier on top of the frozen model's features. It's cheap and the standard way to compare backbones without fine-tuning.",
@@ -769,7 +769,19 @@ class WindfarmS2(BenchDataset):
     this.setState(s => ({ result: d, selected: Object.keys(sel).length ? sel : s.selected }));
   };
 
+  // A hosted free tier stops an instance when no *inbound* requests arrive.
+  // A long agent run makes only outbound Claude calls, and SSE keepalives are
+  // bytes on an already-open socket — so the instance can be stopped mid-run,
+  // which destroys the in-memory run and loses work that was going fine. A
+  // cheap periodic request keeps it awake for the duration of the run.
+  _startKeepalive = () => {
+    clearInterval(this._ka);
+    this._ka = setInterval(() => { fetch("/api/health").catch(() => {}); }, 45000);
+  };
+  _stopKeepalive = () => { clearInterval(this._ka); this._ka = null; };
+
   _listen = (runId) => {
+    this._startKeepalive();
     const es = this._es = new EventSource("/api/runs/" + runId + "/events");
     const J = (e) => { try { return JSON.parse(e.data); } catch (_) { return {}; } };
     // EventSource auto-reconnects (the server replays via Last-Event-ID), so a
@@ -817,11 +829,11 @@ class WindfarmS2(BenchDataset):
       // undefined) and pre-empted that whole recovery path.
       if (typeof e.data !== "string") return;
       const d = J(e);
-      es.close(); this._es = null;
+      es.close(); this._es = null; this._stopKeepalive();
       this.setState({ phase: "upload", error: d.message || "analysis failed" });
     });
     es.addEventListener("done", () => {
-      es.close(); this._es = null;
+      es.close(); this._es = null; this._stopKeepalive();
       this.setState(s => (s.result
         ? { phase: "done", active: (s.steps || this.STEPS).length, connNote: null }
         : { phase: "upload", error: "the run ended without a result — please retry" }));
@@ -845,6 +857,7 @@ class WindfarmS2(BenchDataset):
     // run shouldn't mean hundreds of needless requests.
     const again = () => {
       if (Date.now() >= end) {
+        this._stopKeepalive();
         this.setState({ phase: "upload", connNote: null, error: "lost the stream and the run didn't finish in time — please retry" });
         return;
       }
@@ -854,9 +867,11 @@ class WindfarmS2(BenchDataset):
       .then(r => (r.ok ? r.json() : Promise.reject(new Error("run not found (the backend may have restarted)"))))
       .then(d => {
         if (d.status === "done" && d.final) {
+          this._stopKeepalive();
           this._applyFinal(d.final);
           this.setState(s => ({ phase: "done", active: (s.steps || this.STEPS).length, connNote: null }));
         } else if (d.status === "error") {
+          this._stopKeepalive();
           this.setState({ phase: "upload", connNote: null, error: "analysis failed after the stream dropped — please retry" });
         } else {
           again();
@@ -868,7 +883,7 @@ class WindfarmS2(BenchDataset):
       .catch(() => again());
   };
 
-  reset = () => { clearTimeout(this._t); clearTimeout(this._p); if (this._es) { this._es.close(); this._es = null; } this._file = null; this.setState({ phase: "upload", active: 0, copied: false, wcopied: false, pop: null, result: null, steps: null, error: null, demo: false, connNote: null, attached: false, inspection: null }); };
+  reset = () => { clearTimeout(this._t); clearTimeout(this._p); this._stopKeepalive(); if (this._es) { this._es.close(); this._es = null; } this._file = null; this.setState({ phase: "upload", active: 0, copied: false, wcopied: false, pop: null, result: null, steps: null, error: null, demo: false, connNote: null, attached: false, inspection: null }); };
   onTaskInput = (e) => this.setState({ task: e.target.value });
   toggleTheme = () => this.setState(s => ({ theme: s.theme === "dark" ? "light" : "dark" }));
   // navigator.clipboard.writeText is async and absent outside secure contexts,

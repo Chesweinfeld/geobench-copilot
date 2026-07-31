@@ -296,6 +296,74 @@ def test_transport_errors_are_not_treated_as_backend_errors():
     )
 
 
+# --------------------------------------------------------------------------
+# 8. Operational visibility and platform fit.
+#
+# Production logs showed agent activity followed by "Shutting down" and there
+# was no way to tell whether the run had finished — a successful run logged
+# nothing at all. The platform health check was also being 401'd by the
+# password gate, and long runs make no inbound requests, so a free-tier
+# instance could be spun down mid-run.
+# --------------------------------------------------------------------------
+
+def test_every_run_logs_its_start_and_outcome():
+    import agent as agent_module
+
+    src = Path(agent_module.__file__).read_text(encoding="utf-8")
+    assert 'log.info("run %s: start' in src, "runs must announce themselves"
+    assert 'log.info("run %s: %s after' in src, (
+        "a run must log its outcome in a finally, or a log showing activity "
+        "then a shutdown is unreadable after the fact"
+    )
+
+
+def test_health_check_path_is_not_behind_the_password_gate(monkeypatch):
+    """The platform's health check is unauthenticated; gating it made the
+    service read as failing. /healthz is exempt — and must stay trivial."""
+    from fastapi.testclient import TestClient
+
+    monkeypatch.setattr(config, "APP_PASSWORD", "a-secret")
+    import app as app_module
+
+    with TestClient(app_module.app) as c:
+        assert c.get("/healthz").status_code == 200
+        # ...and the exemption must not have opened anything else up
+        for path in ("/", "/api/health", "/support.js", "/backend/.env"):
+            assert c.get(path).status_code == 401, f"{path} escaped the gate"
+
+
+def test_healthz_leaks_no_configuration():
+    from fastapi.testclient import TestClient
+    import app as app_module
+
+    with TestClient(app_module.app) as c:
+        body = c.get("/healthz").json()
+    assert body == {"ok": True}, "liveness must not report config, data or model"
+
+
+def test_band_count_error_tells_the_model_how_to_fix_it():
+    """The model is the caller, so the exception text is the only instruction
+    it receives. 'must have exactly 19 entries' was true but not actionable."""
+    import tools.wrapper as wrapper_module
+
+    src = Path(wrapper_module.__file__).read_text(encoding="utf-8")
+    start = src.index("def generate_wrapper")
+    body = src[start:start + 2000]
+    assert "unused" in body, "the error must say what to do with padding bands"
+    assert "len(band_names)" in body, "the error must report what was received"
+
+
+def test_client_keeps_the_instance_awake_during_a_run():
+    """A long run makes no inbound requests, so a free-tier instance can be
+    stopped mid-run — which destroys the in-memory run."""
+    page = (REPO / config.FRONTEND_PAGE).read_text(encoding="utf-8")
+    assert "_startKeepalive" in page and "/api/health" in page
+    # every path that ends a run must stop the timer, or it outlives the run
+    assert page.count("this._stopKeepalive()") >= 6, (
+        "a run-ending path is missing _stopKeepalive — the timer would leak"
+    )
+
+
 def test_server_sent_error_events_always_carry_data():
     """The guard above is only sound because every server-sent event has a
     data: line. If _sse ever omits one, real errors would be silently ignored."""

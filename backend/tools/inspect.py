@@ -40,8 +40,25 @@ class InspectError(ValueError):
 def _safe_extract(archive_path: Path, workdir: Path) -> list[Path]:
     """Extract image/CSV entries with zip-slip + bomb guards. Returns files."""
     extracted: list[Path] = []
-    with zipfile.ZipFile(archive_path) as zf:
-        infos = zf.infolist()
+    try:
+        zf_ctx = zipfile.ZipFile(archive_path)
+    except zipfile.BadZipFile as e:
+        # A truncated or interrupted upload lands here. BadZipFile is not an
+        # InspectError, so it used to skip the "Could not read the archive"
+        # handler and surface a bare "File is not a zip file" with no hint at
+        # the cause or the remedy.
+        raise InspectError(
+            "the file isn't a readable zip archive — it may have been truncated "
+            f"or corrupted in transit; try re-downloading and re-uploading it ({e})"
+        ) from e
+    with zf_ctx as zf:
+        try:
+            infos = zf.infolist()
+        except zipfile.BadZipFile as e:  # damaged central directory
+            raise InspectError(
+                "the zip archive's index is damaged, so its contents can't be "
+                f"listed — try re-creating the archive ({e})"
+            ) from e
         if len(infos) > config.MAX_ARCHIVE_ENTRIES:
             raise InspectError(f"archive has {len(infos)} entries (max {config.MAX_ARCHIVE_ENTRIES})")
         total = sum(i.file_size for i in infos)

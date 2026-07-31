@@ -364,6 +364,39 @@ def test_client_keeps_the_instance_awake_during_a_run():
     )
 
 
+# --------------------------------------------------------------------------
+# 9. A damaged archive must fail as an archive problem.
+#
+# Found by end-to-end testing: zipfile raises BadZipFile, which is not an
+# InspectError, so a truncated upload skipped the "Could not read the archive"
+# handler and surfaced a bare "File is not a zip file" — no cause, no remedy.
+# --------------------------------------------------------------------------
+
+@pytest.mark.parametrize("name,data", [
+    ("garbage", b"PK\x03\x04not-really-a-zip"),
+    ("empty", b""),
+    ("truncated", None),  # filled in below from a real archive
+])
+def test_damaged_archives_raise_a_clean_inspect_error(tmp_path, name, data):
+    from tools.inspect import InspectError, inspect_archive
+
+    if data is None:
+        good = tmp_path / "good.zip"
+        with zipfile.ZipFile(good, "w") as zf:
+            zf.writestr("images/a.txt", "x" * 4096)
+        raw = good.read_bytes()
+        data = raw[: len(raw) // 2]
+
+    bad = tmp_path / f"{name}.zip"
+    bad.write_bytes(data)
+    wd = tmp_path / f"wd_{name}"
+    wd.mkdir()
+
+    with pytest.raises(InspectError) as ei:
+        inspect_archive(bad, wd, filename=bad.name, size_bytes=bad.stat().st_size)
+    assert "zip" in str(ei.value).lower(), "the message should name the real problem"
+
+
 def test_server_sent_error_events_always_carry_data():
     """The guard above is only sound because every server-sent event has a
     data: line. If _sse ever omits one, real errors would be silently ignored."""

@@ -431,7 +431,13 @@ async def run_agent(run: Run, manager: RunManager) -> None:
             class_name: Python class name, e.g. "WindfarmS2".
             sensor: Sensor family string for the BandSpec entries, e.g. "s2".
             band_names: Canonical name per measured band, e.g. ["red","green","blue"].
+                Must have exactly one entry per band reported by inspect_archive,
+                INCLUDING any all-zero padding bands — name those "unused" rather
+                than dropping them, or this call fails. Which bands are worth
+                training on is a separate decision; say it in the normalization
+                note, not by shortening this list.
             wavelengths: Center wavelength in um per band (null when unknown).
+                Same length rule as band_names; use null for padding bands.
         """
         if run.inspection is None:
             return "error: call inspect_archive first"

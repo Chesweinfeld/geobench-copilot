@@ -253,6 +253,24 @@ def _build_payload(run: Run, sub: SubmitInput) -> FinalPayload:
     )
 
 
+def run_error_message(exc: BaseException, run_id: str) -> str:
+    """Build the user-facing message for an otherwise unhandled run failure.
+
+    Never returns an empty string. Plenty of exceptions stringify to "" —
+    MemoryError being the usual one on a small instance — and the UI falls back
+    to a bare "analysis failed" on an empty message, which tells the viewer
+    nothing and hides the fact that a full traceback is already in the server
+    log. Always name the exception type, and tag the run id so a user's report
+    can be matched to its "agent run failed" traceback.
+    """
+    if isinstance(exc, MemoryError):
+        detail = ("the server ran out of memory on this dataset — it may be "
+                  "too large for this instance")
+    else:
+        detail = str(exc).strip() or f"unexpected {type(exc).__name__} on the server"
+    return f"{detail} (run {run_id})"
+
+
 async def run_agent(run: Run, manager: RunManager) -> None:
     def emit(event_type: str, data: dict) -> None:
         manager.emit(run, event_type, data)
@@ -696,17 +714,6 @@ async def run_agent(run: Run, manager: RunManager) -> None:
     except Exception as e:  # noqa: BLE001 — surface anything else as a run error
         run.status = "error"
         log.exception("agent run failed")
-        # Plenty of exceptions stringify to "" (MemoryError is the usual one on
-        # a small instance), and the UI falls back to a bare "analysis failed"
-        # when the message is empty — which tells the viewer nothing and hides
-        # the fact that the real traceback is sitting in the server log. Always
-        # name the exception type, and tag the run id so a report can be traced
-        # back to its "agent run failed" traceback.
-        if isinstance(e, MemoryError):
-            detail = ("the server ran out of memory on this dataset — it may be "
-                      "too large for this instance")
-        else:
-            detail = str(e).strip() or f"unexpected {type(e).__name__} on the server"
-        emit("error", {"message": f"{detail} (run {run.id})"})
+        emit("error", {"message": run_error_message(e, run.id)})
     finally:
         emit("done", {})

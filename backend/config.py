@@ -79,7 +79,13 @@ GB2_LEADERBOARD_REPO = os.environ.get("GB2_LEADERBOARD_REPO", "GEO-Bench-2-Leade
 GB2_LEADERBOARD_REF = os.environ.get("GB2_LEADERBOARD_REF", "main")
 
 # Upload limits
-MAX_UPLOAD_BYTES = 500 * 1024 * 1024  # 500 MB zip
+# Inspection peaks at roughly 4x the archive size in RAM (a 50 MB archive of
+# float32 chips measured ~210 MB), so the limit that actually bites is the
+# instance's memory, not this number. 500 MB is right for a laptop; on a small
+# hosted instance set MAX_UPLOAD_MB well below it so an oversized upload is
+# refused cleanly at the door instead of dying mid-run with no explanation.
+MAX_UPLOAD_MB = int(os.environ.get("MAX_UPLOAD_MB", "500"))
+MAX_UPLOAD_BYTES = MAX_UPLOAD_MB * 1024 * 1024
 MAX_ARCHIVE_ENTRIES = 20_000
 MAX_UNCOMPRESSED_BYTES = 2 * 1024 * 1024 * 1024  # 2 GB extracted
 

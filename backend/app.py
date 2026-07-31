@@ -10,7 +10,12 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Form, HTTPException, Request, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse, RedirectResponse, StreamingResponse
+from fastapi.responses import (
+    FileResponse,
+    JSONResponse,
+    RedirectResponse,
+    StreamingResponse,
+)
 from fastapi.staticfiles import StaticFiles
 
 import config
@@ -179,5 +184,26 @@ async def index():
     return HTMLResponse(html)
 
 
-# mounted last so /api/* wins
-app.mount("/", StaticFiles(directory=str(config.FRONTEND_DIR), html=True), name="frontend")
+# --- static assets -------------------------------------------------------
+# Deliberately an allowlist, not a directory mount. FRONTEND_DIR is the repo
+# root, so `StaticFiles(directory=FRONTEND_DIR)` served every file in the
+# project to anyone who could reach the app — backend/.env (the Anthropic key)
+# included, plus .git/ and all source. Nothing failed and nothing logged, which
+# is exactly why it went unnoticed. Serve only what the page actually loads.
+_ALLOWED_ROOT_FILES = {"support.js", config.FRONTEND_PAGE}
+
+_VENDOR_DIR = config.FRONTEND_DIR / "vendor"
+if _VENDOR_DIR.is_dir():
+    # vendored React UMD builds; a real subdirectory, so a mount is fine here
+    app.mount("/vendor", StaticFiles(directory=str(_VENDOR_DIR)), name="vendor")
+
+
+# registered last so /api/* and /vendor/* win
+@app.get("/{filename:path}")
+async def frontend_asset(filename: str):
+    if filename not in _ALLOWED_ROOT_FILES:
+        raise HTTPException(status_code=404, detail="not found")
+    path = config.FRONTEND_DIR / filename
+    if not path.is_file():
+        raise HTTPException(status_code=404, detail="not found")
+    return FileResponse(path)

@@ -51,8 +51,16 @@ torch — so it runs on Render's free tier. Render builds it natively from
   Re-bundle + push to refresh (the badge shows how stale it is).
 - **In-memory runs.** `RunManager` state is lost on restart/sleep. Fine for
   demos, not for real concurrent traffic.
-- **512 MB RAM** on free tier — plenty for the app, but very large uploads could
-  strain it; the 500 MB upload cap still applies.
+- **512 MB RAM** on free tier. Inspection peaks at roughly 4x the archive size
+  (a 50 MB archive of float32 chips measured ~210 MB), so the default 500 MB
+  upload cap is unreachable here — set **`MAX_UPLOAD_MB`** (100 or so on the
+  free tier) so a too-large upload is refused at the door with a clear message
+  instead of dying mid-run.
+- **Long runs need a stable connection.** The stream can drop on the free tier
+  (idle spin-down, proxy timeouts); the client reconnects and then polls for up
+  to 22 minutes, so a drop shows a "reconnecting…" note rather than failing.
+  Frequent drops are a reason to move off the free tier — for the connection,
+  not the RAM.
 
 *(The `Dockerfile` and HF-Space files are left in the repo as an alternative
 path — Render ignores them.)*

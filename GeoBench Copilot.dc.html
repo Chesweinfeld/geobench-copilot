@@ -831,8 +831,25 @@ class WindfarmS2(BenchDataset):
   // streaming gave up: poll GET /api/runs/{id} until the run resolves. The
   // agent keeps working server-side through a dropped stream, so the result
   // is usually still recoverable.
-  _pollFinal = (runId, attempt) => {
+  // Poll until the run resolves or the deadline passes. The window has to
+  // outlast the server's own AGENT_TIMEOUT_S (20 min) — polling for less means
+  // telling the user a run "didn't finish in time" while the server is still
+  // happily working on it and about to succeed.
+  POLL_WINDOW_MS = 22 * 60 * 1000;
+
+  _pollFinal = (runId, attempt, deadline) => {
+    const end = deadline || (Date.now() + this.POLL_WINDOW_MS);
+    if (this.state.phase !== "running") return;  // user reset or navigated away
     this.setState({ connNote: "stream lost — polling for the result instead…" });
+    // Back off after the first minute: recovery is usually quick, but a long
+    // run shouldn't mean hundreds of needless requests.
+    const again = () => {
+      if (Date.now() >= end) {
+        this.setState({ phase: "upload", connNote: null, error: "lost the stream and the run didn't finish in time — please retry" });
+        return;
+      }
+      this._p = setTimeout(() => this._pollFinal(runId, attempt + 1, end), attempt < 20 ? 3000 : 5000);
+    };
     fetch("/api/runs/" + runId)
       .then(r => (r.ok ? r.json() : Promise.reject(new Error("run not found (the backend may have restarted)"))))
       .then(d => {
@@ -841,24 +858,45 @@ class WindfarmS2(BenchDataset):
           this.setState(s => ({ phase: "done", active: (s.steps || this.STEPS).length, connNote: null }));
         } else if (d.status === "error") {
           this.setState({ phase: "upload", connNote: null, error: "analysis failed after the stream dropped — please retry" });
-        } else if (attempt < 100) {
-          this._p = setTimeout(() => this._pollFinal(runId, attempt + 1), 3000);
         } else {
-          this.setState({ phase: "upload", connNote: null, error: "lost the stream and the run didn't finish in time — please retry" });
+          again();
         }
       })
-      .catch(err => this.setState({ phase: "upload", connNote: null, error: "lost the connection to the backend: " + ((err && err.message) || err) }));
+      // A failed poll is not a failed run. The backend may be waking from
+      // idle or briefly unreachable; keep trying until the deadline and only
+      // then report, rather than killing a live run on one blip.
+      .catch(() => again());
   };
 
   reset = () => { clearTimeout(this._t); clearTimeout(this._p); if (this._es) { this._es.close(); this._es = null; } this._file = null; this.setState({ phase: "upload", active: 0, copied: false, wcopied: false, pop: null, result: null, steps: null, error: null, demo: false, connNote: null, attached: false, inspection: null }); };
   onTaskInput = (e) => this.setState({ task: e.target.value });
   toggleTheme = () => this.setState(s => ({ theme: s.theme === "dark" ? "light" : "dark" }));
-  copyCmd = () => { try { navigator.clipboard.writeText(this.buildCmd()); } catch (e) {} clearTimeout(this._c); this.setState({ copied: true }); this._c = setTimeout(() => this.setState({ copied: false }), 1600); };
+  // navigator.clipboard.writeText is async and absent outside secure contexts,
+  // so a try/catch around it cannot see a rejected permission and the old code
+  // reported "Copied ✓" for copies that never happened. Report what occurred:
+  // "fail" tells the user to copy by hand instead of pasting stale clipboard.
+  _copy = (text, key) => {
+    const timer = key === "copied" ? "_c" : "_w";
+    const settle = (ok) => {
+      clearTimeout(this[timer]);
+      this.setState({ [key]: ok ? true : "fail" });
+      this[timer] = setTimeout(() => this.setState({ [key]: false }), ok ? 1600 : 2600);
+    };
+    let p;
+    try {
+      p = navigator.clipboard && navigator.clipboard.writeText(text);
+    } catch (e) {
+      settle(false); return;
+    }
+    if (p && typeof p.then === "function") p.then(() => settle(true), () => settle(false));
+    else settle(!!p);
+  };
+  copyCmd = () => this._copy(this.buildCmd(), "copied");
   toggleRun = (id) => this.setState(s => ({ selected: { ...s.selected, [id]: !s.selected[id] } }));
   toggleAllRuns = () => this.setState(s => { const list = this.runList(); const all = list.every(m => s.selected[m.id]); const next = {}; list.forEach(m => next[m.id] = !all); return { selected: next }; });
   pickHw = (id) => this.setState({ hw: id });
   toggleDash = () => this.setState(s => ({ dashOn: !s.dashOn }));
-  copyWrapper = () => { const code = this.state.result ? this.state.result.wrapper.code : this.wrapperCode; try { navigator.clipboard.writeText(code); } catch (e) {} clearTimeout(this._w); this.setState({ wcopied: true }); this._w = setTimeout(() => this.setState({ wcopied: false }), 1600); };
+  copyWrapper = () => this._copy(this.state.result ? this.state.result.wrapper.code : this.wrapperCode, "wcopied");
 
   onTermClick = (e) => {
     const el = e.target.closest && e.target.closest("[data-term]");
@@ -1164,8 +1202,10 @@ class WindfarmS2(BenchDataset):
         + " — not measured on your data",
       recHeadRuns, recRuns: this.emphasize(rec.prose), benchMetricLabel,
       wrapperNoteRuns: tk(wrapperObj.note), wrapperFilename: wrapperObj.filename,
-      wrapperCode: wrapperObj.code, copyWrapper: this.copyWrapper, wrapperLabel: this.state.wcopied ? "Copied ✓" : "Copy",
-      copyCmd: this.copyCmd, copyLabel: this.state.copied ? "Copied ✓" : "Copy",
+      wrapperCode: wrapperObj.code, copyWrapper: this.copyWrapper,
+      wrapperLabel: this.state.wcopied === "fail" ? "Copy failed — select it" : this.state.wcopied ? "Copied ✓" : "Copy",
+      copyCmd: this.copyCmd,
+      copyLabel: this.state.copied === "fail" ? "Copy failed — select it" : this.state.copied ? "Copied ✓" : "Copy",
       hasPop: !!pop, popTerm: pop ? pop.term : "", popDef: pop ? this.GLOSSARY[pop.term] : "", popX: pop ? pop.x : 0, popY: pop ? pop.y : 0,
     };
   }

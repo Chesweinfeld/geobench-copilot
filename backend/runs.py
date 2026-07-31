@@ -17,7 +17,11 @@ import config
 _ZIP_MAGIC = (b"PK\x03\x04", b"PK\x05\x06")
 
 HEARTBEAT_S = 15
-RUN_TTL_S = 60 * 60  # cleanup runs older than an hour
+RUN_TTL_S = 60 * 60  # cleanup finished runs older than an hour
+# Beyond this a run cannot still be legitimately in flight — the agent caps
+# itself at AGENT_TIMEOUT_S — so anything older is stranded and safe to reap
+# whatever its status claims.
+STALE_RUN_S = config.AGENT_TIMEOUT_S + 30 * 60
 
 
 @dataclass
@@ -80,7 +84,7 @@ class RunManager:
                 if size > config.MAX_UPLOAD_BYTES:
                     fh.close()
                     shutil.rmtree(run_dir, ignore_errors=True)
-                    raise ValueError("upload exceeds 500 MB limit")
+                    raise ValueError(f"upload exceeds {config.MAX_UPLOAD_MB} MB limit")
                 fh.write(chunk)
 
         orig_name = upload.filename or "upload"
@@ -156,10 +160,20 @@ class RunManager:
                 yield ": ping\n\n"
 
     def _cleanup_old(self) -> None:
-        cutoff = time.time() - RUN_TTL_S
+        now = time.time()
+        cutoff = now - RUN_TTL_S
+        # A run only leaves "running" if the agent reaches its own try/finally.
+        # Anything that bypasses that — the worker being OOM-killed, a restart
+        # mid-run — strands the run in "running" forever, and the old condition
+        # (done/error only) meant its uploaded archive was never reclaimed. On a
+        # 512 MB instance a few stranded 50 MB uploads matter. Sweep those too,
+        # well past the point where the agent could still be legitimately busy.
+        stale_cutoff = now - STALE_RUN_S
         for run_id in list(self.runs):
             run = self.runs[run_id]
-            if run.created_at < cutoff and run.status in ("done", "error"):
+            finished = run.created_at < cutoff and run.status in ("done", "error")
+            stranded = run.created_at < stale_cutoff
+            if finished or stranded:
                 shutil.rmtree(run.dir, ignore_errors=True)
                 del self.runs[run_id]
 

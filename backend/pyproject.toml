@@ -18,6 +18,9 @@ dependencies = [
 [project.optional-dependencies]
 geo = ["rasterio>=1.3"]
 satellite = ["rasterio>=1.3", "pystac-client>=0.8", "planetary-computer>=1.0"]
+# `uv run --extra dev pytest -q` — rasterio is needed for the resolution tests,
+# httpx for the TestClient that exercises the static-file allowlist.
+dev = ["pytest>=8", "httpx>=0.27", "rasterio>=1.3"]
 
 [tool.uv]
 package = false

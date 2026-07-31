@@ -808,6 +808,14 @@ class WindfarmS2(BenchDataset):
     });
     es.addEventListener("final", (e) => this._applyFinal(J(e)));
     es.addEventListener("error", (e) => {
+      // EventSource fires "error" for transport failures as well as for a
+      // server-sent `event: error`, and both land here. A transport failure
+      // carries no data, and it belongs to es.onerror above — which reconnects
+      // and then falls back to polling, because the agent keeps running
+      // server-side through a dropped stream. Without this guard the first
+      // hiccup killed the run with a bare "analysis failed" (d.message being
+      // undefined) and pre-empted that whole recovery path.
+      if (typeof e.data !== "string") return;
       const d = J(e);
       es.close(); this._es = null;
       this.setState({ phase: "upload", error: d.message || "analysis failed" });
